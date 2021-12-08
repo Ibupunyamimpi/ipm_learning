@@ -276,3 +276,6 @@ ipm_learning/media/
 .env
 .envs/*
 !.envs/.local/
+
+# Other
+db.sqlite3
