@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% load blog_extras %}
+{% load next_previous %}
+{% load filter_tag %}
+
+{% block content %}
+
+  <section class="text-gray-700 body-font">
+    <div class="py-16 flex flex-wrap">
+      <div class="flex flex-wrap w-full">
+        <div class="hidden md:block md:w-1/4 md:pr-10 md:py-6">
+          {% for content_obj in content.course.contents.all %}
+            {% if forloop.last %}
+              {% include 'content/snippets/content_step_last.html' with content=content_obj current_content=content %}
+            {% else %}
+              {% include 'content/snippets/content_step.html' with content=content_obj current_content=content %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="md:w-3/4 md:mt-0">
+          {% if content.content_type == 'Video' %}
+            <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{ content.video_youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+          {% elif content.content_type == 'Event' %}
+            <img class="w-full object-cover object-center rounded-lg" src="{{ content.event_image.url }}" alt="event image">
+          {% elif content.content_type == 'Text' %}
+            <article class="prose">
+              {{ content.text_content|convert_markdown|safe }}
+            </article>
+          {% elif content.content_type == 'Quiz' %}
+            {% include 'content/snippets/quiz_questions.html' with content=content order=order %}
+          {% endif %}
+          <div class="flex flex-col md:items-start md:text-left items-center text-center">
+            <div class="flex justify-center mt-6">
+              {% if content|previous_item:"order" %}
+                <a href="{{ content|previous_item:'order' }}" class="inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Previous</a>
+              {% endif %}
+              {% if object|next_item:"order" %}
+              <a href="{{ content|next_item:'order' }}" class="ml-4 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Next</a>
+              {% comment %} <form method="post" name="mark_complete" class="flex ml-auto">
+                  {% csrf_token %}
+                  <input type="hidden" name="completion_id" value="{{ request.user|find_completion_id:content }}">
+                  {{get_course.as_p}}
+                  <button type="submit" class="ml-4 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">
+                    Next
+                  </button>
+                </form> {% endcomment %}
+              {% endif %}
+              {% if not request.user|content_record_complete:content %}
+                {% if not content.content_type == 'Quiz' %}
+                <form method="post" name="mark_complete" class="flex ml-auto">
+                  {% csrf_token %}
+                  <input type="hidden" name="record_id" value="{{ request.user|find_content_record_id:content }}">
+                  {{get_course.as_p}}
+                  <button type="submit" class="ml-4 inline-flex text-gray-100 bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-400 rounded text-lg">
+                    Mark as Complete
+                  </button>
+                </form>
+                {% endif %}
+                
+              {% else %}
+                <button class="ml-4 inline-flex text-gray-100 bg-gray-400 border-0 py-2 px-6 rounded text-lg" disabled>Completed</button>
+              {% endif %}
+
+            </div>
+            <h1 class="title-font sm:text-4xl text-3xl mt-6 font-medium text-gray-900">{{ content.order }}.
+              {{ content.title }}
+              <br class="hidden lg:inline-block">
+            </h1>
+            {% if content.content_type == 'Event' %}
+              {% load tz %}
+              <p class="mt-6 leading-relaxed">
+                {{ content.event_datetime|date }} at {{ content.event_datetime|time }}
+                {% timezone None %}
+                 <p>Server time: {{content.event_datetime}}</p>
+                {% endtimezone %}
+                {% timezone "Asia/Jakarta" %}
+                  <p>Jakarta time: {{content.event_datetime}} </p>
+                {% endtimezone %}
+                
+                <p>
+                  <b>
+                    <a href="{{content.event_url}}" target="_blank">>>Event Link<<</a> 
+                  </b> 
+                </p> 
+              </p> 
+            {% endif %} 
+            <p class="mt-6 leading-relaxed">{{ content.description }} </p> 
+            <div class="flex justify-center mt-6"> 
+                {% if content.forum_url %} 
+                  <a href="{{content.forum_url}}" target="_blank" class="inline-flex text-gray-100 bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-400 rounded text-lg">Discuss on Rumii</a> 
+                {% endif %} 
+              </div> 
+            </div> 
+          </div> 
+          <div class="block md:hidden w-full mt-5 py-5"> 
+            {% for content_obj in content.course.contents.all %} 
+              {% include 'content/snippets/content_step.html' with content=content_obj current_content=content %} 
+            {% endfor %} 
+          </div> 
+        </div>
+      </section> 
+    {% endblock content %}

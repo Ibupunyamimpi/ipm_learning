@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="text-gray-600 body-font">
+  <div class="max-w-2xl container px-5 py-24 mx-auto">
+    {% if payment.payment_status == 'SUCCESS' %}
+      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Payment Success!</h2>
+      <p class="text-m text-gray-900 mt-3 mb-3">Your order was successfully placed.</p>
+      <a href="{% url 'content:course-library' %}" class="ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">View in My Library</a>
+    {% elif payment.payment_status == 'PENDING' %}
+      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Payment Pending</h2>
+      <p class="text-m text-gray-900 mt-3 mb-3">Our staff will verify your payment and will let you know when it is received!</p>
+      <a href="{% url 'content:course-library' %}" class="ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Go to My Library</a>
+    {% else %}
+    <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Payment Failed</h2>
+      <p class="text-m text-gray-900 mt-3 mb-3">Unfortunately your payment failed. Please go back to Payments and try again.</p>
+      <a href="{% url 'order:payment' %}" class="ml-auto mb-3 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Back to Payments</a>
+    {% endif %}
+    <div class="site-blocks-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Reference No.</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Payment Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>
+              <a href="">#{{ payment.order.reference_number }}</a>
+            </td>
+            <td>{{ payment.order.ordered_date }}</td>
+            <td>{{ payment.order.get_order_total }}</td>
+            <td>
+              {{ payment.payment_status }}
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>    
+  </div>
+</section>
+
+
+
+
+{% endblock content %}

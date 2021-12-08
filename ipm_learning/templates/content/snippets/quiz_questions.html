@@ -1,0 +1,104 @@
+{% load filter_tag %}
+
+
+{% with quiz=request.user|filter_quiz:content %} 
+
+{% if quiz.quiz_attempts == 0 %}
+    <style>
+        #quiz_results {
+            display:none;
+        }
+    </style>
+{% else %}
+    <style>
+        #quiz_questions {
+            display:none;
+        }
+    </style>
+{% endif %}
+
+<div id="quiz_questions">
+<form method='post' class="w-full max-w-sm">
+    {% csrf_token %}
+    {% for q in content.quiz_questions.all %}
+    <div class="form-group">
+      <label for="question">{{q.question}}</label>
+    </div>
+    <div class="form-check">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="{{q.op1}}" checked>
+            <label class="form-check-label" for="gridRadios1">
+                {{q.op1}}
+            </label>
+            
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="{{q.op2}}">
+            <label class="form-check-label" for="gridRadios2">
+                {{q.op2}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="{{q.op3}}">
+            <label class="form-check-label" for="gridRadios1">
+                {{q.op3}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="{{q.op4}}">
+            <label class="form-check-label" for="gridRadios2">
+                {{q.op4}}
+            </label>
+        </div>
+        <br>
+    </div>    
+    {% endfor %}
+    <input type="hidden" name="quiz_record_id" value="{{ request.user|find_content_record_id:content }}">
+    <br>
+    <button type="submit" class="bg-transparent hover:bg-gray-500 hover:text-white py-1 px-2 border border-gray-500 hover:border-transparent rounded">Submit</button>
+  </form>
+</div>
+
+<div id="quiz_results">
+
+<h2 class="text-xl font-medium title-font text-gray-900 mt-5">Results</h2>
+<p>Last Attempt: {{ quiz.quiz_correct_ans }} / {{ quiz.quiz_questions }} correct</p>
+<p>Date: {{ quiz.last_updated_on }} </p>
+<p>Number of Attempts: {{ quiz.quiz_attempts }} </p>
+<br>
+<button onclick="toggleQuiz()" class="bg-transparent hover:bg-gray-500 hover:text-white py-1 px-2 border border-gray-500 hover:border-transparent rounded">Re-take Quiz</button>
+</div>
+
+{% endwith %}
+
+<script>
+function getStyle(el, name)
+{
+  // the way of the DOM
+  if ( document.defaultView && document.defaultView.getComputedStyle )
+  {
+    var style = document.defaultView.getComputedStyle(el, null);
+    if ( style )
+      return style[name];
+  }
+  // IE-specific
+  else if ( el.currentStyle )
+    return el.currentStyle[name];
+  
+  return null;
+}
+
+function toggleQuiz() {
+  var questions = document.getElementById("quiz_questions");
+  var results = document.getElementById("quiz_results");
+  if (getStyle(results, "display") === "block") {
+    questions.style.display = "block";
+    results.style.display = "none";
+  } else {
+    questions.style.display = "none";
+    results.style.display = "block";
+  }
+}
+</script>
+
+ 
