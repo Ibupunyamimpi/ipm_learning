@@ -11,6 +11,54 @@
       <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
         <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.category }} | {{ course.course_type }}</h2>
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ course.name }}</h1>
+        <div class="my-8">
+        <p class="leading-relaxed">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.</p>
+        </div>
+        {% if course.discount_pct > 0 %}
+          
+          <p class="title-font font-medium text-1xl text-gray-900">Original Price: {{ course.get_price }}</p>
+          <p class="title-font font-medium text-1xl text-red-600">Discount: {{ course.get_discount_pct }}</p>
+        {% endif %}
+        <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+        </div>
+        <div class="flex">
+          {% if course.price == 0 %}
+            <span class="title-font font-medium text-2xl text-gray-900">FREE</span>
+          {% else %}
+            <span class="title-font font-medium text-2xl text-gray-900">{{ course.get_discount_price }}</span>
+          {% endif %}
+
+          {% comment %} <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Button</button> {% endcomment %}
+          
+          {% if request.user.is_authenticated and request.user|check_course_course_record:course %}
+            <a href="{{ course.contents.first.get_absolute_url }}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Go to Course</a>
+          {% else %}
+            <form method="post">
+                    {% csrf_token %}
+                    {{ form }}
+               
+                <button type='submit' class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Add to cart</button>
+              </form>
+            {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock content %}
+
+
+<section class="text-gray-600 body-font overflow-hidden">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="lg:w-4/5 mx-auto flex flex-wrap">
+      <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ course.thumbnail.url }}">
+      <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+        <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.category }} | {{ course.course_type }}</h2>
+        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ course.name }}</h1>
         <div class="flex mt-8">
         <p class="leading-relaxed">{{ course.description }}</p>
         </div>
@@ -41,5 +89,3 @@
     </div>
   </div>
 </section>
-
-{% endblock content %}
