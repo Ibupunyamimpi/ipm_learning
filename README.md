@@ -1,5 +1,7 @@
 # IPM Learning Platform
 
+LINK TO GUIDE -> https://gist.github.com/mswaringen/cdc1bc46e25863fd14314a1a858e33a6
+
 ### Dev commands
 
 Always start the PSQL server locally
