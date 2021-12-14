@@ -24,7 +24,7 @@
           {% elif content.content_type == 'Event' %}
             <img class="w-full object-cover object-center rounded-lg" src="{{ content.event_image.url }}" alt="event image">
           {% elif content.content_type == 'Text' %}
-            <article class="prose lg:prose-lg">
+            <article class="prose">
               {{ content.text_content|convert_markdown|safe }}
             </article>
           {% elif content.content_type == 'Quiz' %}
