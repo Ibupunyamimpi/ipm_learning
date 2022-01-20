@@ -4,6 +4,21 @@ LINK TO GUIDE -> https://gist.github.com/mswaringen/cdc1bc46e25863fd14314a1a858e
 
 ### Dev commands
 
+NEWWWW
+
+running:
+- python 3.9.9
+- sqlite for local db, no need for postgres
+
+pipenv commands
+- `pipenv shell`
+- `deactivate`
+- `pipenv install <package>`
+
+start server
+- `python manage.py runserver`
+
+OLDDDDDDDD
 Always start the PSQL server locally
 - `sudo service postgresql start`
 - `export DJANGO_READ_DOT_ENV_FILE=True`
@@ -138,3 +153,6 @@ Purchase
  - stripe_purchase_id
  - Content (fk)
  - status
+
+
+random shit
