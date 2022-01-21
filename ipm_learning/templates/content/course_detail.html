@@ -12,7 +12,7 @@
         <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.category }} | {{ course.course_type }}</h2>
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ course.name }}</h1>
         <div class="my-8">
-        <p class="leading-relaxed">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.</p>
+        <p class="leading-relaxed">{{ course.description }}</p>
         </div>
         {% if course.discount_pct > 0 %}
           
