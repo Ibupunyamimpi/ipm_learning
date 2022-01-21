@@ -129,6 +129,7 @@ EMAIL_SUBJECT_PREFIX = env(
     "DJANGO_EMAIL_SUBJECT_PREFIX",
     default="[Ibu Punya Mimpi]",
 )
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "Ibu Punya Mimpi"
 
 # ADMIN
 # ------------------------------------------------------------------------------
