@@ -78,6 +78,7 @@ LOCAL_APPS = [
     "ipm_learning.users",
     "ipm_learning.content.apps.ContentConfig",
     "ipm_learning.order.apps.OrderConfig",
+    "ipm_learning.pages.apps.PagesConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

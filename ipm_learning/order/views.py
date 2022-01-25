@@ -51,6 +51,21 @@ class RemoveFromCartView(generic.View):
 
 class PaymentView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'order/payment.html'
+    
+    def get(self, request, *args, **kwargs):
+        order = get_or_set_order_session(request)
+        
+        if order.get_raw_order_total() == 0:
+            Payment.objects.create(
+                order=order,
+                payment_status='SUCCESS',
+                amount=order.get_raw_order_total(),
+                payment_method='Payment Code'
+            )
+            return redirect("order:success")
+        
+        return super(PaymentView, self).get(request, *args, **kwargs)
+    
 
     def post(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)

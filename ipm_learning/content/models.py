@@ -25,6 +25,7 @@ class Course(models.Model):
     course_type = models.CharField(max_length=25, choices=TYPE_CHOICES, default='Course')
     thumbnail = models.ImageField(upload_to="thumbnails/")
     description = models.TextField()
+    event_datetime = models.DateTimeField(blank=True, null=True)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL, related_name='courses')
     active = models.BooleanField(default=False)
     price = models.PositiveIntegerField(default=0)

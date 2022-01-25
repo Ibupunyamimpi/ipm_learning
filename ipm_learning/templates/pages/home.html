@@ -55,44 +55,25 @@
     <div class="flex flex-wrap -mx-4 -mb-16">
       <div class="w-full lg:w-2/3 px-4 mb-16">
         <div class="flex h-96 mb-10">
-          <img class="w-full h-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-        <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-        <h2 class="mb-4 text-3xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar domor at elis</h2>
-        <p class="mb-4 text-xl text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
+          <img class="w-full h-full object-cover rounded-xl" src="{{ next_event.thumbnail.url}}" alt=""></div>
+        <span class="inline-block mb-4 text-xs text-gray-500">{{ next_event.event_datetime}}</span>
+        <h2 class="mb-4 text-3xl font-semibold font-heading">{{ next_event.name }}</h2>
+        <p class="mb-4 text-xl text-gray-500">{{ next_event.description }}</p>
+        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' next_event.slug %}">Learn more</a>
       </div>
-      <div class="w-full lg:w-1/3 px-4 mb-16">
-        <div class="flex h-96 mb-10">
-          <img class="w-full h-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-        <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-        <h2 class="mb-4 text-3xl font-semibold font-heading">Lorem ipsum dolor</h2>
-        <p class="mb-4 text-xl text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-      </div>
-      <div class="w-full lg:w-1/3 px-4 mb-16">
-        <div class="flex h-96 mb-10">
-          <img class="w-full h-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=967&amp;q=80" alt=""></div>
-        <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-        <h2 class="mb-2 text-3xl font-semibold font-heading">Lorem ipsum dolor</h2>
-        <p class="mb-4 text-xl text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-      </div>
-      <div class="w-full lg:w-1/3 px-4 mb-16">
-        <div class="flex h-96 mb-10">
-          <img class="w-full h-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1557804506-d8017c1e4856?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1001&amp;q=80" alt=""></div>
-        <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-        <h2 class="mb-4 text-3xl font-semibold font-heading">Lorem ipsum dolor</h2>
-        <p class="mb-4 text-xl text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-      </div>
-      <div class="w-full lg:w-1/3 px-4 mb-16">
-        <div class="flex h-96 mb-10">
-          <img class="w-full h-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-        <span class="text-xs font-semibold text-gray-500">10 jun 2020 19:40</span>
-        <h2 class="mb-4 text-3xl font-semibold font-heading">Lorem ipsum dolor</h2>
-        <p class="mb-4 text-xl text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-      </div>
+
+      {% for event in remaining_events %}
+        <div class="w-full lg:w-1/3 px-4 mb-16">
+          <div class="flex h-96 mb-10">
+            <img class="w-full h-full object-cover rounded-xl" src="{{ event.thumbnail.url}}" alt=""></div>
+          <span class="inline-block mb-4 text-xs text-gray-500">{{ event.event_datetime}}</span>
+          <h2 class="mb-4 text-3xl font-semibold font-heading">{{ event.name }}</h2>
+          <p class="mb-4 text-xl text-gray-500">{{ event.description }}</p>
+          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' event.slug %}">Learn more</a>
+        </div>
+      {% endfor %}
+      
+      
     </div>
   </div>
 </section>
@@ -104,72 +85,21 @@
       <p class="text-xl text-gray-500">Bertemu langsung dengan Tutor dan sesama Ibupreneur. Belajar dan meraih mimpi menjadi lebih ringan karena dilakukan bersama support system yang tepat. Ikuti pilihan acara di bawah ini, bu!</p>
     </div>
     <div class="flex flex-wrap -m-3 mb-16">
-      <div class="w-full md:w-1/2 lg:w-1/3 p-3">
-        <div class="p-6 border rounded-xl">
-          <div class="relative h-52 mb-6">
-            <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">Development</span>
-            <img class="w-full h-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-          <h2 class="mb-4 text-2xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar</h2>
-          <p class="mb-4 text-gray-500 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
+
+      {% for course in courses %}
+        <div class="w-full md:w-1/2 lg:w-1/3 p-3">
+          <div class="p-6 border rounded-xl">
+            <div class="relative h-52 mb-6">
+              <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">{{ course.category }}</span>
+              <img class="w-full h-full object-cover rounded-lg" src="{{ course.thumbnail.url}}" alt=""></div>
+            <span class="inline-block mb-4 text-xs text-gray-500">{{ course.category }}</span>
+            <h2 class="mb-4 text-2xl font-semibold font-heading">{{ course.name }}</h2>
+            <p class="mb-4 text-gray-500 leading-relaxed">{{ course.description }}</p>
+            <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' course.slug %}">Learn more</a>
+          </div>
         </div>
-      </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 p-3">
-        <div class="p-6 border rounded-xl">
-          <div class="relative h-52 mb-6">
-            <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">Development</span>
-            <img class="w-full h-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-          <h2 class="mb-4 text-2xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar</h2>
-          <p class="mb-4 text-gray-500 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-        </div>
-      </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 p-3">
-        <div class="p-6 border rounded-xl">
-          <div class="relative h-52 mb-6">
-            <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">Development</span>
-            <img class="w-full h-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-          <h2 class="mb-4 text-2xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar</h2>
-          <p class="mb-4 text-gray-500 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-        </div>
-      </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 p-3">
-        <div class="p-6 border rounded-xl">
-          <div class="relative h-40 mb-6">
-            <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">Development</span>
-            <img class="w-full h-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1557804506-d8017c1e4856?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1001&amp;q=80" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-          <h2 class="mb-4 text-2xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar</h2>
-          <p class="mb-4 text-gray-500 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-        </div>
-      </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 p-3">
-        <div class="p-6 border rounded-xl">
-          <div class="relative h-40 mb-6">
-            <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">Development</span>
-            <img class="w-full h-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-          <h2 class="mb-4 text-2xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar</h2>
-          <p class="mb-4 text-gray-500 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-        </div>
-      </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 p-3">
-        <div class="p-6 border rounded-xl">
-          <div class="relative h-40 mb-6">
-            <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">Development</span>
-            <img class="w-full h-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">10 jun 2020 19:40</span>
-          <h2 class="mb-4 text-2xl font-semibold font-heading">Lorem ipsum dolor sit amet consectutar</h2>
-          <p class="mb-4 text-gray-500 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="#">Read more</a>
-        </div>
-      </div>
+      {% endfor %}
+
     </div>
     <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="#">View More Articles</a></div>
   </div>

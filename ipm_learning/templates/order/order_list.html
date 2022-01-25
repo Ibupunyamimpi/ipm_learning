@@ -11,7 +11,6 @@
           <th>Date</th>
           <th>Amount</th>
           <th>Payment Status</th>
-          <th>Invoice</th>
         </tr>
       </thead>
       <tbody>
@@ -24,9 +23,7 @@
             <td>{{ order.get_order_total }}</td>
             <td>
               {% if order.paid %}Paid{% else %}{{ order.payments.last.payment_status}}{% endif %}
-            </td>
-            <td><a href="{{ order.payments.last.invoice_url }}">Link</a></td>
-            
+            </td>            
           </tr>
           {% empty %}
           <tr>
