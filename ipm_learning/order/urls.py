@@ -12,4 +12,5 @@ urlpatterns = [
     path('payment/', views.PaymentView.as_view(), name='payment'),
     path('confirm-order/', views.ConfirmOrderView.as_view(), name='confirm-order'),
     path('success/', views.SuccessView.as_view(), name='success'),
+    path('webhooks/xendit/', views.xendit_webhook, name='xendit-webhook'),
 ]

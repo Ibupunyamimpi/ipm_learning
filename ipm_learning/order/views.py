@@ -4,7 +4,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.views import generic
 from .forms import CouponForm
@@ -12,6 +12,10 @@ from .models import OrderItem, Order, Payment, Coupon
 from ipm_learning.content.models import Course
 from .utils import get_or_set_order_session
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
+
+from xendit import Xendit
+
 
 
 class CartView(generic.TemplateView):
@@ -51,7 +55,33 @@ class PaymentView(LoginRequiredMixin, generic.TemplateView):
     def post(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)
         
-        if request.POST.get('payment-code'):
+        if request.POST.get('xendit'):
+            api_key = settings.XENDIT_SECRET
+            xendit_instance = Xendit(api_key=api_key)
+            Invoice = xendit_instance.Invoice
+            
+            payment = Payment.objects.create(
+                order=order,
+                payment_status='PENDING',
+                amount=order.get_raw_order_total(),
+                payment_method='Xendit',
+            )
+            
+            invoice = Invoice.create(
+                external_id=payment.reference_number,
+                amount=payment.amount,
+                description=order.reference_number,
+                payer_email=order.user.email,
+                success_redirect_url=request.build_absolute_uri(reverse("order:success"))
+            )
+            
+            payment.invoice_url = invoice.invoice_url
+            payment.save()
+            # print(invoice)
+            
+            return redirect(invoice.invoice_url)
+        
+        elif request.POST.get('payment-code'):
             payment_method = 'Payment Code'
             payment_code = request.POST.get('payment-code')
             if payment_code == 'TESTCODE':
@@ -76,6 +106,31 @@ class PaymentView(LoginRequiredMixin, generic.TemplateView):
             )
     
         return redirect("order:success")
+    
+@csrf_exempt
+def xendit_webhook(request, *args, **kwargs):
+    payload = json.loads(request.body)
+    callback_token = request.META["HTTP_X_CALLBACK_TOKEN"]
+    # print(payload)
+    # print('Payment ID ', payload["external_id"])
+    # print('Callback Token ', callback_token)
+    
+    try:
+        assert callback_token == settings.XENDIT_CALLBACK_TOKEN, "Token Error"
+    except AssertionError as e:
+        print(e)
+        return HttpResponse(status=400)
+    
+    if payload["merchant_name"] == "Xendit":
+        return HttpResponse()
+    elif payload['status'] == 'PAID':
+        invoice_id = int(payload["external_id"][-1:])
+        payment = Payment.objects.get(id=invoice_id)
+        payment.success_data = payload
+        payment.payment_status = 'SUCCESS'
+        payment.save()
+    
+    return HttpResponse()
 
 class ConfirmOrderView(generic.View):
     pass

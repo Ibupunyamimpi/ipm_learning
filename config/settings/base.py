@@ -274,3 +274,5 @@ SOCIALACCOUNT_ADAPTER = "ipm_learning.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+XENDIT_SECRET = env("XENDIT_SECRET")
+XENDIT_CALLBACK_TOKEN = env("XENDIT_CALLBACK_TOKEN")

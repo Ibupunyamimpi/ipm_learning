@@ -279,3 +279,5 @@ ipm_learning/media/
 
 # Other
 db.sqlite3
+ngrok
+test_xendit.py
