@@ -3,6 +3,7 @@ from django.views import generic
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from .models import Course, Content, Category
 from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRecord
 from ipm_learning.order.utils import get_or_set_order_session
@@ -14,6 +15,13 @@ class CourseListView(generic.ListView):
     template_name = "content/course_list.html"
     queryset = Category.objects.all()
     context_object_name = "courses"
+    
+class EventListView(generic.ListView):
+    template_name = "content/event_list.html"
+    queryset = Course.objects.filter(
+        (Q(course_type="Event") | Q(course_type="Bootcamp")) & Q(active=True)
+    ).order_by('event_datetime')
+    context_object_name = "events"
 
 class CourseDetailView(generic.FormView):
     template_name = "content/course_detail.html"
