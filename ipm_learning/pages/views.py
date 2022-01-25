@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
-from yaml import events
 from ipm_learning.content.models import Course
 
 # Create your views here.
