@@ -11,7 +11,7 @@ SECRET_KEY = env(
     default="UunJuDUOzZAWcOcOUeRj0eoa1wu7EAAZgO5M0nwReQz6EaNaatl7Akc9wyLMoOH6",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "d122-62-194-32-195.ngrok.io"]
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -70,3 +70,4 @@ READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(ROOT_DIR / ".env"))
+    

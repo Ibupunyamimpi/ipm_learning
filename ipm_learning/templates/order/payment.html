@@ -10,7 +10,14 @@
     {% else %}
     <div class="bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
       <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Payment Options</h2>
-      <button class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Pay with Flip.ID</button>
+      <form method="post" name="xendit">
+        {% csrf_token %}
+        <div class="relative mb-4">
+            <input type="hidden" name="xendit" value="xendit">
+        </div>
+        <button type="submit" class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Pay with Xendit</button>
+      </form>
+      
       <p class="text-m text-gray-900 mt-3">Direct Bank Transfer</p>
       <p class="leading-7 text-sm text-gray-600">Bank Account Number: 09034823749823</p>
       <form method="post" name="bank-transfer">

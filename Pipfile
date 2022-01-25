@@ -25,6 +25,7 @@ Pillow = "==8.4.0"
 Markdown = "==3.3.6"
 Django = "==3.2.10"
 Collectfast = "==2.2.0"
+xendit-python = "*"
 
 [dev-packages]
 pytz = "==2021.3"

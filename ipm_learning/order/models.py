@@ -82,6 +82,7 @@ class Payment(models.Model):
         Order, on_delete=models.CASCADE, related_name='payments')
     payment_method = models.CharField(max_length=20, choices=(
         ('FlipID', 'FlipID'),
+        ('Xendit', 'Xendit'),
         ('Bank Transfer', 'Bank Transfer'),
         ('Payment Code', 'Payment Code'),
     ))
@@ -93,6 +94,8 @@ class Payment(models.Model):
     ))
     amount = models.PositiveIntegerField()
     raw_response = models.TextField(blank=True, null=True)
+    invoice_url = models.URLField(blank=True, null=True)
+    success_data = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.reference_number
