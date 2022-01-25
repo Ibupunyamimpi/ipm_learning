@@ -83,7 +83,7 @@ class PaymentView(LoginRequiredMixin, generic.TemplateView):
             )
             
             invoice = Invoice.create(
-                external_id=payment.reference_number,
+                external_id="payment_"+str(payment.id),
                 amount=payment.amount,
                 description=order.reference_number,
                 payer_email=order.user.email,
@@ -139,7 +139,7 @@ def xendit_webhook(request, *args, **kwargs):
     if payload["merchant_name"] == "Xendit":
         return HttpResponse()
     elif payload['status'] == 'PAID':
-        invoice_id = int(payload["external_id"][-1:])
+        invoice_id = int(payload["external_id"][8:])
         payment = Payment.objects.get(id=invoice_id)
         payment.success_data = payload
         payment.payment_status = 'SUCCESS'
