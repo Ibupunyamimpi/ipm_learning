@@ -72,6 +72,9 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    'tailwind',
+    'theme',
+    'django_browser_reload',
 ]
 
 LOCAL_APPS = [
@@ -137,6 +140,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 # STATIC
@@ -277,3 +281,4 @@ SOCIALACCOUNT_ADAPTER = "ipm_learning.users.adapters.SocialAccountAdapter"
 # ------------------------------------------------------------------------------
 XENDIT_SECRET = env("XENDIT_SECRET")
 XENDIT_CALLBACK_TOKEN = env("XENDIT_CALLBACK_TOKEN")
+TAILWIND_APP_NAME = 'theme'

@@ -4,6 +4,61 @@
 {% block title %}User: {{ object.username }}{% endblock %}
 
 {% block content %}
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-12 mx-auto">
+    <div class="flex flex-col text-center w-full mb-5">
+      <h1 class="sm:text-4xl text-3xl font-medium title-font text-gray-900">My Profile</h1>
+      <!-- <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p> -->
+    </div>
+   
+    <header class="text-gray-600 body-font">
+      <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        
+        <nav class="md:ml-auto md:mr-auto mb-7 flex flex-wrap items-center text-base justify-center">
+          <a href="{% url 'users:update' %}" class="mr-5 hover:text-gray-900">My Info</a>
+          <a href="{% url 'account_email' %}" class="mr-5 hover:text-gray-900">Email</a>
+          <a href="{% url 'account_logout' %}" class="mr-5 hover:text-gray-900">Sign Out</a>
+        </nav>
+        
+      </div>
+    </header>
+
+    <div class=" w-full mx-auto overflow-auto">
+      <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Order #</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Date</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Amount</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td class="px-4 py-3">{{ order.reference_number }}</td>
+              <td class="px-4 py-3">{{ order.ordered_date }}</td>
+              <td class="px-4 py-3">{{ order.get_order_total }}</td>
+              <td class="px-4 py-3 text-lg text-gray-900">{% if order.paid %}PAID{% else %}{{ order.payments.last.payment_status}}{% endif %}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">You haven't made any orders</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+
+
+
+
 <div class="container">
 
   <div class="row">
@@ -25,6 +80,7 @@
     <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
     <!-- Your Stuff: Custom user template urls -->
     <a class="btn btn-primary" href="{% url 'order:order-list' %}" role="button">My Orders</a>
+    <a href="{% url 'account_logout' %}" class="mr-5 hover:text-gray-900">Sign Out</a>
   </div>
 
 </div>
@@ -32,4 +88,3 @@
 {% endif %}
 
 </div>
-{% endblock content %}

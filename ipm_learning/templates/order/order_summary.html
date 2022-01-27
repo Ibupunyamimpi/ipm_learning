@@ -1,85 +1,117 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 
-  <div class="container mx-auto mt-10">
-    <div class="flex my-10">
-      <div class="w-3/4 bg-white px-10 py-10">
-        <div class="flex justify-between border-b pb-8">
-          <h1 class="font-semibold text-2xl">Shopping Cart</h1>
-          <h2 class="font-semibold text-2xl">{{ order.get_order_item_count }} Items</h2>
+<div class="container mx-auto"> 
+    <div class="py-9 px-4 md:px-6 py-12 w-full">
+        <div class="">
+            <h1 class="text-3xl lg:text-4xl leading-4 lg:leading-9 font-semibold text-gray-800 mt-2">Shopping Cart</h1>
         </div>
-        <div class="flex mt-10 mb-5">
-          <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
-          <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">List Price</h3>
-          <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Discount</h3>
-          <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Final Price</h3>
-        </div>
-        {% for item in order.order_items.all %}
-        <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
-          <div class="flex w-2/5"> <!-- product -->
-            <div class="w-20">
-            <a href="{{ item.course.get_absolute_url }}">
-              <img class="h-24" src="{{ item.course.thumbnail.url }}" alt="">
-            </a>
+        <div class="flex lg:flex-row flex-col space-y-8 lg:space-y-0 lg:space-x-8">
+            <div class="md:w-full">
+
+            {% for item in order.order_items.all %}
+                <div class="w-full flex flex-col md:flex-row items-strech mt-10 md:mt-14 lg:mt-16 pb-12 border-gray-200 border-b">
+                    <div class="flex justify-end md:hidden">
+                        <a href="{% url 'order:remove-from-cart' item.id %}" class="mt-2">
+                            <img src="{% static 'images/shopping-cart-3-svg1.svg' %}" alt="cross" />
+                            <!-- <img class="dark:block hidden"  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/shopping-cart-3-svg1dark.svg" alt="cross" /> -->
+                        </a>
+                    </div>
+                    <div class="flex justify-center md:w-2/5">
+                        <img class="object-center object-cover" src="{{ item.course.thumbnail.url }}" alt="{{ item.course.name }}" role="img" />
+                    </div>
+                    <div class="md:flex hidden w-full justify-between md:ml-6">
+                        <div class="w-full">
+                            <div class="flex flex-row justify-between">
+                                <div class="flex justify start">
+                                    <p class="text-2xl font-semibold leading-normal text-gray-800 ">{{ item.course.name }}</p>
+                                </div>
+                                <div class="flex justify-end">
+                                    <a aria-label="Cancel product" href="{% url 'order:remove-from-cart' item.id %}" class="mt-2 focus:outline-none focus:ring-2 focus:ring-gray-800 rounded">
+                                         <img src="{% static 'images/shopping-cart-3-svg1.svg' %}" alt="cross" />
+                                         <!-- <img class="dark:block hidden"  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/shopping-cart-3-svg1dark.svg" alt="cross" /> -->
+                                    </a>
+                                </div>
+                            </div>
+                            {% if item.course.discount_pct > 0 %}
+                                <p class="text-base leading-none text-gray-800 mt-4">{{ item.course.get_price }}</p>
+                                <p class="text-base leading-none text-red-600 mt-4">Discount: {{ item.course.get_discount_pct }}</p>
+                            {% endif %} 
+                            <div class="mt-20 flex w-full items-center justify-between">
+                                <div class="w-full flex flex-col h-full md:flex-row justify-between">
+                                    <div class="flex justify-start">
+                                        
+                                    </div>
+                                    <div class="hidden md:block flex justify-end">
+                                        <p class="md:mt-3 text-gray-800 text-right"><span class="text-xl leading-tight text-gray-800"></span><span class="text-xl font-medium">{{ item.course.get_discount_price }}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="flex flex-col md:hidden">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="mt-1 text-2xl font-semibold leading-6 text-gray-800">{{ item.course.name }}</h2>
+                            </div>
+                        </div>
+                        {% if item.course.discount_pct > 0 %}
+                            <p class="mt-4 w-11/12 text-base leading-4 text-gray-600">{{ item.course.get_price }}</p>
+                            <p class="mt-4 w-11/12 text-base leading-4 text-red-600">Discount: {{ item.course.get_discount_pct }}</p>
+                        {% endif %} 
+                        <div class="flex items-center justify-end mt-6">
+                            <div>
+                                <p class="mt:mt-3 text-gray-800 text-right"><span class="text-xl leading-5 text-gray-800"></span><span class="text-xl leading-5 font-medium">{{ item.course.get_discount_price }}</span></p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+                
+
             </div>
-            <div class="flex flex-col justify-between ml-4 flex-grow">
-            <a href="{{ item.course.get_absolute_url }}">
-              <span class="font-bold text-sm">{{ item.course.name }}</span></a>
-              <span class="text-black-500 text-xs">{{ item.course.category }} | {{ item.course.course_type }}</span>
-              <a href="{% url 'order:remove-from-cart' item.id %}" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a>
+            <div class="flex justify-center items-center flex-col-reverse md:flex-row md:mt-28 mt-20 w-full">
+                <div class="w-full md:w-9/12 lg:w-9/12 p-4 md:p-10 bg-gray-50">
+                    <p class="text-2xl font-semibold leading-normal text-gray-800 ">Order Summary</p>
+                    <!-- <p class="text-base leading-4 lg:leading-none text-gray-600 mt-10">Items: {{ order.get_order_item_count }}</p> -->
+                    <div class="flex items-center justify-between mt-14">
+                        <h3 class="text-base font-medium leading-none text-gray-800 ">Subtotal</h3>
+                        <p class="text-base font-medium leading-none text-gray-800 ">{{order.get_order_subtotal}}</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-10">
+                        <form method="post" name="promo-code">
+                            {% csrf_token %}
+                            <div class="py-5">
+                                <label for="promo-code" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
+                                <input type="text" id="promo-code" name="promo-code" placeholder="Enter your code" class="p-2 text-sm w-full">
+                            </div>
+                            <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white rounded">Apply</button>
+                          </form>
+                          
+                    </div>
+                    {% if order.coupon %}
+                          <div class="border-t mt-8">
+                            <div class="flex font-semibold justify-between pt-6 text-sm">
+                              <span>PROMO '{{ order.coupon.code }}'</span>
+                              <span>-{{ order.coupon.get_amount }}</span>
+                            </div>
+                          </div>
+                    {% endif %}
+                    <div class="flex items-center justify-between mt-24">
+                        <h3 class="text-xl font-semibold leading-tight text-gray-800">Total Price</h3>
+                        <p class="text-2xl font-semibold text-gray-800">{{ order.get_order_total }}</p>
+                    </div>
+                    <a href="{% url 'order:payment' %}"><button class="focus:outline-none hover: focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 rounded">Checkout</button></a>
+                    <!-- <a href="{% url 'order:payment' %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Checkout</a> -->
+                </div>
             </div>
-          </div>
-          <span class="text-center w-1/5 font-semibold text-sm">{{ item.course.get_price }}</span>
-          <span class="text-center w-1/5 font-semibold text-sm">{{ item.course.get_discount_pct }}</span>
-          <span class="text-center w-1/5 font-semibold text-sm">{{ item.course.get_discount_price }}</span>
         </div>
-        {% endfor %}
-        
-
-        
-
-        <a href="{% url 'content:course-list' %}" class="flex font-semibold text-indigo-600 text-sm mt-10">
-      
-          <svg class="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"/></svg>
-          Add More Courses
-        </a>
-      </div>
-
-      <div id="summary" class="w-1/4 px-8 py-10 bg-gray-100">
-        <h1 class="font-semibold text-2xl border-b pb-8">Order Summary</h1>
-        <div class="flex justify-between mt-10 mb-5">
-          <span class="font-semibold text-sm uppercase">Sub Total</span>
-          <span class="font-semibold text-sm">{{order.get_order_subtotal}}</span>
-        </div>
-        <form method="post" name="promo-code">
-          {% csrf_token %}
-          <div class="py-5">
-              <label for="promo-code" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
-              <input type="text" id="promo-code" name="promo-code" placeholder="Enter your code" class="p-2 text-sm w-full">
-          </div>
-          <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>
-        </form>
-        {% if order.coupon %}
-        <div class="border-t mt-8">
-          <div class="flex font-semibold justify-between pt-6 text-sm">
-            <span>PROMO</span>
-            <span>-{{ order.coupon.get_amount }}</span>
-          </div>
-        </div>
-        {% endif %}
-        <div class="border-t mt-8">
-          <div class="flex font-semibold justify-between py-6 text-sm">
-            <span>TOTAL COST</span>
-            <span>{{ order.get_order_total }}</span>
-          </div>
-          <a href="{% url 'order:payment' %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Checkout</a>
-        </div>
-      </div>
-
     </div>
-  </div>
+</div>
 
 
 {% endblock content %}

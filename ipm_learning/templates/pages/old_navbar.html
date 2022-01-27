@@ -1,0 +1,99 @@
+<section class="py-8">
+    <div class="container px-4 mx-auto">
+      <nav class="relative">
+        <div class="flex justify-between items-center">
+          <a class="text-lg font-medium" href="{% url 'home' %}">
+            <img class="h-12" src="{% static 'images/IPM-Color.png' %}" alt="" width="auto">
+          </a>
+          <div class="lg:hidden">
+            <button class="navbar-burger flex items-center p-3 hover:bg-gray-50 rounded">
+              <svg class="block h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <title>Mobile menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+              </svg>
+            </button>
+          </div>
+          <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:w-auto lg:space-x-12">
+            <li><a class="text-sm font-medium" href="{% url 'content:event-list' %}">Events</a></li>
+            <li><a class="text-sm font-medium" href="{% url 'content:course-list' %}">Courses</a></li>
+          </ul>
+          <div class="hidden lg:block">
+            {% if request.user.is_authenticated %}
+              <a class="text-sm font-medium" href="{% url 'content:course-library' %}">Library</a>
+              <a class="text-sm font-medium" href="{% url 'users:detail' request.user.username %}">Profile</a>
+            {% else %}
+              <a class="inline-block mr-2 py-3 px-8 text-sm leading-normal rounded border font-medium" href="{% url 'account_login' %}">Log in</a>
+              <!-- <a class="inline-block py-3 px-8 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'account_signup' %}">Sign Up</a> -->
+            {% endif %}
+            <a class="relative inline-block text-gray-400 hover:text-gray-500" href="{% url 'order:summary' %}">
+              <!-- <div class="absolute bottom-0 right-0 flex items-center justify-center -mb-4 -mr-4 w-6 h-6 text-sm text-white bg-red-500 rounded-full">3</div> -->
+              <svg width="21" height="23" viewBox="0 0 21 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.1159 8.72414H2.50427C1.99709 8.72414 1.58594 9.12657 1.58594 9.62299V21.308C1.58594 21.8045 1.99709 22.2069 2.50427 22.2069H18.1159C18.6231 22.2069 19.0342 21.8045 19.0342 21.308V9.62299C19.0342 9.12657 18.6231 8.72414 18.1159 8.72414Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6.34473 6.34483V4.9569C6.34473 3.85259 6.76252 2.79352 7.5062 2.01265C8.24988 1.23179 9.25852 0.793106 10.3102 0.793106C11.362 0.793106 12.3706 1.23179 13.1143 2.01265C13.858 2.79352 14.2758 3.85259 14.2758 4.9569V6.34483" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="hidden navbar-menu fixed top-0 left-0 bottom-0 w-5/6 max-w-sm z-50">
+      <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+      <nav class="relative flex flex-col py-6 px-6 w-full h-full bg-white border-r overflow-y-auto">
+        <div class="flex items-center mb-8">
+          <a class="mr-auto text-2xl font-medium leading-none" href="{% url 'home' %}">
+            <img class="h-12" src="{% static 'images/IPM-Color.png' %}" alt="" width="auto">
+          </a>
+          <button class="navbar-close">
+            <svg class="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div>
+          <ul>
+            <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="#">About</a></li>
+            <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="#">Company</a></li>
+            <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="#">Services</a></li>
+            <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="#">Testimonials</a></li>
+          </ul>
+        </div>
+        <div class="mt-auto">
+          <div class="pt-6"><a class="block mb-2 py-3 text-sm text-center leading-normal rounded border font-medium" href="#">Log in</a><a class="block py-3 text-sm text-center text-white leading-normal rounded bg-red-400 hover:bg-red-300 font-medium transition duration-200" href="#">Sign Up</a></div>
+          <p class="mt-6 mb-4 text-sm text-center text-gray-500">
+            <span>© 2022 All rights reserved.</span>
+          </p>
+        </div>
+      </nav>
+    </div>
+  </section>
+  
+  
+  <!-- <header class="text-gray-600 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+        <a href="{% url 'content:course-list' %}" class="mr-5 hover:text-gray-900">Courses</a>
+        <a href="{% url 'content:event-list' %}" class="mr-5 hover:text-gray-900">Events</a>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'content:course-library' %}" class="mr-5 hover:text-gray-900">My Library</a>
+        {% endif %}
+      </nav>
+      <a href="{% url 'home' %}" class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
+          <img class="h-12" src="{% static 'images/IPM-Color.png' %}" alt="" width="auto"></a>
+      </a>
+      <div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'users:detail' request.user.username %}" class="mr-5 hover:text-gray-900">My Profile</a>
+        <a href="{% url 'account_logout' %}" class="mr-5 hover:text-gray-900">Sign Out</a>
+      {% else %}
+      <a href="{% url 'account_login' %}" class="mr-5 hover:text-gray-900">Login</a>
+      {% endif %}
+      <a href="{% url 'order:summary' %}" class="mr-5 hover:text-gray-900">Cart</a>
+      </div>
+    </div>
+  </header> -->
+  
+   <!-- <a href="{% url 'account_login' %}"class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Login
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>  -->

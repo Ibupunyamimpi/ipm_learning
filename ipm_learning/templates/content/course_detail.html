@@ -21,7 +21,7 @@
         {% endif %}
         <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
         </div>
-        <div class="flex">
+        <div class="flex justify-between">
           {% if course.price == 0 %}
             <span class="title-font font-medium text-2xl text-gray-900">FREE</span>
           {% else %}
@@ -39,7 +39,7 @@
                
                 <button type='submit' class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Add to cart</button>
               </form>
-            {% endif %}
+          {% endif %}
 
         </div>
       </div>
@@ -52,7 +52,7 @@
 {% endblock content %}
 
 
-<section class="text-gray-600 body-font overflow-hidden">
+<!-- <section class="text-gray-600 body-font overflow-hidden">
   <div class="container px-5 py-24 mx-auto">
     <div class="lg:w-4/5 mx-auto flex flex-wrap">
       <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ course.thumbnail.url }}">
@@ -88,4 +88,4 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
