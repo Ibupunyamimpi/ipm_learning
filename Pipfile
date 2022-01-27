@@ -26,6 +26,7 @@ Markdown = "==3.3.6"
 Django = "==3.2.10"
 Collectfast = "==2.2.0"
 xendit-python = "*"
+django-tailwind = "*"
 
 [dev-packages]
 pytz = "==2021.3"

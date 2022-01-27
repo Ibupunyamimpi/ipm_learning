@@ -32,7 +32,7 @@
             {% else %}
               <span class="inline-block py-1 px-2 rounded bg-gray-500 text-white text-xs font-medium tracking-widest">In Progress</span>
             {% endif %}
-            <p class="text-base leading-relaxed mt-2">Modules: {{ course_record.module_count }}</p>
+            <p class="text-base leading-relaxed mt-2">Course Modules: {{ course_record.module_count }}</p>
             <p class="text-base leading-relaxed mt-2">
             {% for quiz_record in course_record|filter_quiz_records %}
               {% if quiz_record.quiz_attempts > 0%}
