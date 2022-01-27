@@ -1,25 +1,40 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
 <section class="text-gray-600 body-font">
   <div class="max-w-2xl container px-5 py-24 mx-auto flex flex-wrap items-center">
+    <div class="flex flex-col text-center w-full mb-7">
+      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Order Payment</h1>
+      <!-- <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p> -->
+    </div>
     {% if not request.user.is_authenticated %}
     <h2 class="text-gray-900 text-lg font-medium title-font mb-5">You are nearly finished with your order</h2>
     <p class="text-m text-gray-900 mt-3">To finalize your order, please <a>Login</a> or <a>Signup</a></p>
     {% else %}
     <div class="bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Payment Options</h2>
+      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">QuickPay</h2>
+      <img src="{% static 'images/xendit-partners.png' %}" alt="" width="auto">
+      
+      <p class="text-m text-gray-900 mt-5 mb-5">We partnered with Xendit to offer multiple payment options that give you instant access to your content!</p>
+      <div class="flex flex-row justify-center items-center mt-3 mb-3">
+        <svg width="116" height="32" viewBox="0 0 116 32" fill="none"><path d="M112 .25H4A3.75 3.75 0 00.25 4v24A3.75 3.75 0 004 31.75h108a3.75 3.75 0 003.75-3.75V4A3.75 3.75 0 00112 .25z" stroke="red" stroke-width="0.5"></path><path d="M9.246 16.887V19h-.988v-5.687h2.176a2.2 2.2 0 011.514.5 1.668 1.668 0 01.561 1.313 1.612 1.612 0 01-.549 1.3c-.44.334-.986.499-1.537.465l-1.177-.004zm0-.793h1.188c.288.019.573-.07.8-.248a.91.91 0 00.277-.717.984.984 0 00-.281-.736 1.084 1.084 0 00-.773-.283H9.242l.004 1.984zm8.664.211a3.489 3.489 0 01-.289 1.467c-.173.398-.46.735-.826.969-.371.229-.8.346-1.236.338a2.278 2.278 0 01-1.233-.339 2.219 2.219 0 01-.836-.963 3.38 3.38 0 01-.3-1.441v-.32a3.46 3.46 0 01.295-1.469c.175-.4.465-.739.832-.975.37-.228.797-.346 1.232-.338.434-.008.861.108 1.232.334.366.231.654.566.83.961.205.459.307.957.3 1.459l-.001.317zm-.988-.3a2.486 2.486 0 00-.357-1.449 1.168 1.168 0 00-1.014-.5 1.166 1.166 0 00-1 .5c-.266.424-.395.92-.369 1.42v.324c-.031.51.096 1.015.365 1.449a1.176 1.176 0 001.014.512 1.163 1.163 0 001.01-.5c.263-.44.385-.95.351-1.461v-.295zm6.434 1.586l.875-4.281h.98L23.9 19h-.945l-1.082-4.152L20.766 19h-.949L18.5 13.313h.98l.883 4.273 1.086-4.273h.828l1.079 4.278zm5.9-1.133h-2.334v1.75h2.73V19h-3.718v-5.687h3.691v.8h-2.7v1.57h2.336l-.005.775zm3.289.348h-1.1V19h-.988v-5.687h2a2.328 2.328 0 011.52.441 1.561 1.561 0 01.535 1.277 1.6 1.6 0 01-.275.955c-.195.266-.461.47-.768.592l1.277 2.371V19h-1.058l-1.143-2.194zm-1.1-.793h1.016a1.13 1.13 0 00.781-.252.879.879 0 00.281-.689.934.934 0 00-.26-.707 1.1 1.1 0 00-.775-.258h-1.043v1.906zm7.328.445h-2.335v1.75h2.73V19h-3.719v-5.687h3.692v.8h-2.7v1.57h2.332v.775zm1.2 2.542v-5.687h1.68c.468-.009.93.107 1.338.336.386.223.7.555.9.953.22.438.33.924.32 1.414v.284c.01.493-.1.982-.322 1.422-.206.4-.525.728-.918.945a2.756 2.756 0 01-1.362.333h-1.636zm.988-4.891v4.1h.645a1.483 1.483 0 001.194-.484c.303-.402.453-.898.424-1.4v-.316a2.174 2.174 0 00-.4-1.414 1.428 1.428 0 00-1.168-.488l-.695.002zM47.191 19v-5.687h1.949a2.38 2.38 0 011.469.387 1.362 1.362 0 01.5 1.152c.002.25-.071.493-.211.7a1.358 1.358 0 01-.617.484c.288.068.543.236.719.474.172.242.26.533.252.83a1.515 1.515 0 01-.514 1.23 2.233 2.233 0 01-1.472.43h-2.075zm.988-2.566v1.777h1.1c.26.014.517-.068.721-.231a.809.809 0 00.262-.641.813.813 0 00-.906-.906l-1.177.001zm0-.727h.969a1.12 1.12 0 00.721-.209.715.715 0 00.26-.592.726.726 0 00-.24-.609 1.214 1.214 0 00-.748-.187h-.961l-.001 1.597zm5.7.3l1.309-2.7h1.094l-1.907 3.599V19h-.992v-2.094l-1.91-3.594h1.1l1.306 2.695zM67.548 19.285l1.324 2.237.64-.387.225-.741-1.423-2.405-.766 1.296zM63.26 10.424l-.625.53 1.68 2.831.766-1.294-1.535-2.586-.286.519zM64.704 17.35l-1.868 3.153.233.838.572.4 2.689-4.547.767-1.3 2.975-5.038-.494-.671-.167-.234-.725.656-3.982 6.743z" fill="red"></path><path d="M63.2 9.317l-.767 1.3-2.35 3.987-.767 1.3 3.884 6.582.767-1.3-3.119-5.282 3.119-5.287h2.231l.767-1.3H63.2zM68.678 10.619l3.117 5.285-3.117 5.282h-2.231l-.765 1.3h3.763l.767-1.3 2.35-3.984.767-1.3-.765-1.306-2.354-3.979-.763-1.3-.769 1.302z" fill="red"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M79.916 13.541l-1.421 2.024-1.427-2.024H75.93l1.985 2.719-2.085 2.845h1.13l1.534-2.145 1.518 2.144h1.13l-2.083-2.844 1.981-2.717-1.124-.002zM84.219 14.271a1.199 1.199 0 01.958.388c.233.308.352.688.337 1.074h-2.75c.03-.392.185-.763.442-1.06a1.325 1.325 0 011.013-.4v-.002zm.01-.827a2.3 2.3 0 00-1.831.8 3.176 3.176 0 00-.678 2.128 2.873 2.873 0 00.732 2.082 2.665 2.665 0 002 .754 4.95 4.95 0 00.975-.083c.294-.063.58-.155.857-.274l.044-.018v-.885l-.1.042a4.512 4.512 0 01-1.745.36 1.668 1.668 0 01-1.267-.472 2.015 2.015 0 01-.472-1.332h3.822v-.59a2.61 2.61 0 00-.626-1.815 2.2 2.2 0 00-1.705-.694M90.546 13.442a2.486 2.486 0 00-1.07.227c-.27.124-.505.312-.685.548l-.125-.677h-.816v5.564h.985v-2.915a2.232 2.232 0 01.388-1.473 1.555 1.555 0 011.222-.436 1.215 1.215 0 01.915.3c.213.266.317.602.29.942V19.1h.985v-3.603a2.058 2.058 0 00-.529-1.563 2.219 2.219 0 00-1.559-.492M96.387 18.375a1.254 1.254 0 01-1.087-.5 2.578 2.578 0 01-.376-1.527c-.032-.542.1-1.08.38-1.546a1.218 1.218 0 011.073-.531 1.446 1.446 0 011.2.465c.294.48.426 1.04.377 1.6v.173a2.222 2.222 0 01-.371 1.432 1.489 1.489 0 01-1.193.432l-.003.002zm1.564-4.829l.02.383.022.246a2.372 2.372 0 00-3.462.035 3.283 3.283 0 00-.621 2.128 3.23 3.23 0 00.62 2.117 2.162 2.162 0 001.75.753 2.084 2.084 0 001.735-.767l.1.668h.818v-7.844h-.985l.003 2.281zM101.07 11.527a.574.574 0 00-.4.15.606.606 0 00-.164.464.616.616 0 00.163.463.6.6 0 00.8 0 .603.603 0 00.169-.464.6.6 0 00-.168-.461.575.575 0 00-.4-.152zM100.576 19.105h.985v-5.564h-.985v5.564zM105.808 18.289c-.105.028-.212.05-.32.065a2.752 2.752 0 01-.419.031.765.765 0 01-.6-.239 1.02 1.02 0 01-.22-.705V14.32h1.611v-.779h-1.614v-1.259h-.612l-.36 1.177-.808.347v.512h.8v3.156a1.52 1.52 0 00.412 1.283 1.507 1.507 0 001.271.445c.164-.002.328-.016.49-.043.145-.018.287-.056.422-.112l.041-.019v-.766l-.094.027z" fill="red"></path></svg>
+      </div>
       <form method="post" name="xendit">
         {% csrf_token %}
         <div class="relative mb-4">
             <input type="hidden" name="xendit" value="xendit">
         </div>
-        <button type="submit" class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Pay with Xendit</button>
+        <button type="submit" class="w-full text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">QuickPay</button>
       </form>
-      
-      <p class="text-m text-gray-900 mt-3">Direct Bank Transfer</p>
-      <p class="leading-7 text-sm text-gray-600">Bank Account Number: 09034823749823</p>
+      <div class="flex flex-row justify-center items-center mt-10">
+        <hr class="border w-full" />
+        
+    </div>
+      <h2 class="text-gray-900 text-lg font-medium title-font mt-7 mb-5">Manual Payment</h2>
+      <p class="text-m text-gray-900 mt-3">Make a direct bank transfer to the account listed below. Once complete, click the Transfer Complete button below. Our staff will then need to manually enable your purchase.</p>
+      <p class="leading-7 text-m text-gray-500 mt-5 mb-5">Bank Account Number: 09034823749823</p>
       <form method="post" name="bank-transfer">
         {% csrf_token %}
         <div class="relative mb-4">
@@ -28,7 +43,7 @@
         <button type="submit" class="w-full text-gray-100 bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-400 rounded text-lg">
         Bank Transfer Complete</button>
       </form> 
-      <form method="post" name="payment-code">
+      <!-- <form method="post" name="payment-code">
         {% csrf_token %}
         <div class="relative mb-4">
             <label for="payment-code" class="leading-7 text-sm text-gray-600">Payment Code</label>
@@ -37,7 +52,7 @@
         <button class="w-full text-gray-100 bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-400 rounded text-lg">
         Submit Payment Code</button>
       </form> 
-      <p class="text-xs text-gray-500 mt-3">Use TESTCODE in the field above</p>
+      <p class="text-xs text-gray-500 mt-3">Use TESTCODE in the field above</p> -->
     </div>
     {% endif %}
   </div>

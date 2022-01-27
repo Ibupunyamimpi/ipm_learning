@@ -26,11 +26,18 @@
             </div>
             <h2 class="text-xl font-medium title-font text-gray-900 mt-5">{{ course_record.course.name }}</h2>
             <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course_record.course.category }} | {{ course_record.course.course_type }}</h2>
-            <p class="text-base leading-relaxed mt-2">Start Date: {{ course_record.created_at }}</p>
-            <p class="text-base leading-relaxed mt-2">Modules: {{ course_record.modules_complete }} / {{ course_record.module_count }} complete</p>
-            <p class="text-base leading-relaxed mt-2">Quizzes:
+            <!-- <p class="text-base leading-relaxed mt-2">Start Date: {{ course_record.created_at }}</p> -->
+            {% if course_record.modules_complete == course_record.module_count %}
+              <span class="inline-block py-1 px-2 rounded bg-red-500 text-white text-xs font-medium tracking-widest">COMPLETED</span>
+            {% else %}
+              <span class="inline-block py-1 px-2 rounded bg-gray-500 text-white text-xs font-medium tracking-widest">In Progress</span>
+            {% endif %}
+            <p class="text-base leading-relaxed mt-2">Modules: {{ course_record.module_count }}</p>
+            <p class="text-base leading-relaxed mt-2">
             {% for quiz_record in course_record|filter_quiz_records %}
-              <p>{{ quiz_record.content.title}}: {{ quiz_record.quiz_correct_ans }} / {{ quiz_record.quiz_questions }} correct, attempts: {{ quiz_record.quiz_attempts }}, last_attempt: {{ quiz_record.last_updated_on }}</p>
+              {% if quiz_record.quiz_attempts > 0%}
+              <p>{{ quiz_record.content.title}} Score: {{ quiz_record.quiz_correct_ans }} / {{ quiz_record.quiz_questions }}</p>
+              {% endif %}
             {% endfor %}
              </p>
             

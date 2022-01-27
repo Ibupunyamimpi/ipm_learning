@@ -3,6 +3,55 @@
 {% block content %}
 
 <section class="text-gray-600 body-font">
+  <div class="container px-5 py-12 mx-auto">
+    <div class="flex justify-center flex-col text-center w-full mb-7">
+
+      {% if payment.payment_status == 'SUCCESS' %}
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Payment Success!</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Your order was successfully placed</p>
+        <a href="{% url 'content:course-library' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">View in My Library</a>
+      {% elif payment.payment_status == 'PENDING' %}
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Payment Pending</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Your payment is currently being processed and will let you know via email when it has been completed!</p>
+        <a href="{% url 'content:course-library' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Go to My Library</a>
+      {% else %}
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Payment Failed</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Unfortunately your payment failed. Please go back to Payments and try again.</p>
+        <a href="{% url 'order:payment' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Back to Payments</a>
+      {% endif %}
+    </div>
+   
+   
+
+    <div class=" w-full mx-auto overflow-auto">
+      <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Order #</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Date</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Amount</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td class="px-4 py-3">{{ payment.order.reference_number }}</td>
+              <td class="px-4 py-3">{{ payment.order.ordered_date }}</td>
+              <td class="px-4 py-3">{{ payment.order.get_order_total }}</td>
+              <td class="px-4 py-3 text-lg text-gray-900">{{ payment.payment_status }}</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock content %}
+
+
+<!-- <section class="text-gray-600 body-font">
   <div class="max-w-2xl container px-5 py-24 mx-auto">
     {% if payment.payment_status == 'SUCCESS' %}
       <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Payment Success!</h2>
@@ -42,9 +91,4 @@
     </table>
   </div>    
   </div>
-</section>
-
-
-
-
-{% endblock content %}
+</section> -->

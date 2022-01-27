@@ -2,7 +2,49 @@
 
 {% block content %}
 
-  <h5 class="card-title">Your orders</h5>
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-12 mx-auto">
+    <div class="flex flex-col text-center w-full mb-7">
+      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Your Orders</h1>
+      <!-- <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p> -->
+    </div>
+   
+   
+
+    <div class=" w-full mx-auto overflow-auto">
+      <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Order #</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Date</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Amount</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td class="px-4 py-3">{{ order.reference_number }}</td>
+              <td class="px-4 py-3">{{ order.ordered_date }}</td>
+              <td class="px-4 py-3">{{ order.get_order_total }}</td>
+              <td class="px-4 py-3 text-lg text-gray-900">{% if order.paid %}PAID{% else %}{{ order.payments.last.payment_status}}{% endif %}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">You haven't made any orders</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+  
+
+{% endblock content %}
+
+<!-- <h5 class="card-title">Your orders</h5>
   <div class="site-blocks-table">
     <table class="table">
       <thead>
@@ -32,6 +74,4 @@
         {% endfor %}
       </tbody>
     </table>
-  </div>
-
-{% endblock content %}
+  </div> -->
