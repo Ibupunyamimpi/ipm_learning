@@ -3,6 +3,9 @@ from ipm_learning.content.models import Course, Content, Event, Video, Text, Qui
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 import datetime
 
 
@@ -183,6 +186,15 @@ def update_order_status(sender, instance, created, **kwargs):
         order.paid = True
         order.ordered_date = datetime.datetime.now()
         order.save()
+        
+        html_message = render_to_string('account/email/payment_success.html', {'context': 'order'})
+        plain_message = strip_tags(html_message)
+        subject="Payment Successful " + order.reference_number
+        from_email="ibumina@ibupunyamimpi.org"
+        to = order.user.email
+
+        send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+        
 
 @receiver(post_save, sender=Order)
 def create_course_record(sender, instance, created, **kwargs):
