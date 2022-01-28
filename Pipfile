@@ -28,6 +28,7 @@ Collectfast = "==2.2.0"
 xendit-python = "*"
 django-tailwind = "*"
 mailchimp-marketing = "*"
+django-bulk-user-upload = "*"
 
 [dev-packages]
 pytz = "==2021.3"

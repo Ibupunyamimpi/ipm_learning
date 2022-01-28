@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
+    'bulk_user_upload',
 ]
 
 LOCAL_APPS = [
