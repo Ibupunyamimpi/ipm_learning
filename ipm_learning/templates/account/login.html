@@ -1,4 +1,4 @@
-e{% extends "account/base.html" %}
+{% extends "account/base.html" %}
 
 {% load i18n %}
 {% load account socialaccount %}
@@ -8,7 +8,6 @@ e{% extends "account/base.html" %}
 
 {% block inner %}
 
-<h1>{% translate "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
 
@@ -29,19 +28,32 @@ for a {{ site_name }} account and sign in below:{% endblocktranslate %}</p>
 
 {% include "socialaccount/snippets/login_extra.html" %}
 
-{% else %}
-<p>{% blocktranslate %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}</p>
+
 {% endif %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form|crispy }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>
-  <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>
-</form>
+
+<section class="relative py-20">
+  <div class="container px-4 mx-auto">
+    <div class="max-w-md mx-auto py-6 lg:py-12 px-4 lg:px-8 bg-white border rounded-xl text-center">
+      
+      <h3 class="mb-12 text-3xl font-semibold font-heading">Sign In</h3>
+      
+      <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <a class="text-red-400 font-semibold hover:underline" href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>
+        <button class="w-full inline-block py-4 mb-4 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 rounded transition duration-200" type="submit">{% translate "Sign In" %}</button>
+      </form>
+      <p class="text-sm text-gray-500">
+        <span>New to Ibu Punya Mimpi?</span>
+        <br>
+        <a class="text-red-400 font-semibold hover:underline" href="{{ signup_url }}">Create an Account</a>
+      </p>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
