@@ -3,8 +3,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
-# from django.views.generic import TemplateView
+from django.views.generic import TemplateView
+from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
 from ipm_learning.pages.views import HomePageView
+from ipm_learning.content.models import Course
+
+info_dict = {
+    'queryset': Course.objects.all(),
+}
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
@@ -23,6 +30,10 @@ urlpatterns = [
     path("users/", include("ipm_learning.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('sitemap.xml', sitemap,
+        {'sitemaps': {'course': GenericSitemap(info_dict, priority=0.6)}},
+        name='django.contrib.sitemaps.views.sitemap'),
     path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
