@@ -190,7 +190,7 @@ def update_order_status(sender, instance, created, **kwargs):
         html_message = render_to_string('account/email/payment_success.html', {'context': 'order'})
         plain_message = strip_tags(html_message)
         subject="Payment Successful " + order.reference_number
-        from_email="ibumina@ibupunyamimpi.org"
+        from_email=None
         to = order.user.email
 
         send_mail(subject, plain_message, from_email, [to], html_message=html_message)
