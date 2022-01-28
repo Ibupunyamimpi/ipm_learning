@@ -6,7 +6,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
-from ipm_learning.pages.views import HomePageView
+from ipm_learning.pages.views import HomePageView, subscription
 from ipm_learning.content.models import Course
 
 info_dict = {
@@ -29,7 +29,9 @@ urlpatterns = [
     # User management
     path("users/", include("ipm_learning.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    
     # Your stuff: custom urls includes go here
+    path('subscribe/', subscription, name="subscription"),
     # path("email-test/",TemplateView.as_view(template_name="account/email/payment_success.html")),
     path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', sitemap,

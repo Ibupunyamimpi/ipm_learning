@@ -1,8 +1,13 @@
+from django.shortcuts import redirect
+from django.contrib import messages
 from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
 from ipm_learning.content.models import Course
 from .models import Testimonial, TeamMember
+from django.conf import settings
+from mailchimp_marketing import Client
+from mailchimp_marketing.api_client import ApiClientError
 
 # Create your views here.
 
@@ -29,3 +34,39 @@ class HomePageView(generic.TemplateView):
         context['testimonials'] = testimonials
         context['teammembers'] = teammembers
         return context
+    
+
+
+# Mailchimp Settings
+api_key = settings.MAILCHIMP_API_KEY
+server = settings.MAILCHIMP_DATA_CENTER
+list_id = settings.MAILCHIMP_EMAIL_LIST_ID
+   
+
+def subscription(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        next = request.POST['next']
+
+        # Communicate with Mailchimp API
+        mailchimp = Client()
+        mailchimp.set_config({
+            "api_key": api_key,
+            "server": server,
+        })
+
+        member_info = {
+            "email_address": email,
+            "status": "subscribed",
+        }
+
+        try:
+            response = mailchimp.lists.add_list_member(list_id, member_info)
+            print("response: {}".format(response))
+            messages.info(request, "Sudah Berlangganan!")
+        except ApiClientError as error:
+            print("An exception occurred: {}".format(error.text))
+            messages.info(request, "Gagal Berlangganan karena format yang salah atau sudah berlangganan")
+
+        # messages.success(request, "Email received. thank You! ")
+    return redirect(next)
