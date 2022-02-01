@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h4>Bulk User Import</h4>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="userfile">
+    <button type="submit">Upload</button>
+  </form>
+{% endblock %}
