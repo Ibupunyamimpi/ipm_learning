@@ -12,11 +12,17 @@ admin.site.index_title  =  "IPM Admin"
 # admin.site.unregister(ContentRecord)
 # admin.site.unregister(QuizRecord)
 
-def make_course_active(modeladmin, request, queryset):
+def activate_course(modeladmin, request, queryset):
   for course in queryset:
     course.active = True
     course.save()
-make_course_active.short_description = "Make course Active"
+activate_course.short_description = "Activate selected courses"
+
+def deactivate_course(modeladmin, request, queryset):
+  for course in queryset:
+    course.active = False
+    course.save()
+deactivate_course.short_description = "Deactivate selected course"
 
 
 admin.site.register(Category)
@@ -24,7 +30,7 @@ admin.site.register(Category)
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ("name", "course_type", "category", "active")
-    actions = [make_course_active, ]
+    actions = [activate_course, deactivate_course ]
     list_filter = ('course_type', 'category', 'active')
     prepopulated_fields = {'slug': ('name',)}
     
