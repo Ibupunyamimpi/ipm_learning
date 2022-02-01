@@ -12,13 +12,22 @@ admin.site.index_title  =  "IPM Admin"
 # admin.site.unregister(ContentRecord)
 # admin.site.unregister(QuizRecord)
 
+def make_course_active(modeladmin, request, queryset):
+  for course in queryset:
+    course.active = True
+    course.save()
+make_course_active.short_description = "Make course Active"
+
+
 admin.site.register(Category)
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ("name", "course_type", "category", "active")
+    actions = [make_course_active, ]
     list_filter = ('course_type', 'category', 'active')
     prepopulated_fields = {'slug': ('name',)}
+    
 
     # def view_content_link(self, obj):
     #     count = obj.pcontent_set.count()
