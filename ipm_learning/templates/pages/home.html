@@ -55,7 +55,7 @@
     </div>
     <div class="flex flex-wrap -mx-4 -mb-16">
       <div class="w-full lg:w-1/2 px-4 mb-16">
-        <div class="flex h-96 mb-10">
+        <div class="flex h-90 mb-10">
           <img class="w-full h-full object-cover rounded-xl" src="{{ next_event.thumbnail.url}}" alt=""></div>
         <span class="inline-block mb-4 text-xs text-gray-500">{{ next_event.event_datetime}}</span>
         <h2 class="mb-4 text-3xl font-semibold font-heading">{{ next_event.name }}</h2>
@@ -116,7 +116,7 @@
       {% for t in testimonials %}
         <div class="w-full md:w-1/2 lg:w-1/3 p-3">
           <div class="border p-6 rounded-xl">
-            <p class="mb-10 text-xl">{{ t.story }}</p>
+            <p class="mb-10 text-ll">{{ t.story }}</p>
             <img class="mb-6 h-12 w-12 object-cover object-top rounded-full" src="{{ t.profile_pic.url }}"><p class="mb-2 text-2xl font-semibold font-heading">{{ t.name }}</p>
             <p class="text-gray-500">{{ t.title }}</p>
           </div>
