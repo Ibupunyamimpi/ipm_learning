@@ -9,8 +9,8 @@ class Testimonial(models.Model):
     profile_pic = models.ImageField(upload_to="profile/")
     story = models.TextField()
     
-def __str__(self):
-        return self.name
+    def __str__(self):
+            return self.name
     
 
 class TeamMember(models.Model):
@@ -19,5 +19,13 @@ class TeamMember(models.Model):
     profile_pic = models.ImageField(upload_to="profile/")
     story = models.TextField()
     
-def __str__(self):
-        return self.name
+    def __str__(self):
+            return self.name
+    
+
+class PageContent(models.Model):
+    page_title = models.CharField(max_length=100)
+    text_content = models.TextField()
+    
+    def __str__(self):
+            return self.page_title

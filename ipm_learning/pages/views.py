@@ -4,12 +4,21 @@ from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
 from ipm_learning.content.models import Course
-from .models import Testimonial, TeamMember
+from .models import Testimonial, TeamMember, PageContent
 from django.conf import settings
 from mailchimp_marketing import Client
 from mailchimp_marketing.api_client import ApiClientError
 
 # Create your views here.
+
+class AboutPageView(generic.TemplateView):
+    template_name = 'pages/about.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_content'] = PageContent.objects.get(page_title='About')
+        return context
+
 
 class HomePageView(generic.TemplateView):
     template_name = 'pages/home.html'

@@ -11,17 +11,29 @@ from ipm_learning.order.forms import AddToCartForm
 
 import datetime
 
-class CourseListView(generic.ListView):
-    template_name = "content/course_list.html"
-    queryset = Category.objects.all()
-    context_object_name = "courses"
+# class CourseListView(generic.ListView):
+#     template_name = "content/course_list.html"
+#     queryset = Category.objects.all()
+#     context_object_name = "courses"
     
 class EventListView(generic.ListView):
     template_name = "content/event_list.html"
     queryset = Course.objects.filter(
         (Q(course_type="Event") | Q(course_type="Bootcamp")) & Q(active=True)
     ).order_by('event_datetime')
-    context_object_name = "events"
+    context_object_name = "events"  
+
+class CourseListView(generic.ListView):
+    template_name = "content/course_list.html"
+    queryset = Category.objects.all()
+    context_object_name = "courses"
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseListView, self).get_context_data(**kwargs)
+        context['events'] = Course.objects.filter(
+            (Q(course_type="Event") | Q(course_type="Bootcamp")) & Q(active=True)
+        ).order_by('event_datetime')
+        return context
 
 class CourseDetailView(generic.FormView):
     template_name = "content/course_detail.html"
