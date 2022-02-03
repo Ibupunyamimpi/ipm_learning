@@ -1,71 +1,24 @@
 {% extends "base.html" %}
 
+{% load blog_extras %}
+{% load filter_tag %}
+
 {% block content %}
-<script defer src="https://unpkg.com/alpinejs@3.4.1/dist/cdn.min.js"></script>
 
-<div class="bg-gray-100 text-gray-800" x-data="{ selected: 'option-1' }">
-    <nav class="bg-gray-300">
-      <ul class="flex">
-        <li class="px-4 py-2" x-bind:class="{ 'bg-gray-100': selected === 'option-1' }">
-          <a href="#option-1" x-on:click="selected = 'option-1'">Option 1</a>
-        </li>
-        <li class="px-4 py-2" x-bind:class="{ 'bg-gray-100': selected === 'option-2' }">
-          <a href="#option-2" x-on:click="selected = 'option-2'">Option 2</a>
-        </li>
-        <li class="px-4 py-2" x-bind:class="{ 'bg-gray-100': selected === 'option-3' }">
-          <a href="#option-3" x-on:click="selected = 'option-3'">Option 3</a>
-        </li>
-      </ul>
-    </nav>
 
-    <div class="p-4" x-show.transition.in.opacity="selected === 'option-1'">
-      <h2 class="text-xl mb-4">Here, you have the content of <strong>Option 1</strong></h2>
-      <p class="mb-2">Qui ipsorum...</p>
-    </div>
 
-    <div class="p-4" x-show.transition.in.opacity="selected === 'option-2'">
-      <h2 class="text-xl mb-4">Here, <strong>Option 2</strong> contents are shown</h2>
-      <p class="mb-2">Qui ipsorum...</p>
-    </div>
 
-    <div class="p-4" x-show.transition.in.opacity="selected === 'option-3'">
-      <h2 class="text-xl mb-4">And here, only <strong>Option 3</strong> contents should be displayed</h2>
-      <p>Qui ipsorum...</p>
-    </div>
+<div class="max-w-2xl mx-auto">
+  <div class=" prose lg:prose-lg">
+    <p class="leading-loose text-gray-500">
+        {{ page_content.text_content|convert_markdown|safe }}
+    </p>
   </div>
+</div>
 
-<br>
 
-<div class="bg-gray-100 text-gray-800" x-data="{ selected: 'option-1' }">
-
-    <div class="p-4" x-show.transition.in.opacity="selected === 'option-1'">
-      <h2 class="text-xl mb-4">Here, you have the content of <strong>Option 1</strong></h2>
-      <p class="mb-2">Qui ipsorum...</p>
-    </div>
-
-    <div class="p-4" x-show.transition.in.opacity="selected === 'option-2'">
-      <h2 class="text-xl mb-4">Here, <strong>Option 2</strong> contents are shown</h2>
-      <p class="mb-2">Qui ipsorum...</p>
-    </div>
-
-    <div class="p-4" x-show.transition.in.opacity="selected === 'option-3'">
-      <h2 class="text-xl mb-4">And here, only <strong>Option 3</strong> contents should be displayed</h2>
-      <p>Qui ipsorum...</p>
-    </div>
-    <nav class="bg-gray-300">
-      <ul class="flex">
-        <li class="px-4 py-2" x-bind:class="{ 'bg-gray-100': selected === 'option-1' }">
-          <a href="#option-1" x-on:click="selected = 'option-1'">Option 1</a>
-        </li>
-        <li class="px-4 py-2" x-bind:class="{ 'bg-gray-100': selected === 'option-2' }">
-          <a href="#option-2" x-on:click="selected = 'option-2'">Option 2</a>
-        </li>
-        <li class="px-4 py-2" x-bind:class="{ 'bg-gray-100': selected === 'option-3' }">
-          <a href="#option-3" x-on:click="selected = 'option-3'">Option 3</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
 {% endblock content %}
 
- 
+<!-- <article class="prose">  
+  {{ page_content.text_content|convert_markdown|safe }}
+</article> -->

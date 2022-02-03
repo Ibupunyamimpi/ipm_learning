@@ -8,8 +8,8 @@
     <span class="text-blue-400 font-semibold">Untuk Ibu yang berani <b>Bermimpi</b></span>
     <h2 class="mt-8 mb-8 lg:mb-12 text-4xl lg:text-6xl font-semibold">Sekarang saatnya menjadi versi terbaik diri Ibu</h2>
     <p class="max-w-3xl mx-auto mb-8 lg:mb-12 text-xl text-gray-500">Belajar Bisnis, Marketing dan Pengembangan diri. Berkumpul dengan <b>Ibupreneur</b> lainnya untuk mencapai mimpi bersama-sama.</p>
-    <a class="relative z-10 inline-block w-full md:w-auto mb-2 md:mb-0 px-8 py-4 mr-4 text-sm font-medium leading-normal bg-red-400 hover:bg-red-300 text-white rounded transition duration-200" href="{% url 'content:event-list' %}">Mulai perjalanan ibu</a>
-    <a class="relative z-10 inline-block w-full md:w-auto mb-2 md:mb-0 px-8 py-4 mr-4 text-sm font-medium leading-normal hover:text-red-500 text-red-400 border-red-400 rounded border" href="{% url 'content:course-list' %}">Mulai perjalanan ibu</a>
+    <a class="relative z-10 inline-block w-full md:w-auto mb-2 md:mb-0 px-8 py-4 mr-4 text-sm font-medium leading-normal bg-red-400 hover:bg-red-300 text-white rounded transition duration-200" href="{% url 'content:course-list' %}">Mulai perjalanan ibu</a>
+    <!-- <a class="relative z-10 inline-block w-full md:w-auto mb-2 md:mb-0 px-8 py-4 mr-4 text-sm font-medium leading-normal hover:text-red-500 text-red-400 border-red-400 rounded border" href="{% url 'content:course-list' %}">Mulai perjalanan ibu</a> -->
   </div>
   <div class="max-w-6xl px-4 mx-auto">
     <div class="flex flex-wrap -mx-4">
@@ -48,7 +48,8 @@
 
 </section>
 
-<section class="relative py-20"><div class="container px-4 mx-auto">
+<section class="relative py-20">
+  <div class="container px-4 mx-auto mb-16">
     <div class="max-w-2xl mx-auto mb-20 text-center">
       <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Kursus untuk Ibu</h2>
       <p class="text-xl text-gray-500">Video belajar yang dibuat khusus untuk Ibu meraih mimpi. Bisa diakses kapan saja dan dimana saja. Jadi, ibu mau belajar apa?</p>
@@ -77,6 +78,8 @@
       
     </div>
   </div>
+  <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'content:course-list' %}">View More Events</a></div>
+  </div>
 </section>
 
 <section class="relative py-20"><div class="container px-4 mx-auto">
@@ -102,7 +105,7 @@
       {% endfor %}
 
     </div>
-    <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="#">View More Articles</a></div>
+    <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'content:course-list' %}#courses">View More Courses</a></div>
   </div>
 </section>
 
