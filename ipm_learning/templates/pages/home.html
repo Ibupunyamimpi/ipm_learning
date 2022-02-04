@@ -51,27 +51,30 @@
 <section class="relative py-20">
   <div class="container px-4 mx-auto mb-16">
     <div class="max-w-2xl mx-auto mb-20 text-center">
-      <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Kursus untuk Ibu</h2>
-      <p class="text-xl text-gray-500">Video belajar yang dibuat khusus untuk Ibu meraih mimpi. Bisa diakses kapan saja dan dimana saja. Jadi, ibu mau belajar apa?</p>
-    </div>
+      <span class="text-s text-blue-400 font-semibold">Acara untuk Ibu</span>
+      <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Bertemu dengan Komunitas</h2>
+      <p class="text-xl text-gray-500">Bertemu langsung dengan Tutor dan sesama Ibupreneur. Belajar dan meraih mimpi menjadi lebih ringan karena dilakukan bersama support system yang tepat. Ikuti pilihan acara di bawah ini, bu!</p>
+      </div>
     <div class="flex flex-wrap -mx-4 -mb-16">
       <div class="w-full lg:w-1/2 px-4 mb-16">
         <div class="flex h-90 mb-10">
-          <img class="w-full h-full object-cover rounded-xl" src="{{ next_event.thumbnail.url}}" alt=""></div>
-        <span class="inline-block mb-4 text-xs text-gray-500">{{ next_event.event_datetime}}</span>
+          <a href="{% url 'content:course-detail' next_event.slug %}">
+          <img class="w-full h-full object-cover rounded-xl" src="{{ next_event.thumbnail.url}}" alt=""></a></div>
+        <span class="inline-block mb-4 text-s font-bold text-gray-600">{{ next_event.event_datetime}}</span>
         <h2 class="mb-4 text-3xl font-semibold font-heading">{{ next_event.name }}</h2>
         <p class="mb-4 text-xl text-gray-500">{{ next_event.description }}</p>
-        <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' next_event.slug %}">Learn more</a>
+        <a class="text-lg font-medium text-red-400 underline hover:no-underline" href="{% url 'content:course-detail' next_event.slug %}">Mulai Belajar</a>
       </div>
 
       {% for event in remaining_events %}
         <div class="w-full lg:w-1/2 px-4 mb-16">
           <div class="flex h-90 mb-10">
-            <img class="w-full h-full object-cover rounded-xl" src="{{ event.thumbnail.url}}" alt=""></div>
-          <span class="inline-block mb-4 text-xs text-gray-500">{{ event.event_datetime}}</span>
+            <a href="{% url 'content:course-detail' event.slug %}">
+            <img class="w-full h-full object-cover rounded-xl" src="{{ event.thumbnail.url}}" alt=""></a></div>
+          <span class="inline-block mb-4 text-s font-bold text-gray-600">{{ event.event_datetime}}</span>
           <h2 class="mb-4 text-3xl font-semibold font-heading">{{ event.name }}</h2>
           <p class="mb-4 text-xl text-gray-500">{{ event.description }}</p>
-          <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' event.slug %}">Learn more</a>
+          <a class="text-lg font-medium text-red-400 underline hover:no-underline" href="{% url 'content:course-detail' event.slug %}">Mulai Belajar</a>
         </div>
       {% endfor %}
       
@@ -84,18 +87,17 @@
 
 <section class="relative py-20"><div class="container px-4 mx-auto">
     <div class="max-w-3xl mb-20 mx-auto text-center">
-      <span class="text-xs text-blue-400 font-semibold">Acara untuk Ibu</span>
-      <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Bertemu dengan Komunitas</h2>
-      <p class="text-xl text-gray-500">Bertemu langsung dengan Tutor dan sesama Ibupreneur. Belajar dan meraih mimpi menjadi lebih ringan karena dilakukan bersama support system yang tepat. Ikuti pilihan acara di bawah ini, bu!</p>
+      <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Kursus untuk Ibu</h2>
+      <p class="text-xl text-gray-500">Video belajar yang dibuat khusus untuk Ibu meraih mimpi. Bisa diakses kapan saja dan dimana saja. Jadi, ibu mau belajar apa?</p>
     </div>
     <div class="flex flex-wrap -m-3 mb-16">
 
       {% for course in courses %}
         <div class="w-full md:w-1/2 lg:w-1/3 p-3">
           <div class="p-6 border rounded-xl">
-            <div class="relative h-52 mb-6">
+            <div class="relative h-62 mb-6">
               <span class="absolute top-0 right-0 mt-4 mr-4 text-xs text-white px-2 py-1 font-semibold bg-gray-600 bg-opacity-50 rounded-md uppercase">{{ course.category }}</span>
-              <img class="w-full h-full object-cover rounded-lg" src="{{ course.thumbnail.url}}" alt=""></div>
+              <a href="{% url 'content:course-detail' course.slug %}"><img class="w-full h-full object-cover rounded-lg" src="{{ course.thumbnail.url}}" alt=""></a></div>
             <span class="inline-block mb-4 text-xs text-gray-500">{{ course.category }}</span>
             <h2 class="mb-4 text-2xl font-semibold font-heading">{{ course.name }}</h2>
             <p class="mb-4 text-gray-500 leading-relaxed">{{ course.description }}</p>
@@ -111,7 +113,7 @@
 
 <section class="relative py-20"><div class="container px-4 mx-auto">
     <div class="max-w-2xl mx-auto mb-12 lg:mb-20 text-center">
-      <span class="text-xs text-blue-400 font-semibold">Testimonial</span>
+      <span class="text-s text-blue-400 font-semibold">Testimonial</span>
       <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Dengar Cerita Ibu</h2>
       <p class="text-xl text-gray-500">Kumpulan testimoni para Ibupreneur yang meraih mimpinya di Ibu Punya Mimpi</p>
     </div>
@@ -130,7 +132,7 @@
   </div>
 </section>
 
-<section class="relative py-20"><div class="container px-5 mx-auto">
+<!-- <section class="relative py-20"><div class="container px-5 mx-auto">
     <div class="max-w-3xl mx-auto mb-12 lg:mb-20 text-center">
       <span class="text-xs text-blue-400 font-semibold">What's new at Shuffle</span>
       <h2 class="mt-8 mb-10 text-4xl font-semibold font-heading">Team</h2>
@@ -157,7 +159,7 @@
       
     </div>
   </div>
-</section>
+</section> -->
 
 <section class="py-20">
   <div class="container px-4 mx-auto">
