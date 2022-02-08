@@ -28,7 +28,7 @@ class HomePageView(generic.TemplateView):
         
         events = Course.objects.filter(
             (Q(course_type="Event") | Q(course_type="Bootcamp")) & Q(active=True)
-            ).order_by('event_datetime')[:5]
+            ).order_by('event_datetime')[:3]
         
         courses = Course.objects.filter(
             Q(course_type="Course") & Q(active=True)
