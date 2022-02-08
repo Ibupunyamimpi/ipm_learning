@@ -213,3 +213,9 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# Mailchimp
+# ------------------------------------------------------------------------------
+MAILCHIMP_API_KEY = env("MAILCHIMP_API_KEY")
+MAILCHIMP_DATA_CENTER = env("MAILCHIMP_DATA_CENTER")
+MAILCHIMP_EMAIL_LIST_ID = env("MAILCHIMP_EMAIL_LIST_ID")
