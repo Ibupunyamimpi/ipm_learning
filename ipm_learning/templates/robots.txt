@@ -1,5 +1,5 @@
 User-Agent: *
-Disallow: /admin/
+Disallow: /ipm-admin/
 
 # Sitemap files
 Sitemap: {% url 'django.contrib.sitemaps.views.sitemap' %}
