@@ -15,7 +15,7 @@ class UserAdmin(auth_admin.UserAdmin):
     add_form = UserCreationForm
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("name", "email")}),
+        (_("Personal info"), {"fields": ("name", "email", "phone_number")}),
         (
             _("Permissions"),
             {
@@ -30,5 +30,10 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+    
+    add_fieldsets = (
+        (None, {
+            'fields': ('phone_number'),}),)
+    
     list_display = ["username", "name", "is_superuser"]
     search_fields = ["name"]
