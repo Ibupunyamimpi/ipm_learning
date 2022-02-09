@@ -6,4 +6,7 @@ from .models import PageContent, PromotedCourse, TeamMember, Testimonial
 admin.site.register(Testimonial)
 admin.site.register(TeamMember)
 admin.site.register(PageContent)
-admin.site.register(PromotedCourse)
+
+@admin.register(PromotedCourse)
+class PromotedCourseAdmin(admin.ModelAdmin):
+    list_display = ("name", "id", "course")

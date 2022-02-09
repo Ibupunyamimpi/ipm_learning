@@ -34,7 +34,7 @@ class PageContent(models.Model):
         
 class PromotedCourse(models.Model):
     name = models.CharField(max_length=100)
-    course = models.OneToOneField(Course, on_delete=models.RESTRICT)
+    course = models.OneToOneField(Course, null=True, blank=True, on_delete=models.SET_NULL,)
     
     def __str__(self):
             return self.name
