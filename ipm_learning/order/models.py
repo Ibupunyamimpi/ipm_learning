@@ -54,7 +54,7 @@ class Order(models.Model):
 
     @property
     def reference_number(self):
-        return f"ORDER-{self.pk}-{self.user.email}"
+        return f"ORDER-{self.pk}"
 
     def get_order_item_count(self):
         return self.order_items.count()

@@ -35,5 +35,5 @@ class UserAdmin(auth_admin.UserAdmin):
         (None, {
             'fields': ('phone_number'),}),)
     
-    list_display = ["username", "name", "is_superuser"]
+    list_display = ["username", "name", "email", "is_superuser"]
     search_fields = ["name"]
