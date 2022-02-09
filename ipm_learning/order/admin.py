@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Coupon, Order, OrderItem, Payment, CourseRecord, ContentRecord, QuizRecord
+from .models import CourseCoupon, Coupon, Order, OrderItem, Payment, CourseRecord, ContentRecord, QuizRecord
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -11,9 +11,13 @@ class OrderItemAdmin(admin.ModelAdmin):
   list_display = ('order', 'course')
   list_filter = ('order', 'course')
 
-@admin.register(Coupon)
-class CouponAdmin(admin.ModelAdmin):
-  list_display = ('code','amount')
+# @admin.register(Coupon)
+# class CouponAdmin(admin.ModelAdmin):
+#   list_display = ('code','amount')
+  
+@admin.register(CourseCoupon)
+class CourseCouponAdmin(admin.ModelAdmin):
+  list_display = ('code','course','amount','remaining_coupons')
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):

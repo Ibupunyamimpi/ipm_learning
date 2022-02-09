@@ -8,7 +8,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.views import generic
 from .forms import CouponForm
-from .models import OrderItem, Order, Payment, Coupon
+from .models import OrderItem, Order, Payment, Coupon, CourseCoupon
 from ipm_learning.content.models import Course
 from .utils import get_or_set_order_session
 from django.core.exceptions import ObjectDoesNotExist
@@ -28,25 +28,38 @@ class CartView(generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)
-        if request.POST.get('promo-code'):
+        
+        if not request.user.is_authenticated:
+                return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        elif request.POST.get('promo-code'):
             promo_code = request.POST.get('promo-code')
             try:
-                order.coupon = Coupon.objects.get(code=promo_code)
-                order.save()
-                messages.success(self.request, "Successfully added coupon")
-                return redirect("order:summary")
+                coupon = CourseCoupon.objects.get(code=promo_code)
+                if coupon.remaining_coupons < 1:
+                    messages.info(request, "This coupon is sold out")
+                    return redirect("order:summary")
+                elif order.order_items.filter(course=coupon.course).exists():
+                    order.course_coupon = coupon
+                    order.save()
+                    messages.success(self.request, "Successfully added coupon")
+                    return redirect("order:summary")
+                else:
+                    messages.info(request, "This coupon cannot be applied to any courses in your cart")
+                    return redirect("order:summary")
             except ObjectDoesNotExist:
                 messages.info(request, "This coupon does not exist")
                 return redirect("order:summary")
         else:
-            messages.info(self.request, "Unknown Error")
-            return redirect("order:summary")
+            # messages.info(self.request, "Unknown Error")
+            return redirect("order:payment")
     
 
 class RemoveFromCartView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
         order_item.delete()
+        if order_item.order.course_coupon:
+            order_item.order.course_coupon.delete()
         return redirect("order:summary")
 
 class PaymentView(LoginRequiredMixin, generic.TemplateView):

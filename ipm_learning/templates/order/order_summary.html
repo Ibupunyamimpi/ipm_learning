@@ -93,11 +93,11 @@
                           </form>
                           
                     </div>
-                    {% if order.coupon %}
+                    {% if order.course_coupon %}
                           <div class="border-t mt-8">
                             <div class="flex font-semibold justify-between pt-6 text-sm">
-                              <span>PROMO '{{ order.coupon.code }}'</span>
-                              <span>-{{ order.coupon.get_amount }}</span>
+                              <span>PROMO '{{ order.course_coupon.code }}'</span>
+                              <span>-{{ order.course_coupon.get_amount }}</span>
                             </div>
                           </div>
                     {% endif %}
@@ -105,8 +105,12 @@
                         <h3 class="text-xl font-semibold leading-tight text-gray-800">Total Price</h3>
                         <p class="text-2xl font-semibold text-gray-800">{{ order.get_order_total }}</p>
                     </div>
-                    <a href="{% url 'order:payment' %}"><button class="focus:outline-none hover: focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 rounded">Checkout</button></a>
+                    <!-- <a href="{% url 'order:payment' %}"><button class="focus:outline-none hover: focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 rounded">Checkout</button></a> -->
                     <!-- <a href="{% url 'order:payment' %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Checkout</a> -->
+                    <form method="post" name="checkout">
+                        {% csrf_token %}
+                        <button class="w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 rounded">Checkout</button>
+                    </form>
                 </div>
             </div>
         </div>

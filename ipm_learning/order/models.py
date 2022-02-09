@@ -46,8 +46,8 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(blank=True, null=True)
     paid = models.BooleanField(default=False)
-    coupon = models.ForeignKey(
-        'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
+    course_coupon = models.ForeignKey(
+        'CourseCoupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.reference_number
@@ -67,8 +67,8 @@ class Order(models.Model):
 
     def get_raw_order_total(self):
         total = self.get_raw_order_subtotal()
-        if self.coupon:
-            total -= self.coupon.amount
+        if self.course_coupon:
+            total -= self.course_coupon.amount
         return total
 
     def get_order_subtotal(self):
@@ -114,6 +114,22 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.code
+    
+    def get_amount(self):
+        return "Rp {:,.0f}".format(self.amount).replace(',','.')
+    
+class CourseCoupon(models.Model):
+    code = models.CharField(max_length=15)
+    amount = models.PositiveIntegerField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_coupons')
+    remaining_coupons = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.code
+
+    @property
+    def reference_number(self):
+        return f"COURSE-COUPON-{self.course}-{self.code}"
     
     def get_amount(self):
         return "Rp {:,.0f}".format(self.amount).replace(',','.')
@@ -186,6 +202,11 @@ def update_order_status(sender, instance, created, **kwargs):
         order.paid = True
         order.ordered_date = datetime.datetime.now()
         order.save()
+        
+        if order.course_coupon:
+            coupon = order.course_coupon
+            coupon.remaining_coupons -= 1
+            coupon.save()
         
         html_message = render_to_string('account/email/payment_success.html', {'context': 'order'})
         plain_message = strip_tags(html_message)
