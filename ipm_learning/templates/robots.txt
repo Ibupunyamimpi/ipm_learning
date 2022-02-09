@@ -2,4 +2,4 @@ User-Agent: *
 Disallow: /ipm-admin/
 
 # Sitemap files
-Sitemap: {% url 'django.contrib.sitemaps.views.sitemap' %}
+Sitemap: https://ibupunyamimpi.org/sitemap.xml
