@@ -1,4 +1,5 @@
 from django.db import models
+from ipm_learning.content.models import Course
 
 # Create your models here.
 
@@ -29,3 +30,11 @@ class PageContent(models.Model):
     
     def __str__(self):
             return self.page_title
+        
+        
+class PromotedCourse(models.Model):
+    name = models.CharField(max_length=100)
+    course = models.OneToOneField(Course, on_delete=models.RESTRICT)
+    
+    def __str__(self):
+            return self.name
