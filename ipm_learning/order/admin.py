@@ -27,7 +27,7 @@ class PaymentAdmin(admin.ModelAdmin):
 @admin.register(CourseRecord)
 class CourseRecordAdmin(admin.ModelAdmin):
   fields = ('user','course')
-  list_display = ('course', 'user', 'created_at')
+  list_display = ('course', 'user', 'user_email', 'created_at')
   list_filter = ('course', 'user')
 
 @admin.register(ContentRecord)

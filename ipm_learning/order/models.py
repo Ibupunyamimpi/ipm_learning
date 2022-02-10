@@ -4,6 +4,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
 from django.core.mail import send_mail
+from django.contrib import admin
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import datetime
@@ -152,6 +153,11 @@ class CourseRecord(models.Model):
         return f"COURSE-RECORD-{self.course}-{self.user}"
         # return f"COURSE-RECORD-{self.pk}-{self.course.slug}-{self.user.email}"
 
+    @property
+    @admin.display()
+    def user_email(self):
+        return self.user.email
+    
     class Meta:
         unique_together = ('user', 'course',)
 
