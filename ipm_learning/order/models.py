@@ -1,5 +1,5 @@
 from django.db import models
-from ipm_learning.content.models import Course, Content, Event, Video, Text, Quiz
+from ipm_learning.content.models import Course, Content, Event, Video, Text, Quiz, QuizQuestion
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
@@ -8,6 +8,7 @@ from django.contrib import admin
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import datetime
+
 
 
 class OrderItem(models.Model):
@@ -253,9 +254,11 @@ def create_content_record(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Quiz)
 def add_content_record(sender, instance, created, **kwargs):
     new_content = instance
+    
     for course_record in new_content.course.course_records.all():
         if not ContentRecord.objects.filter(course_record=course_record,content=new_content).exists():
-            print(course_record)
+            print("New content created: ", new_content)
+            print("updating ", course_record)
             if new_content.content_type == 'Quiz':
                 content_record = QuizRecord(course_record=course_record,content=new_content)
                 content_record.quiz_questions = new_content.quiz_questions.count()
@@ -263,8 +266,10 @@ def add_content_record(sender, instance, created, **kwargs):
             else:
                 content_record = ContentRecord(course_record=course_record,content=new_content)
             content_record.save()
+            print("Added content record: ", content_record)
             course_record.module_count = course_record.content_records.count()
             course_record.save()
+            print("Finished updating course record: ", course_record)
 
 @receiver(post_delete, sender=Content)
 @receiver(post_delete, sender=Video)
@@ -275,4 +280,17 @@ def recount_course_record_modules(sender, instance, **kwargs):
     content = instance
     for course_record in content.course.course_records.all():
         course_record.module_count = course_record.content_records.count()
+        course_record.modules_complete = course_record.content_records.filter(complete=True).count()
         course_record.save()
+        
+@receiver(post_save, sender=QuizQuestion)
+def update_quiz_records(sender, instance, **kwargs):
+    qq = instance
+    quiz = qq.quiz
+    quiz_records = QuizRecord.objects.filter(content=quiz)
+    
+    for qr in quiz_records:
+        qr.quiz_questions = quiz.quiz_questions.count()
+        qr.save()
+        print("Updated question count on ", qr)
+    
