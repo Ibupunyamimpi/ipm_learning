@@ -27,7 +27,7 @@ class CourseRecordResource(resources.ModelResource):
 @admin.register(CourseRecord)
 class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
   fields = ('user','course')
-  list_display = ('course', 'user', 'user_email', 'created_at')
+  list_display = ('course', 'user', 'user_email', 'created_at', 'module_count', 'modules_complete')
   list_filter = ('course', 'user')
   resource_class = CourseRecordResource
   
@@ -69,5 +69,5 @@ class ContentRecordAdmin(admin.ModelAdmin):
 
 @admin.register(QuizRecord)
 class QuizRecordAdmin(admin.ModelAdmin):
-  list_display = ('course_record','content', 'complete')
+  list_display = ('course_record','content', 'complete', 'quiz_questions', 'quiz_correct_ans', 'quiz_attempts')
   list_filter = ('course_record','content', 'complete')
