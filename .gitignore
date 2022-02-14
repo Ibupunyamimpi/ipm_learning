@@ -276,6 +276,7 @@ ipm_learning/media/
 .env
 .envs/*
 !.envs/.local/
+.env-prod-test
 
 # Other
 db.sqlite3
