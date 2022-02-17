@@ -35,7 +35,7 @@ class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-  list_display = ('reference_number', 'user', 'ordered_date', 'paid')
+  list_display = ('reference_number', 'user', 'ordered_date', 'get_raw_order_total', 'paid')
   list_filter = ('user', 'ordered_date', 'paid') 
 
 @admin.register(OrderItem)

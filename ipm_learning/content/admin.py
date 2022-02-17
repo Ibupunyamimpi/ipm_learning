@@ -29,7 +29,7 @@ admin.site.register(Category)
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("name", "course_type", "category", "active")
+    list_display = ("name", "course_type", "category", "price", "discount_pct","get_discount_price","active")
     actions = [activate_course, deactivate_course ]
     list_filter = ('course_type', 'category', 'active')
     prepopulated_fields = {'slug': ('name',)}
