@@ -29,10 +29,7 @@
                                     <p class="text-2xl font-semibold leading-normal text-gray-800 ">{{ item.course.name }}</p>
                                 </div>
                                 <div class="flex justify-end">
-                                    <a aria-label="Cancel product" href="{% url 'order:remove-from-cart' item.id %}" class="mt-2 focus:outline-none focus:ring-2 focus:ring-gray-800 rounded">
-                                         <img src="{% static 'images/shopping-cart-3-svg1.svg' %}" alt="cross" />
-                                         <!-- <img class="dark:block hidden"  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/shopping-cart-3-svg1dark.svg" alt="cross" /> -->
-                                    </a>
+                                    
                                 </div>
                             </div>
                             {% if item.course.discount_pct > 0 %}
@@ -41,11 +38,19 @@
                             {% endif %} 
                             <div class="mt-20 flex w-full items-center justify-between">
                                 <div class="w-full flex flex-col h-full md:flex-row justify-between">
+                                    
                                     <div class="flex justify-start">
                                         
                                     </div>
                                     <div class="hidden md:block flex justify-end">
+                                        
                                         <p class="md:mt-3 text-gray-800 text-right"><span class="text-xl leading-tight text-gray-800"></span><span class="text-xl font-medium">{{ item.course.get_discount_price }}</span></p>
+                                        <div class="flex justify-end">
+                                            <a aria-label="Cancel product" href="{% url 'order:remove-from-cart' item.id %}" class="mt-2 focus:outline-none focus:ring-2 focus:ring-gray-800 rounded">
+                                                <img src="{% static 'images/shopping-cart-3-svg1.svg' %}" alt="cross" />
+                                                <!-- <img class="dark:block hidden"  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/shopping-cart-3-svg1dark.svg" alt="cross" /> -->
+                                           </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -63,6 +68,7 @@
                             <p class="mt-4 w-11/12 text-base leading-4 text-red-600">Discount: {{ item.course.get_discount_pct }}</p>
                         {% endif %} 
                         <div class="flex items-center justify-end mt-6">
+                            
                             <div>
                                 <p class="mt:mt-3 text-gray-800 text-right"><span class="text-xl leading-5 text-gray-800"></span><span class="text-xl leading-5 font-medium">{{ item.course.get_discount_price }}</span></p>
                             </div>
