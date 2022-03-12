@@ -30,8 +30,6 @@ class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
   list_display = ('course', 'user', 'user_email', 'created_at', 'module_count', 'modules_complete')
   list_filter = ('course', 'user')
   resource_class = CourseRecordResource
-  
-  
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
