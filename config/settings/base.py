@@ -278,6 +278,7 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_ADAPTER = "ipm_learning.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "ipm_learning.users.adapters.SocialAccountAdapter"
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 
 # Your stuff...
