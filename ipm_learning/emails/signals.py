@@ -6,30 +6,43 @@ from django.middleware.csrf import get_token
 from django.db.models.signals import post_save
 from django.db import transaction
 
-from ipm_learning.order.models import CourseRecord
-from .models import CourseEmail, GroupEmail
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
-# Helper func, ensures instance is committed before calling post_save
+from ipm_learning.order.models import CourseRecord
+# from ipm_learning.emails.models import CourseEmail, GroupEmail
+
+# Helper method ensures instance is committed before calling post_save
 def on_transaction_commit(func):
     def inner(*args, **kwargs):
         transaction.on_commit(lambda: func(*args, **kwargs))
     return inner
 
+def email_sender(email, user):
+    html_message = render_to_string('emails/email_template.html', {'context': 'email.text_content'})
+    plain_message = strip_tags(html_message)
+    subject= email.subject
+    from_email= None
+    to = user.email
 
-@receiver(post_save, sender=CourseEmail)
-def send_course_email_now(sender, instance, created, **kwargs):
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+
+# @receiver(post_save, sender=CourseEmail)
+# def send_course_email_now(sender, instance, created, **kwargs):
     
-    email = instance
-    if email.send_now:
-        print(email.context)
+#     email = instance
+#     if email.send_now:
+#         print(email.context)
         
         
-@receiver(post_save, sender=GroupEmail)
-def send_course_email_now(sender, instance, created, **kwargs):
+# @receiver(post_save, sender=GroupEmail)
+# def send_group_email_now(sender, instance, created, **kwargs):
     
-    email = instance
-    if email.send_now:
-        print(email.context)
+#     email = instance
+#     if email.send_now:
+#         print(email.context)
 
 
 # Triggers Course Emails
@@ -38,10 +51,11 @@ def send_course_email(sender, instance, created, **kwargs):
     
     if created:
         course_record = instance
+        user = course_record.user
         emails = course_record.course.emails.all()
-
         for email in emails:
-            print(email.text_content)
+            print(email.text_content, user)
+            email_sender(email, user)
 
 
 # Triggers Group Emails
