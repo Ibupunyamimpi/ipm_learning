@@ -90,12 +90,6 @@ class BulkUploadView(TemplateView):
             print('Error While Importing Data: ', e)
             returnmsg = {"status_code": 500}
             
-        # html_message = render_to_string('account/email/payment_success.html', {'context': 'user'})
-        # plain_message = strip_tags(html_message)
-        # subject="Welcome to the new Ibu Punya Mimpi"
-        # from_email=None
-        # to = user.email
 
-        # send_mail(subject, plain_message, from_email, [to], html_message=html_message)
 
         return JsonResponse(returnmsg)

@@ -84,8 +84,9 @@ LOCAL_APPS = [
     "ipm_learning.content.apps.ContentConfig",
     "ipm_learning.order.apps.OrderConfig",
     "ipm_learning.pages.apps.PagesConfig",
-    # Your stuff: custom apps go here
+    "ipm_learning.emails.apps.EmailsConfig",
 ]
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
