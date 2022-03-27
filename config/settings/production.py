@@ -211,8 +211,10 @@ sentry_sdk.init(
     traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
 )
 
-# Your stuff...
+# Xendit
 # ------------------------------------------------------------------------------
+XENDIT_SECRET = env("XENDIT_SECRET")
+XENDIT_CALLBACK_TOKEN = env("XENDIT_CALLBACK_TOKEN")
 
 # Mailchimp
 # ------------------------------------------------------------------------------
