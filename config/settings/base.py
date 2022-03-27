@@ -284,8 +284,8 @@ ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-XENDIT_SECRET = env("XENDIT_SECRET")
-XENDIT_CALLBACK_TOKEN = env("XENDIT_CALLBACK_TOKEN")
+XENDIT_SECRET = env("XENDIT_SECRET", default=123)
+XENDIT_CALLBACK_TOKEN = env("XENDIT_CALLBACK_TOKEN", default=123)
 TAILWIND_APP_NAME = 'theme'
 
 # Mailchimp
