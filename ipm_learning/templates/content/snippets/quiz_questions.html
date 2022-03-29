@@ -55,18 +55,18 @@
     {% endfor %}
     <input type="hidden" name="quiz_record_id" value="{{ request.user|find_content_record_id:content }}">
     <br>
-    <button type="submit" class="bg-transparent hover:bg-gray-500 hover:text-white py-1 px-2 border border-gray-500 hover:border-transparent rounded">Submit</button>
+    <button type="submit" class="bg-transparent hover:bg-gray-500 hover:text-white py-1 px-2 border border-gray-500 hover:border-transparent rounded">Cek Hasil Quiz</button>
   </form>
 </div>
 
 <div id="quiz_results">
 
-<h2 class="text-xl font-medium title-font text-gray-900 mt-5">Results</h2>
-<p>Last Attempt: {{ quiz.quiz_correct_ans }} / {{ quiz.quiz_questions }} correct</p>
-<p>Date: {{ quiz.last_updated_on }} </p>
-<p>Number of Attempts: {{ quiz.quiz_attempts }} </p>
+<h2 class="text-xl font-medium title-font text-gray-900 mt-5">Hasilnya</h2>
+<p>Hasil Terakhir: {{ quiz.quiz_correct_ans }} / {{ quiz.quiz_questions }} benar</p>
+<p>Tanggal: {{ quiz.last_updated_on }} </p>
+<p>Berapa kali mencoba: {{ quiz.quiz_attempts }} </p>
 <br>
-<button onclick="toggleQuiz()" class="bg-transparent hover:bg-gray-500 hover:text-white py-1 px-2 border border-gray-500 hover:border-transparent rounded">Re-take Quiz</button>
+<button onclick="toggleQuiz()" class="bg-transparent hover:bg-gray-500 hover:text-white py-1 px-2 border border-gray-500 hover:border-transparent rounded">Ulangi Quiz-nya</button>
 </div>
 
 {% endwith %}

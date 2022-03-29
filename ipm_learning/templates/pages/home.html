@@ -81,7 +81,7 @@
       
     </div>
   </div>
-  <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'content:course-list' %}">View More Events</a></div>
+  <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'content:course-list' %}">Cek Aktivitas Lainnya</a></div>
   </div>
 </section>
 
@@ -102,14 +102,14 @@
               <span class="inline-block mb-4 text-xs text-gray-500">{{ promo.course.category }}</span>
               <h2 class="mb-4 text-2xl font-semibold font-heading">{{ promo.course.name }}</h2>
               <p class="mb-4 text-gray-500 leading-relaxed">{{ promo.course.description }}</p>
-              <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' promo.course.slug %}">Learn more</a>
+              <a class="text-lg font-medium text-red-500 underline hover:no-underline" href="{% url 'content:course-detail' promo.course.slug %}">Cek Lebih Detail</a>
             </div>
           </div>
         {% endif %}
       {% endfor %}
 
     </div>
-    <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'content:course-list' %}#courses">View More Courses</a></div>
+    <div class="text-center"><a class="px-6 py-4 text-sm text-white font-semibold bg-red-400 hover:bg-red-300 rounded transition duration-200" href="{% url 'content:course-list' %}#courses">Cek Kursus Online Lainnya</a></div>
   </div>
 </section>
 
@@ -166,7 +166,7 @@
 <section class="py-20">
   <div class="container px-4 mx-auto">
     <div class="max-w-2xl mx-auto mb-12 lg:mb-20 text-center">
-      <span class="text-xs text-blue-400 font-semibold">What's new at Shuffle</span>
+      <span class="text-xs text-blue-400 font-semibold">Ngobrol dengan Ibu Mina</span>
       <h2 class="mt-8 mb-10 text-3xl lg:text-4xl font-semibold font-heading">Ibu masih bingung?</h2>
       <p class="text-xl text-gray-500">Hubungi tim kami untuk membantu ibu memilih program belajar yang tepat</p>
     </div>
@@ -187,7 +187,7 @@
       </div>
       <div class="w-full lg:w-1/2 px-4 lg:mb-0">
         <div class="py-12 h-full border text-center rounded-xl">
-          <h3 class="mb-7 text-2xl font-semibold font-heading">Social</h3>
+          <h3 class="mb-7 text-2xl font-semibold font-heading">Follow di Social Media</h3>
           <div class="flex flex-wrap items-end justify-center">
             <a class="inline-flex items-center justify-center w-10 h-10 mr-4 rounded-full bg-gray-50" href="https://www.facebook.com/ibupunyamimpi" target="_blank">
               <img class="" src="{% static 'images/facebook.png' %}" alt="" width="auto">
@@ -230,7 +230,7 @@
           <div class="relative ml-auto flex flex-wrap lg:flex-nowrap">
             <input class="relative w-full mb-4 lg:mb-0 lg:mr-4 py-3 pl-4 text-sm text-gray-500 bg-transparent border border-gray-400 rounded" type="text" name="email" placeholder="email">
             <input type="hidden" name="next" value="{{ request.path }}#email-signup">
-            <span class="absolute top-0 left-0 ml-4 -mt-2 px-1 inline-block bg-white text-gray-500 text-xs">Email Address</span>
+            <span class="absolute top-0 left-0 ml-4 -mt-2 px-1 inline-block bg-white text-gray-500 text-xs">Alamat email</span>
             <button class="w-full lg:w-auto py-4 px-6 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 rounded transition duration-200" type="submit">Berlangganan</button>
           </div>
         </form>
