@@ -4,8 +4,8 @@
   <nav>
     <div class="flex justify-between items-center">
       <ul class="hidden lg:flex lg:mr-auto lg:items-center lg:w-auto lg:space-x-12">
-        <li><a class="text-sm font-medium hover:underline" href="{% url 'content:course-list' %}">Explore</a></li>
-        <li><a class="text-sm font-medium hover:underline" href="{% url 'about' %}">About</a></li>
+        <li><a class="text-sm font-medium hover:underline" href="{% url 'content:course-list' %}">Cek Aktivitas</a></li>
+        <li><a class="text-sm font-medium hover:underline" href="{% url 'about' %}">Cerita Kita</a></li>
       </ul>
       
       <a class="text-lg font-medium object-center" href="{% url 'home' %}">
@@ -21,11 +21,11 @@
     </div>
       <ul class="hidden lg:flex lg:ml-auto lg:items-center lg:w-auto lg:space-x-12">
         {% if request.user.is_authenticated %}
-        <li><a class="text-sm font-medium hover:underline" href="{% url 'content:course-library' %}">Library</a></li>
+        <li><a class="text-sm font-medium hover:underline" href="{% url 'content:course-library' %}">Aktivitasku</a></li>
         <li><a class="text-sm font-medium hover:underline" href="{% url 'users:detail' request.user.username %}">Profile</a></li>
         {% else %}
         <li>
-          <a class="inline-block py-3 px-8 text-sm leading-normal rounded border font-medium" href="{% url 'account_login' %}">Log in</a>
+          <a class="inline-block py-3 px-8 text-sm leading-normal rounded border font-medium" href="{% url 'account_login' %}">Masuk</a>
         </li>
         {% endif %}
         <li>
@@ -57,10 +57,10 @@
       </div>
       <div>
         <ul>
-          <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'content:course-list' %}">Explore</a></a></li>
+          <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'content:course-list' %}">Cek Aktivitas</a></a></li>
           <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'about' %}">About</a></li>
           {% if request.user.is_authenticated %}
-          <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'content:course-library' %}">Library</a></li>
+          <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'content:course-library' %}">Aktivitas Ibu</a></li>
           <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'users:detail' request.user.username %}">Profile</a></li>
           {% endif %}
         </ul>
@@ -68,7 +68,7 @@
       
       <div class="mt-auto">
         {% if not request.user.is_authenticated %}
-        <div class="pt-6"><a class="block mb-2 py-3 text-sm text-center leading-normal rounded border font-medium" href="{% url 'account_login' %}">Log in</a></div>
+        <div class="pt-6"><a class="block mb-2 py-3 text-sm text-center leading-normal rounded border font-medium" href="{% url 'account_login' %}">Masuk</a></div>
         {% endif %}
         <p class="mt-6 mb-4 text-sm text-center text-gray-500">
           <span></span>

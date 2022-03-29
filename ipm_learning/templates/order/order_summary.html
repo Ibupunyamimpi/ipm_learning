@@ -6,7 +6,7 @@
 <div class="container mx-auto"> 
     <div class="py-9 px-4 md:px-6 py-12 w-full">
         <div class="">
-            <h1 class="text-3xl lg:text-4xl leading-4 lg:leading-9 font-semibold text-gray-800 mt-2">Shopping Cart</h1>
+            <h1 class="text-3xl lg:text-4xl leading-4 lg:leading-9 font-semibold text-gray-800 mt-2">Keranjang Belanja</h1>
         </div>
         <div class="flex lg:flex-row flex-col space-y-8 lg:space-y-0">
             <div class="md:w-full">
@@ -34,7 +34,7 @@
                             </div>
                             {% if item.course.discount_pct > 0 %}
                                 <p class="text-base leading-none text-gray-800 mt-4">{{ item.course.get_price }}</p>
-                                <p class="text-base leading-none text-red-600 mt-4">Discount: {{ item.course.get_discount_pct }}</p>
+                                <p class="text-base leading-none text-red-600 mt-4">Diskon: {{ item.course.get_discount_pct }}</p>
                             {% endif %} 
                             <div class="mt-20 flex w-full items-center justify-between">
                                 <div class="w-full flex flex-col h-full md:flex-row justify-between">
@@ -82,7 +82,7 @@
             </div>
             <div class="flex justify-center items-center flex-col-reverse md:flex-row md:mt-28 mt-20 w-full">
                 <div class="w-full md:w-9/12 lg:w-9/12 p-4 md:p-10 bg-gray-50">
-                    <p class="text-2xl font-semibold leading-normal text-gray-800 ">Order Summary</p>
+                    <p class="text-2xl font-semibold leading-normal text-gray-800 ">Total Belanja</p>
                     <!-- <p class="text-base leading-4 lg:leading-none text-gray-600 mt-10">Items: {{ order.get_order_item_count }}</p> -->
                     <div class="flex items-center justify-between mt-14">
                         <h3 class="text-base font-medium leading-none text-gray-800 ">Subtotal</h3>
@@ -92,7 +92,7 @@
                         <form method="post" name="promo-code">
                             {% csrf_token %}
                             <div class="py-5">
-                                <label for="promo-code" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
+                                <label for="promo-code" class="font-semibold inline-block mb-3 text-sm uppercase">Kode Promo</label>
                                 <input type="text" id="promo-code" name="promo-code" placeholder="Enter your code" class="p-2 text-sm w-full">
                             </div>
                             <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white rounded">Apply</button>
@@ -108,18 +108,20 @@
                           </div>
                     {% endif %}
                     <div class="flex items-center justify-between mt-24">
-                        <h3 class="text-xl font-semibold leading-tight text-gray-800">Total Price</h3>
+                        <h3 class="text-xl font-semibold leading-tight text-gray-800">Total Harga</h3>
                         <p class="text-2xl font-semibold text-gray-800">{{ order.get_order_total }}</p>
                     </div>
                     <!-- <a href="{% url 'order:payment' %}"><button class="focus:outline-none hover: focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 rounded">Checkout</button></a> -->
                     <!-- <a href="{% url 'order:payment' %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Checkout</a> -->
+
                 
                     {% if order.order_items.all %}
                         <form method="post" name="checkout">
                             {% csrf_token %}
-                            <button class="w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 rounded">Checkout</button>
+                            <button class="w-full mt-4 bg-red-500 text-base font-medium leading-none text-gray-50 hover:bg-red-600 py-5 rounded">Bayar</button>
                         </form>
                     {% endif %}
+
                 </div>
             </div>
         </div>
