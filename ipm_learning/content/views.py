@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from .models import Course, Content, Category
-from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRecord
+from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRecord, OrderItem
 from ipm_learning.order.utils import get_or_set_order_session
 from ipm_learning.order.forms import AddToCartForm
 
@@ -45,20 +45,42 @@ class CourseDetailView(generic.FormView):
     def get_success_url(self):
         return reverse("order:summary")
 
-    def form_valid(self, form):
+    # def form_valid(self, form):
+    #     order = get_or_set_order_session(self.request)
+    #     course = self.get_object()
+
+    #     item_filter = order.order_items.filter(course=course)
+        
+    #     if not item_filter.exists():
+    #         new_item = form.save(commit=False)
+    #         new_item.course = course
+    #         new_item.order = order
+    #         new_item.save()
+
+    #     return super(CourseDetailView, self).form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
         order = get_or_set_order_session(self.request)
         course = self.get_object()
-
-        item_filter = order.order_items.filter(course=course)
         
-        if not item_filter.exists():
-            new_item = form.save(commit=False)
-            new_item.course = course
-            new_item.order = order
-            new_item.save()
-
-        return super(CourseDetailView, self).form_valid(form)
-
+        if not request.user.is_authenticated:
+                return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        else:
+            if request.POST.get('quantity'):
+                quantity= request.POST.get('quantity')
+            else:
+                quantity = 1
+            item_filter = order.order_items.filter(course=course)
+            
+            if not item_filter.exists():
+                new_item = OrderItem.objects.create(
+                    course = course,
+                    order = order,
+                    tickets = quantity,
+                )
+                new_item.save()
+                return redirect("order:summary")
+            
     def get_context_data(self, **kwargs):
         context = super(CourseDetailView, self).get_context_data(**kwargs)
         context['course'] = self.get_object()

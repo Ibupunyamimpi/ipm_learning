@@ -103,7 +103,7 @@ class UserAdmin(ImportExportModelAdmin):
         (None, {
             'fields': ('phone_number'),}),)
     
-    list_display = ["username", "name", "email", "group", "is_superuser"]
+    list_display = ["username", "name", "email", "phone_number", "group", "is_superuser"]
     list_filter = ["groups"]
     search_fields = ["name"]
     

@@ -15,7 +15,8 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         "Order", on_delete=models.CASCADE, related_name='order_items')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='order_items')
-
+    tickets = models.IntegerField(default=1)
+    
     def __str__(self):
         return self.reference_number
 
@@ -34,8 +35,8 @@ class OrderItem(models.Model):
 
     def get_raw_final_price(self):
         if self.course.discount_pct > 0:
-            return self.get_discount_price()
-        return self.get_item_price()
+            return self.tickets * self.get_discount_price()
+        return self.tickets * self.get_item_price()
 
     def get_order_item_total(self):
         total = self.get_raw_final_price()
@@ -145,7 +146,8 @@ class CourseRecord(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_records')
     module_count = models.IntegerField(default=0)
     modules_complete = models.IntegerField(default=0)
-
+    tickets = models.IntegerField(default=1)
+    
     def __str__(self):
         return f"COURSE-RECORD-{self.pk}-{self.course.slug}-{self.user.email}"
         # return self.reference_number
@@ -229,7 +231,10 @@ def create_course_record(sender, instance, created, **kwargs):
     order = instance
     if order.paid:
         for order_item in order.order_items.all():
-            course_record = CourseRecord(course=order_item.course, user=order.user)
+            course_record = CourseRecord(
+                course=order_item.course, 
+                user=order.user,
+                tickets=order_item.tickets)
             course_record.save()
 
 @receiver(post_save, sender=CourseRecord)
