@@ -33,6 +33,9 @@
               {% else %}
                 <span class="inline-block py-1 px-2 rounded bg-gray-500 text-white text-xs font-medium tracking-widest">Dalam Proses</span>
               {% endif %}
+              {% if course_record.tickets > 1 %}
+                <p class="text-base leading-relaxed mt-2">Tickets: {{ course_record.tickets }}</p>
+              {% endif %}
               <p class="text-base leading-relaxed mt-2">Yang Ibu Dapatkan: {{ course_record.module_count }}</p>
               <p class="text-base leading-relaxed mt-2">
               {% for quiz_record in course_record|filter_quiz_records %}

@@ -28,6 +28,7 @@ class Course(models.Model):
     event_datetime = models.DateTimeField(blank=True, null=True)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL, related_name='courses')
     active = models.BooleanField(default=False)
+    multi_ticket = models.BooleanField(default=False)
     price = models.PositiveIntegerField(default=0)
     discount_pct = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
