@@ -29,10 +29,11 @@ admin.site.register(Category)
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("name", "course_type", "category", "price", "discount_pct","get_discount_price","active")
+    list_display = ("name", "course_type", "category", "price", "discount_pct", "get_discount_price", "multi_ticket", "active")
     actions = [activate_course, deactivate_course ]
     list_filter = ('course_type', 'category', 'active')
     prepopulated_fields = {'slug': ('name',)}
+    search_fields = ['name']
     
 
     # def view_content_link(self, obj):

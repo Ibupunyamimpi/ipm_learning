@@ -41,13 +41,15 @@ class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
       
   fields = ('user','course','tickets')
   list_display = ('course', 'user', 'user_email', 'phone_number', 'created_at', 'module_count', 'modules_complete', 'tickets')
-  list_filter = ('course', 'user')
+  list_filter = ['course']
+  search_fields = ('user__name','user__email','course__name')
   resource_class = CourseRecordResource
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
   list_display = ('reference_number', 'user', 'ordered_date', 'get_raw_order_total', 'paid')
-  list_filter = ('user', 'ordered_date', 'paid') 
+  list_filter = ('ordered_date', 'paid')
+  search_fields = ('id', 'user__name') 
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
@@ -65,7 +67,8 @@ class CourseCouponAdmin(admin.ModelAdmin):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
   list_display = ('reference_number', 'order', 'amount', 'payment_method', 'payment_status', 'timestamp')
-  list_filter = ('order', 'amount', 'payment_method', 'payment_status', 'timestamp') 
+  list_filter = ('payment_method', 'payment_status', 'timestamp') 
+  search_fields = ('id','order__id')
 
 # @admin.register(CourseRecord)
 # class CourseRecordAdmin(admin.ModelAdmin):

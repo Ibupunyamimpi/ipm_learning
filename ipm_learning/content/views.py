@@ -8,6 +8,8 @@ from .models import Course, Content, Category
 from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRecord, OrderItem
 from ipm_learning.order.utils import get_or_set_order_session
 from ipm_learning.order.forms import AddToCartForm
+from django.contrib import messages
+
 
 import datetime
 
@@ -70,9 +72,9 @@ class CourseDetailView(generic.FormView):
                 quantity= request.POST.get('quantity')
             else:
                 quantity = 1
-            item_filter = order.order_items.filter(course=course)
+            item_filter_lst = order.order_items.filter(course=course)
             
-            if not item_filter.exists():
+            if not item_filter_lst.exists():
                 new_item = OrderItem.objects.create(
                     course = course,
                     order = order,
@@ -80,6 +82,14 @@ class CourseDetailView(generic.FormView):
                 )
                 new_item.save()
                 return redirect("order:summary")
+            elif course.multi_ticket:
+                current_item = order.order_items.get(course=course)
+                current_item.tickets = quantity
+                current_item.save()
+                return redirect("order:summary")
+            else:
+                messages.info(self.request, "This item is already in your cart")
+                return redirect("order:summary") 
             
     def get_context_data(self, **kwargs):
         context = super(CourseDetailView, self).get_context_data(**kwargs)

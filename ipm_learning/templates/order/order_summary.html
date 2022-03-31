@@ -36,7 +36,7 @@
                             {% if item.course.discount_pct > 0 %}
                                 <p class="text-base leading-none text-red-600 mt-4">Diskon: {{ item.course.get_discount_pct }}</p>
                             {% endif %} 
-                            {% if item.tickets > 1 %}
+                            {% if item.course.multi_ticket %}
                                 <p class="mt-4 w-11/12 text-base leading-4 text-gray-600">Tickets: {{ item.tickets }}</p>
                             {% endif %}
                             
@@ -74,7 +74,7 @@
                             <p class="mt-4 w-11/12 text-base leading-4 text-red-600">Discount: {{ item.course.get_discount_pct }}</p>
                         {% endif %}
                         
-                        {% if item.tickets > 1 %}
+                        {% if item.course.multi_ticket %}
                             <p class="mt-4 w-11/12 text-base leading-4 text-gray-600">Tickets: {{ item.tickets }}</p>
                         {% endif %}
                         <div class="flex items-center justify-end mt-6">
