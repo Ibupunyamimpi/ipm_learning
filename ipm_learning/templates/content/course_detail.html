@@ -28,7 +28,7 @@
           
           
           
-          {% if request.user|check_course_course_record:course and not course.multi_ticket %}
+          {% if request.user.is_authenticated and request.user|check_course_course_record:course and not course.multi_ticket %}
             <a href="{{ course.contents.first.get_absolute_url }}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Lanjut Kursus Online</a>
           {% else %}
             <form method="post">
@@ -68,7 +68,7 @@
         </div>
 
         <div class="flex justify-end">
-            {% if request.user|check_course_course_record:course %}
+            {% if request.user.is_authenticated and request.user|check_course_course_record:course %}
             <a href="{{ course.contents.first.get_absolute_url }}" class="flex ml-auto text-red border-0 py-2 px-6 focus:outline-none hover:underline">Lanjut Kursus Online</a>
             {% endif %}
           </div>
