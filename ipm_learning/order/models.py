@@ -231,11 +231,16 @@ def create_course_record(sender, instance, created, **kwargs):
     order = instance
     if order.paid:
         for order_item in order.order_items.all():
-            course_record = CourseRecord(
-                course=order_item.course, 
-                user=order.user,
-                tickets=order_item.tickets)
-            course_record.save()
+            if order_item.course.multi_ticket and CourseRecord.objects.filter(course=order_item.course,user=order.user).exists():
+                course_record = CourseRecord.objects.get(course=order_item.course,user=order.user)
+                course_record.tickets += order_item.tickets
+                course_record.save()
+            else:
+                course_record = CourseRecord(
+                    course=order_item.course, 
+                    user=order.user,
+                    tickets=order_item.tickets)
+                course_record.save()
 
 @receiver(post_save, sender=CourseRecord)
 def create_content_record(sender, instance, created, **kwargs):

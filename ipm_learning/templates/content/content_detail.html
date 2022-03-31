@@ -69,19 +69,21 @@
             </div>
             
             {% if content.content_type == 'Event' %}
-              {% load tz %}
-              <p class="mt-6 leading-relaxed">
-                {{ content.event_datetime|date }} at {{ content.event_datetime|time }}
-                {% timezone None %}
+              <!-- {% load tz %} -->
+              <p class="mt-10 leading-relaxed">
+                <b>{{ content.event_datetime|date }}, {{ content.event_datetime|time }} (Jakarta) </b>
+              </p>
+            
+                <!-- {% timezone None %}
                  <p>Server time: {{content.event_datetime}}</p>
                 {% endtimezone %}
                 {% timezone "Asia/Jakarta" %}
                   <p>Jakarta time: {{content.event_datetime}} </p>
-                {% endtimezone %}
+                {% endtimezone %} -->
                 
-                <p>
+                
                   <b>
-                    <a href="{{content.event_url}}" target="_blank">>>Event Link<<</a> 
+                    <a href="{{content.event_url}}" target="_blank" class="flex text-white bg-red-500 border-0 my-8 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Event Link</a>
                   </b> 
                 </p> 
               </p> 
