@@ -12,18 +12,18 @@
   <div class="container px-4 mx-auto">
     <div class="max-w-md mx-auto py-6 lg:py-12 px-4 lg:px-8 bg-white border rounded-xl text-center">
       <!-- <span class="inline-block mb-4 text-xs text-blue-400 font-semibold">Sign Up</span> -->
-      <h3 class="mb-12 text-3xl font-semibold font-heading">Create new account</h3>
+      <h3 class="mb-12 text-3xl font-semibold font-heading">Bikin akun baru</h3>
       <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
         {% csrf_token %}
         {{ form|crispy }}
         {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
-        <button class="w-full inline-block py-4 mb-4 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 rounded transition duration-200" type="submit">{% translate "Sign Up" %} &raquo;</button>
+        <button class="w-full inline-block py-4 mb-4 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 rounded transition duration-200" type="submit">{% translate "Daftar" %} &raquo;</button>
       </form>
       <p class="text-sm text-gray-500">
-        <span>Already have an account?</span>
-        <a class="text-red-400 font-semibold hover:underline" href="{{ login_url }}">Sign in</a>
+        <span>Sudah punya akun?</span>
+        <a class="text-red-400 font-semibold hover:underline" href="{{ login_url }}">Masuk</a>
       </p>
     </div>
   </div>
