@@ -3,28 +3,28 @@
 {% load i18n %}
 {% load account %}
 
-{% block head_title %}{% translate "Confirm E-mail Address" %}{% endblock %}
+{% block head_title %}{% translate "Konfirmasi Alamat E-mail" %}{% endblock %}
 
 
 {% block inner %}
-<h1>{% translate "Confirm E-mail Address" %}</h1>
+<h1>{% translate "Konfirmasi alamat e-mail" %}</h1>
 
 {% if confirmation %}
 
 {% user_display confirmation.email_address.user as user_display %}
 
-<p>{% blocktranslate with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktranslate %}</p>
+<p>{% blocktranslate with confirmation.email_address.email as email %} Silahkan konfirmasi e-mail anda <a href="mailto:{{ email }}">{{ email }}</a> e-mail ini akan digunakan untuk username {{ user_display }}.{% endblocktranslate %}</p>
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button class="btn btn-primary" type="submit">{% translate 'Confirm' %}</button>
+    <button class="btn btn-primary" type="submit">{% translate 'Konfirmasi' %}</button>
 </form>
 
 {% else %}
 
 {% url 'account_email' as email_url %}
 
-<p>{% blocktranslate %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktranslate %}</p>
+<p>{% blocktranslate %}E-mail ini adalah konfirmasi bahwa link yang dikirim sudah tidak berlaku. Silahkan <a href="{{ email_url }}">minta e-mail konfirmasi terbaru.</a>.{% endblocktranslate %}</p>
 
 {% endif %}
 
