@@ -9,14 +9,14 @@
       {% if payment.payment_status == 'SUCCESS' %}
         <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pembayaran berhasil!</h1>
         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Order anda berhasil</p>
-        <a href="{% url 'content:course-library' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Cek di Aktivitas Ibu</a>
+        <a href="{% url 'content:course-library' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Cek di Aktivitas Anda</a>
       {% elif payment.payment_status == 'PENDING' %}
         <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pembayaran pending</h1>
         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Pembayaran anda sedang diproses, cek email untuk mendapatkan update mengenai pembayaran anda!</p>
         <a href="{% url 'content:course-library' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Cek Aktivitas Ibu</a>
       {% else %}
         <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pembayaran Belum Berhasil</h1>
-        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Pembayaran belum berhasil terproses, silahkan coba lagi atau hubungi team kami.</p>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Pembayaran belum berhasil terproses, silahkan coba lagi atau hubungi Ibu Mina.</p>
         <a href="{% url 'order:payment' %}" class="flex mx-auto ml-auto mt-7 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Kembali ke Pembayaran</a>
       {% endif %}
     </div>

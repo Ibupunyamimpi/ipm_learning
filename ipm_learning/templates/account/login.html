@@ -12,9 +12,8 @@
 {% get_providers as socialaccount_providers %}
 
 {% if socialaccount_providers %}
-<p>{% blocktranslate with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktranslate %}</p>
+<p>{% blocktranslate with site.name as site_name %}Silahkan masuk dengan akun yang anda punya, Atau, <a href="{{ signup_url }}">daftar</a>
+Untuk {{ site_name }} akun dan daftar disini:{% endblocktranslate %}</p>
 
 <div class="socialaccount_ballot">
 
@@ -36,7 +35,7 @@ for a {{ site_name }} account and sign in below:{% endblocktranslate %}</p>
   <div class="container px-4 mx-auto">
     <div class="max-w-md mx-auto py-6 lg:py-12 px-4 lg:px-8 bg-white border rounded-xl text-center">
       
-      <h3 class="mb-12 text-3xl font-semibold font-heading">Sign In</h3>
+      <h3 class="mb-12 text-3xl font-semibold font-heading">Masuk</h3>
       
       <form class="login" method="POST" action="{% url 'account_login' %}">
         {% csrf_token %}
@@ -44,13 +43,13 @@ for a {{ site_name }} account and sign in below:{% endblocktranslate %}</p>
         {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
-        <a class="text-red-400 font-semibold hover:underline" href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>
+        <a class="text-red-400 font-semibold hover:underline" href="{% url 'account_reset_password' %}">{% translate "Lupa password?" %}</a>
         <button class="w-full inline-block py-4 mb-4 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 rounded transition duration-200" type="submit">{% translate "Sign In" %}</button>
       </form>
       <p class="text-sm text-gray-500">
-        <span>New to Ibu Punya Mimpi?</span>
+        <span>Belum punya akun di Ibu Punya Mimpi?</span>
         <br>
-        <a class="text-red-400 font-semibold hover:underline" href="{{ signup_url }}">Create an Account</a>
+        <a class="text-red-400 font-semibold hover:underline" href="{{ signup_url }}">Bikin Akun Baru</a>
       </p>
     </div>
   </div>

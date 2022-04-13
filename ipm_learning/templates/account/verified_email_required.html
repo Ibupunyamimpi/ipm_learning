@@ -2,20 +2,16 @@
 
 {% load i18n %}
 
-{% block head_title %}{% translate "Verify Your E-mail Address" %}{% endblock %}
+{% block head_title %}{% translate "Verifikasi E-mail Anda" %}{% endblock %}
 
 {% block inner %}
-<h1>{% translate "Verify Your E-mail Address" %}</h1>
+<h1>{% translate "Verifikasi E-mail Anda" %}</h1>
 
 {% url 'account_email' as email_url %}
 
-<p>{% blocktranslate %}This part of the site requires us to verify that
-you are who you claim to be. For this purpose, we require that you
-verify ownership of your e-mail address. {% endblocktranslate %}</p>
+<p>{% blocktranslate %}Pada halaman ini, alamat e-mail anda sudah harus terverifikasi untuk memastikan alamat e-mail anda benar. {% endblocktranslate %}</p>
 
-<p>{% blocktranslate %}We have sent an e-mail to you for
-verification. Please click on the link inside this e-mail. Please
-contact us if you do not receive it within a few minutes.{% endblocktranslate %}</p>
+<p>{% blocktranslate %}Kami telah mengirimkan e-mail untuk proses verifikasi. Klik link pada e-mail yang kami kirimkan. Silahkan kontak Ibu Mina jika anda belum menerima e-mail tersebut dalam beberapa menit kedepan.{% endblocktranslate %}</p>
 
-<p>{% blocktranslate %}<strong>Note:</strong> you can still <a href="{{ email_url }}">change your e-mail address</a>.{% endblocktranslate %}</p>
+<p>{% blocktranslate %}<strong>Note:</strong> anda masih bisa <a href="{{ email_url }}">mengganti alamat e-mail</a>.{% endblocktranslate %}</p>
 {% endblock %}
