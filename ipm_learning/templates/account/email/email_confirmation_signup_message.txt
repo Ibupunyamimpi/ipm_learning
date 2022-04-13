@@ -1,0 +1,8 @@
+{% load account %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+
+Selamat datang di Ibu Punya Mimpi! Anda menerima email ini karena {{ user_display }} telah mengisi alamat email ini untuk mendaftar di akun ibupunyamimpi.org. Untuk konfirmasi ini adalah alamat yang benar, silahkan klik {{ activate_url }}
+
+Terima kasih sudha bergabung di Ibu Punya Mimpi, terus bersinar yaa bu{% endblocktrans %}{% endautoescape %}{% endblock %}
