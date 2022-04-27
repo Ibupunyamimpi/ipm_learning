@@ -16,7 +16,7 @@
         </div>
         <div class="flex mt-8">
         {% if course.price == 0 %}
-          <span class="title-font font-medium text-2xl text-gray-900">FREE</span>
+          <span class="title-font font-medium text-2xl text-gray-900">Gratis</span>
         {% else %}
           <p>Original Price: {{ course.get_price }}</p>
           <p>Discount: {{ course.get_discount_pct }}</p>
