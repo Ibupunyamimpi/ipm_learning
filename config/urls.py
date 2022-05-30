@@ -34,6 +34,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path('subscribe/', subscription, name="subscription"),
     # path("email-test/",TemplateView.as_view(template_name="account/email/payment_success.html")),
+    path('tinymce/', include('tinymce.urls')),
     path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', sitemap,
         {'sitemaps': {'course': GenericSitemap(info_dict, priority=0.6)}},

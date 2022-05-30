@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
     'theme',
     'django_browser_reload',
     'import_export',
+    'tinymce',
 ]
 
 LOCAL_APPS = [
