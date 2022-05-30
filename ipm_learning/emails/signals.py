@@ -6,7 +6,7 @@ from django.middleware.csrf import get_token
 from django.db.models.signals import post_save
 from django.db import transaction
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, get_connection, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
@@ -37,6 +37,42 @@ def email_sender(email, user):
     to = user.email
     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
 
+def send_mass_html_mail(email, email_addresses, fail_silently=False, user=None, password=None, 
+                        connection=None):
+    """
+    Given a datatuple of (subject, text_content, html_content, from_email,
+    recipient_list), sends each message to each recipient list. Returns the
+    number of emails sent.
+
+    If from_email is None, the DEFAULT_FROM_EMAIL setting is used.
+    If auth_user and auth_password are set, they're used to log in.
+    If auth_user is None, the EMAIL_HOST_USER setting is used.
+    If auth_password is None, the EMAIL_HOST_PASSWORD setting is used.
+    
+    Source: https://stackoverflow.com/questions/7583801/send-mass-emails-with-emailmultialternatives/10215091#10215091
+    """
+    
+    html_content = render_to_string('emails/email_template.html', {'context': email.text_content})
+    text_content = email.text_content
+    subject= "[Ibu Punya Mimpi] " + email.subject
+    from_email= "Ibu Punya Mimpi <ibumina@ibupunyamimpi.org>"
+    recipient_list = email_addresses
+    
+    datatuple = (subject, text_content, html_content, from_email,
+    recipient_list)
+    
+    connection = connection or get_connection(
+        username=user, password=password, fail_silently=fail_silently)
+    messages = []
+    # for subject, text, html, from_email, recipient in datatuple:
+    #     message = EmailMultiAlternatives(subject, text, from_email, recipient)
+    #     message.attach_alternative(html, 'text/html')
+    #     messages.append(message)
+   
+    message = EmailMultiAlternatives(subject, text_content, from_email, [], bcc=recipient_list)
+    message.attach_alternative(html_content, 'text/html')
+    messages.append(message)
+    return connection.send_messages(messages)
 
 """
 
@@ -51,8 +87,11 @@ def send_course_email_now(sender, instance, created, **kwargs):
     if email.send_now:
         course = email.course
         course_records = course.course_records.all()
+        email_addresses = []
         for cr in course_records:
-            email_sender(email, cr.user)
+             # email_sender(email, cr.user)
+            email_addresses.append(cr.user.email)
+        send_mass_html_mail(email, email_addresses)
         email.send_now = False
         email.save()
  
@@ -84,8 +123,11 @@ def send_group_email_now(sender, instance, created, **kwargs):
         group = email.group
         print(group)
         users = User.objects.filter(groups__name=group)
+        email_addresses = []
         for user in users:
-            email_sender(email, user)
+            # email_sender(email, user)
+            email_addresses.append(user.email)
+        send_mass_html_mail(email, email_addresses)
         email.send_now = False
         email.save()
 
