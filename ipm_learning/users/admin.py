@@ -91,7 +91,7 @@ class UserAdmin(ImportExportModelAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
-                    # "groups",
+                    "groups",
                     "user_permissions",
                 ),
             },
@@ -105,7 +105,7 @@ class UserAdmin(ImportExportModelAdmin):
     
     list_display = ["username", "name", "email", "phone_number", "group", "is_superuser"]
     list_filter = ["groups"]
-    search_fields = ["name"]
+    search_fields = ["name", "email"]
     
     
 
