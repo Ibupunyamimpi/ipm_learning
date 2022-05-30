@@ -69,7 +69,7 @@ def send_mass_html_mail(email, email_addresses, fail_silently=False, user=None, 
     #     message.attach_alternative(html, 'text/html')
     #     messages.append(message)
    
-    message = EmailMultiAlternatives(subject, text_content, from_email, [], bcc=recipient_list)
+    message = EmailMultiAlternatives(subject, text_content, from_email, ['ibumina@ibupunyamimpi.org'], bcc=recipient_list)
     message.attach_alternative(html_content, 'text/html')
     messages.append(message)
     return connection.send_messages(messages)
