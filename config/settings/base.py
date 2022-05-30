@@ -295,3 +295,5 @@ MAILCHIMP_DATA_CENTER = 123
 MAILCHIMP_EMAIL_LIST_ID = 123
 
 ACCOUNT_FORMS = {'signup': 'users.forms.SimpleSignupForm'}
+
+TINYMCE_JS_URL = f'https://ipm-learning-storage.sgp1.digitaloceanspaces.com/static/tinymce/tinymce.min.js'
