@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
 from ipm_learning.content.models import Course
-from .models import PromotedCourse, Testimonial, TeamMember, PageContent
+from .models import PromotedCourse, Testimonial, TeamMember, PageContent, Article
 from django.conf import settings
 from mailchimp_marketing import Client
 from mailchimp_marketing.api_client import ApiClientError
@@ -38,12 +38,14 @@ class HomePageView(generic.TemplateView):
         
         testimonials = Testimonial.objects.all().order_by('?')[:6]
         teammembers = TeamMember.objects.all()
+        articles = Article.objects.order_by().order_by('-id')[:4]
         
         context['next_event'] = events[:1].first()
         context['remaining_events'] = events[1:]
         context['courses'] = promo_courses
         context['testimonials'] = testimonials
         context['teammembers'] = teammembers
+        context['articles'] = articles
         return context
     
 

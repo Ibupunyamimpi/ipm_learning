@@ -38,3 +38,13 @@ class PromotedCourse(models.Model):
     
     def __str__(self):
             return self.name
+        
+
+class Article(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to="article/")
+    desc = models.TextField()
+    url =  models.URLField()
+    
+    def __str__(self):
+            return self.title

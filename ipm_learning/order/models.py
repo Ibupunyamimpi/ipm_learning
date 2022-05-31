@@ -267,8 +267,8 @@ def add_content_record(sender, instance, created, **kwargs):
     
     for course_record in new_content.course.course_records.all():
         if not ContentRecord.objects.filter(course_record=course_record,content=new_content).exists():
-            print("New content created: ", new_content)
-            print("updating ", course_record)
+            # print("New content created: ", new_content)
+            # print("updating ", course_record)
             if new_content.content_type == 'Quiz':
                 content_record = QuizRecord(course_record=course_record,content=new_content)
                 content_record.quiz_questions = new_content.quiz_questions.count()
@@ -276,10 +276,10 @@ def add_content_record(sender, instance, created, **kwargs):
             else:
                 content_record = ContentRecord(course_record=course_record,content=new_content)
             content_record.save()
-            print("Added content record: ", content_record)
+            # print("Added content record: ", content_record)
             course_record.module_count = course_record.content_records.count()
             course_record.save()
-            print("Finished updating course record: ", course_record)
+            # print("Finished updating course record: ", course_record)
 
 @receiver(post_delete, sender=Content)
 @receiver(post_delete, sender=Video)
@@ -302,5 +302,5 @@ def update_quiz_records(sender, instance, **kwargs):
     for qr in quiz_records:
         qr.quiz_questions = quiz.quiz_questions.count()
         qr.save()
-        print("Updated question count on ", qr)
+        # print("Updated question count on ", qr)
     
