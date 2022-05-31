@@ -11,7 +11,7 @@ SECRET_KEY = env(
     default="UunJuDUOzZAWcOcOUeRj0eoa1wu7EAAZgO5M0nwReQz6EaNaatl7Akc9wyLMoOH6",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "d122-62-194-32-195.ngrok.io"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "d122-62-194-32-195.ngrok.io", "app.forestadmin.com"]
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -70,4 +70,11 @@ READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(ROOT_DIR / ".env"))
-    
+
+FOREST = {
+   'FOREST_URL': 'https://api.forestadmin.com',
+   'APPLICATION_URL': 'http://localhost:8000',
+   'FOREST_ENV_SECRET': '5458fce7b69aa7e36e650d58de344481ef8a697fe0f0f04cf6776a745b21c2c8',
+   'FOREST_AUTH_SECRET': '50839c6e66bc468b9ad431fd271ce59678ac5c3afb87284d'
+}
+APPEND_SLASH=False

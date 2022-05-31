@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
     'django_browser_reload',
     'import_export',
     'tinymce',
+    'corsheaders',
 ]
 
 LOCAL_APPS = [
@@ -136,6 +137,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -299,10 +302,9 @@ ACCOUNT_FORMS = {'signup': 'users.forms.SimpleSignupForm'}
 
 TINYMCE_JS_URL = f'https://ipm-learning-storage.sgp1.digitaloceanspaces.com/static/tinymce/tinymce.min.js'
 
-FOREST = {
-   'FOREST_URL': 'https://api.forestadmin.com',
-   'APPLICATION_URL': 'https://ibupunyamimpi.org',
-   'FOREST_ENV_SECRET': '5c10475d6cb45dbc45ba51fc98dadf8dfb9c4003f66b5ac0a283a407fc8d8a28',
-   'FOREST_AUTH_SECRET': '82cb2af16a31f4fda63c7d9510062745c8bf8227c5b8d3a5'
-}
-APPEND_SLASH=False
+CORS_ALLOWED_ORIGINS = [
+"https://ibupunyamimpi.org",
+"https://api.forestadmin.com",
+"http://localhost:8000",
+"http://127.0.0.1:8000"
+]
