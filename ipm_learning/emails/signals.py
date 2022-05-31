@@ -53,7 +53,7 @@ def send_mass_html_mail(email, email_addresses, fail_silently=False, user=None, 
     """
     
     html_content = render_to_string('emails/email_template.html', {'context': email.text_content})
-    text_content = email.text_content
+    text_content = strip_tags(html_content)
     subject= "[Ibu Punya Mimpi] " + email.subject
     from_email= "Ibu Punya Mimpi <ibumina@ibupunyamimpi.org>"
     recipient_list = email_addresses
