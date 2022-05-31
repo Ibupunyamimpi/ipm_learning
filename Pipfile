@@ -30,6 +30,7 @@ django-tailwind = "==3.1.1"
 mailchimp-marketing = "==3.0.74"
 django-import-export = "*"
 django-tinymce = "*"
+django-forestadmin = "*"
 
 [dev-packages]
 pytz = "==2021.3"
