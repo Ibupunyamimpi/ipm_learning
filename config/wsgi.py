@@ -33,8 +33,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-init_forest()
+
 application = get_wsgi_application()
+init_forest()
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
