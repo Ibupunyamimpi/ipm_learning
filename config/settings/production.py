@@ -217,3 +217,9 @@ sentry_sdk.init(
 MAILCHIMP_API_KEY = env("MAILCHIMP_API_KEY")
 MAILCHIMP_DATA_CENTER = env("MAILCHIMP_DATA_CENTER")
 MAILCHIMP_EMAIL_LIST_ID = env("MAILCHIMP_EMAIL_LIST_ID")
+
+# Forest Admin
+# ------------------------------------------------------------------------------
+FOREST_ENV_SECRET = env("FOREST_ENV_SECRET")	
+FOREST_AUTH_SECRET = env("FOREST_AUTH_SECRET")	
+APPLICATION_URL	= env("APPLICATION_URL")
