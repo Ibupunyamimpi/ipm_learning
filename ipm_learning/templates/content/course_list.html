@@ -31,7 +31,7 @@
             <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.course_type }}</h2>
             <p class="text-base leading-relaxed mt-2">{{ course.event_datetime|date }} at {{ course.event_datetime|time }}</p>
             <p class="text-base leading-relaxed mt-2">{{ course.description }}</p>
-            <a href="{% url 'content:course-detail' course.slug %}" class="text-red-500 inline-flex items-center mt-3">Cek Lebih Lanjut
+            <a href="{% url 'content:course-detail' course.slug %}" class="text-red-500 inline-flex items-center mt-3">Info Lebih Lanjut
               <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
