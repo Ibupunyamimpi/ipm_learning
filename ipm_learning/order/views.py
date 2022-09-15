@@ -33,9 +33,9 @@ class CartView(generic.TemplateView):
         if not request.user.is_authenticated:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
         
-        if order.course_coupon:
-            messages.info(request, "A coupon has already been applied to this order")
-            return redirect("order:summary")
+        # if order.course_coupon:
+        #     messages.info(request, "A coupon has already been applied to this order")
+        #     return redirect("order:summary")
         
         elif request.POST.get('promo-code'):
             promo_code = request.POST.get('promo-code')
