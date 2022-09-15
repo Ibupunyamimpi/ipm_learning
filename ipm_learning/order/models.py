@@ -136,6 +136,12 @@ class CourseCoupon(models.Model):
     
     def get_amount(self):
         return "Rp {:,.0f}".format(self.amount).replace(',','.')
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['code'], name='unique_code')
+        ]
+    
 
 
 class CourseRecord(models.Model):
