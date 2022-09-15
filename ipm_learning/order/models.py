@@ -22,7 +22,7 @@ class OrderItem(models.Model):
 
     @property
     def reference_number(self):
-        return f"ORDER-ITEM-{self.pk}-{self.order}-{self.course}"
+        return f"ORDER-ITEM-{self.pk}-{self.order}-{self.course}-TICKETS:{self.tickets}"
 
     def get_item_price(self):
         return self.course.price
