@@ -69,6 +69,14 @@ class PaymentAdmin(admin.ModelAdmin):
   list_display = ('reference_number', 'order', 'amount', 'payment_method', 'payment_status', 'timestamp')
   list_filter = ('payment_method', 'payment_status', 'timestamp') 
   search_fields = ('id','order__id')
+  
+  readonly_fields = ['courses','coupon']
+  
+  def courses(self, instance):
+    return list(instance.order.order_items.all())
+  
+  def coupon(self, instance):
+    return instance.order.course_coupon
 
 # @admin.register(CourseRecord)
 # class CourseRecordAdmin(admin.ModelAdmin):

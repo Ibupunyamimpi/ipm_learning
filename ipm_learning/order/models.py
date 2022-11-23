@@ -22,7 +22,7 @@ class OrderItem(models.Model):
 
     @property
     def reference_number(self):
-        return f"ORDER-ITEM-{self.pk}-{self.order}-{self.course}"
+        return f"ORDER-ITEM-{self.pk}-{self.order}-{self.course}-TICKETS:{self.tickets}"
 
     def get_item_price(self):
         return self.course.price
@@ -136,6 +136,12 @@ class CourseCoupon(models.Model):
     
     def get_amount(self):
         return "Rp {:,.0f}".format(self.amount).replace(',','.')
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['code'], name='unique_code')
+        ]
+    
 
 
 class CourseRecord(models.Model):

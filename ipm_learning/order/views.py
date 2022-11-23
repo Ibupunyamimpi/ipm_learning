@@ -29,8 +29,14 @@ class CartView(generic.TemplateView):
     def post(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)
         
+        
         if not request.user.is_authenticated:
-                return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        
+        # if order.course_coupon:
+        #     messages.info(request, "A coupon has already been applied to this order")
+        #     return redirect("order:summary")
+        
         elif request.POST.get('promo-code'):
             promo_code = request.POST.get('promo-code')
             try:

@@ -58,21 +58,58 @@ def send_mass_html_mail(email, email_addresses, fail_silently=False, user=None, 
     from_email= "Ibu Punya Mimpi <ibumina@ibupunyamimpi.org>"
     recipient_list = email_addresses
     
-    datatuple = (subject, text_content, html_content, from_email,
-    recipient_list)
+    # datatuple = (subject, text_content, html_content, from_email,
+    # recipient_list)
     
-    connection = connection or get_connection(
-        username=user, password=password, fail_silently=fail_silently)
-    messages = []
+    
+    # def send_email_batch(send_list):
+    #     connection = connection or get_connection(
+    #         username=user, password=password, fail_silently=fail_silently)
+    #     messages = []
+    #     message = EmailMultiAlternatives(subject, text_content, from_email, ['ibumina@ibupunyamimpi.org'], bcc=send_list)
+    #     message.attach_alternative(html_content, 'text/html')
+    #     messages.append(message)
+    #     return connection.send_messages(messages)
+    
+    
+    while len(recipient_list) > 0:
+        send_list = recipient_list[:50]
+        recipient_list = recipient_list[50:]
+        connection = connection or get_connection(
+            username=user, password=password, fail_silently=fail_silently)
+        messages = []
+        message = EmailMultiAlternatives(subject, text_content, from_email, ['ibumina@ibupunyamimpi.org'], bcc=send_list)
+        message.attach_alternative(html_content, 'text/html')
+        messages.append(message)
+        return connection.send_messages(messages)
+    
+    # recipient_list = list(range(1, 120))
+    # counter = 0
+    
+    # while len(recipient_list) > 0:
+    #     send_list = recipient_list[:50]
+    #     recipient_list = recipient_list[50:]
+    #     counter += 1
+    #     print(counter,len(send_list),len(recipient_list))
+    
+    
+    
+    
+    
+
+    
+    # connection = connection or get_connection(
+    #     username=user, password=password, fail_silently=fail_silently)
+    # messages = []
     # for subject, text, html, from_email, recipient in datatuple:
     #     message = EmailMultiAlternatives(subject, text, from_email, recipient)
     #     message.attach_alternative(html, 'text/html')
     #     messages.append(message)
    
-    message = EmailMultiAlternatives(subject, text_content, from_email, ['ibumina@ibupunyamimpi.org'], bcc=recipient_list)
-    message.attach_alternative(html_content, 'text/html')
-    messages.append(message)
-    return connection.send_messages(messages)
+    # message = EmailMultiAlternatives(subject, text_content, from_email, ['ibumina@ibupunyamimpi.org'], bcc=recipient_list)
+    # message.attach_alternative(html_content, 'text/html')
+    # messages.append(message)
+    # return connection.send_messages(messages)
 
 """
 
