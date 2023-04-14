@@ -161,7 +161,7 @@ class ContentDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_queryset(self):
         course = self.get_course()
-        return course.contents.all()
+        return course.contents.prefetch_related('course__contents').all()
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
