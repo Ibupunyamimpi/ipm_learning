@@ -49,11 +49,14 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
+  def get_queryset(self, request):
+        return super().get_queryset(request).select_related('course')
   list_display = ('title', 'order', 'course')
   list_filter = ('course',)
   prepopulated_fields = {
     'slug': ('title','course'), 
     }
+  search_fields = ('title',) 
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):

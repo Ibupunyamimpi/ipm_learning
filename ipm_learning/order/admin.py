@@ -36,6 +36,8 @@ class CourseRecordResource(resources.ModelResource):
 
 @admin.register(CourseRecord)
 class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
+  def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
   def phone_number(self, obj):
         return obj.user.phone_number
       
@@ -47,6 +49,8 @@ class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+  def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
   list_display = ('reference_number', 'user', 'ordered_date', 'get_raw_order_total', 'paid')
   list_filter = ('ordered_date', 'paid')
   search_fields = ('id', 'user__name') 
@@ -66,6 +70,8 @@ class CourseCouponAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
+  def get_queryset(self, request):
+        return super().get_queryset(request).select_related('order')
   list_display = ('reference_number', 'order', 'amount', 'payment_method', 'payment_status', 'timestamp')
   list_filter = ('payment_method', 'payment_status', 'timestamp') 
   search_fields = ('id','order__id')
