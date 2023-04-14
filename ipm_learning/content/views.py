@@ -9,6 +9,8 @@ from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRe
 from ipm_learning.order.utils import get_or_set_order_session
 from ipm_learning.order.forms import AddToCartForm
 from django.contrib import messages
+from django.db.models import Prefetch
+
 
 
 import datetime
@@ -160,7 +162,18 @@ class ContentDetailView(LoginRequiredMixin, generic.DetailView):
         return content
 
     def get_queryset(self):
-        course = self.get_course()
+        # OLD WAY
+        # course = self.get_course()
+        
+        # NEW WAY
+        course = Course.objects.prefetch_related(
+            Prefetch(
+                'contents__content_records',
+                queryset=ContentRecord.objects.filter(course_record__user=self.request.user),
+                to_attr='user_content_records'
+            )
+        ).get(slug=self.kwargs["slug"])
+        
         return course.contents.prefetch_related('course__contents').all()
 
     # def get_context_data(self, **kwargs):
