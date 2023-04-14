@@ -32,11 +32,18 @@ def quiz_correct_ans(user, content):
 def check_course_content_record(user, course):
     return user.course_records.filter(course=course).first()
 
+# OLD WAY
 @register.filter(name="content_record_complete")
 def content_completer(user, content):
     course = content.course
     course_record = user.course_records.filter(course=course).first()
     return ContentRecord.objects.filter(content=content, course_record=course_record).first().complete
+
+# NEW WAY
+# @register.filter(name="content_record_complete")
+# def content_completer(content):
+#     content_records = getattr(content, 'user_content_records', [])
+#     return content_records[0].complete if content_records else False
 
 @register.filter(name="find_content_record_id")
 def find_record_id(user, content):
