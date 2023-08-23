@@ -5,12 +5,11 @@
 {% load filter_tag %}
 
 {% block content %}
-
   <section class="text-gray-700 body-font">
     <div class="py-16 flex flex-wrap">
       <div class="flex flex-wrap w-full">
         <div class="hidden md:block md:w-1/4 md:pr-10 md:py-6">
-          {% for content_obj in content.course.contents.all %}
+          {% for content_obj in contents %}
             {% if forloop.last %}
               {% include 'content/snippets/content_step_last.html' with content=content_obj current_content=content %}
             {% else %}
@@ -97,7 +96,7 @@
             </div> 
           </div> 
           <div class="block md:hidden w-full mt-5 py-5"> 
-            {% for content_obj in content.course.contents.all %} 
+            {% for content_obj in contents %} 
               {% include 'content/snippets/content_step.html' with content=content_obj current_content=content %} 
             {% endfor %} 
           </div> 
