@@ -56,7 +56,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
-    "django_forest",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -80,6 +79,7 @@ THIRD_PARTY_APPS = [
     'import_export',
     'tinymce',
     'corsheaders',
+    "django_forest",
 ]
 
 LOCAL_APPS = [
