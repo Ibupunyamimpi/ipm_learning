@@ -9,7 +9,7 @@ from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRe
 from ipm_learning.order.utils import get_or_set_order_session
 from ipm_learning.order.forms import AddToCartForm
 from django.contrib import messages
-from django.db.models import Prefetch
+from django.db.models import Prefetch, F
 
 
 
@@ -120,39 +120,70 @@ class ContentDetailView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         if request.POST.get('quiz_record_id'):
             quiz_record_id = request.POST.get('quiz_record_id')
-            quiz_record = QuizRecord.objects.get(pk=quiz_record_id)
-            questions = quiz_record.content.quiz_questions.all()
-            correct = 0
-            for q in questions:
-                if q.ans == request.POST.get(q.question):
-                    correct+=1
-            quiz_record.complete = True
-            quiz_record.quiz_correct_ans = correct
-            quiz_record.quiz_attempts += 1
-            quiz_record.last_updated_on = datetime.datetime.now()
-            quiz_record.save()
-            course_record = quiz_record.course_record
-            course_record.modules_complete = course_record.content_records.filter(complete=True).count()
-            course_record.save()
-            return HttpResponseRedirect(self.request.path_info)
+            
+            # Optimize quiz_record update
+            questions = QuizRecord.objects.get(pk=quiz_record_id).content.quiz_questions.all()
+            correct = sum([q.ans == request.POST.get(q.question) for q in questions])
+            QuizRecord.objects.filter(pk=quiz_record_id).update(
+                complete=True,
+                quiz_correct_ans=correct,
+                quiz_attempts=F('quiz_attempts')+1,
+                last_updated_on=datetime.datetime.now()
+            )
+            
+            # quiz_record = QuizRecord.objects.get(pk=quiz_record_id)
+            # questions = quiz_record.content.quiz_questions.all()
+            # correct = 0
+            # for q in questions:
+            #     if q.ans == request.POST.get(q.question):
+            #         correct+=1
+            # quiz_record.complete = True
+            # quiz_record.quiz_correct_ans = correct
+            # quiz_record.quiz_attempts += 1
+            # quiz_record.last_updated_on = datetime.datetime.now()
+            # quiz_record.save()
+            
+            # Optimize course_record update
+            course_record_id = QuizRecord.objects.get(pk=quiz_record_id).course_record.id
+            modules_complete = ContentRecord.objects.filter(course_record_id=course_record_id, complete=True).count()
+            CourseRecord.objects.filter(pk=course_record_id).update(modules_complete=modules_complete)
+            
+            # course_record = quiz_record.course_record
+            # course_record.modules_complete = course_record.content_records.filter(complete=True).count()
+            # course_record.save()
+            
         elif request.POST.get('record_id'):
             record_id = request.POST.get('record_id')
-            record = ContentRecord.objects.get(pk=record_id)
-            if not record.complete:
-                record.complete = True
-                record.last_updated_on = datetime.datetime.now()
-                record.save()
-                course_record = record.course_record
-                course_record.modules_complete = course_record.content_records.filter(complete=True).count()
-                course_record.save()
-            content = record.content
+            ContentRecord.objects.filter(pk=record_id, complete=False).update(
+                complete=True,
+                last_updated_on=datetime.datetime.now()
+            )
+
+            # Optimize course_record update
+            course_record_id = ContentRecord.objects.get(pk=record_id).course_record.id
+            modules_complete = ContentRecord.objects.filter(course_record_id=course_record_id, complete=True).count()
+            CourseRecord.objects.filter(pk=course_record_id).update(modules_complete=modules_complete)
+
+            # record_id = request.POST.get('record_id')
+            # record = ContentRecord.objects.get(pk=record_id)
+            # if not record.complete:
+            #     record.complete = True
+            #     record.last_updated_on = datetime.datetime.now()
+            #     record.save()
+            #     course_record = record.course_record
+            #     course_record.modules_complete = course_record.content_records.filter(complete=True).count()
+            #     course_record.save()
+            # content = record.content
+            
+            content = ContentRecord.objects.get(pk=record_id).content
             next_content_course_order = content.order + 1
             try:
                 next_content = Content.objects.filter(course=content.course).get(order=next_content_course_order)
                 return redirect(next_content)
-            except:
-                return HttpResponseRedirect(self.request.path_info)    
+            except Content.DoesNotExist:
+                return HttpResponseRedirect(self.request.path_info)
         
+        return HttpResponseRedirect(self.request.path_info)    
 
     def get_course(self):
         return get_object_or_404(Course, slug=self.kwargs["slug"])
@@ -161,20 +192,37 @@ class ContentDetailView(LoginRequiredMixin, generic.DetailView):
         content = get_object_or_404(Content, slug=self.kwargs["content_slug"])
         return content
 
-    def get_queryset(self):
-        # OLD WAY
-        # course = self.get_course()
+    # def get_queryset(self):
+    #     # OLD WAY
+    #     # course = self.get_course()
         
-        # NEW WAY
-        course = Course.objects.prefetch_related(
-            Prefetch(
-                'contents__content_records',
-                queryset=ContentRecord.objects.filter(course_record__user=self.request.user),
-                to_attr='user_content_records'
-            )
-        ).get(slug=self.kwargs["slug"])
+    #     # NEW WAY
+    #     course = Course.objects.prefetch_related(
+    #         Prefetch(
+    #             'contents__content_records',
+    #             queryset=ContentRecord.objects.filter(course_record__user=self.request.user),
+    #             to_attr='user_content_records'
+    #         )
+    #     ).get(slug=self.kwargs["slug"])
         
-        return course.contents.prefetch_related('course__contents').all()
+    #     return course.contents.prefetch_related('course__contents').all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Fetch the course by slug
+        course = Course.objects.get(slug=self.kwargs["slug"])
+
+        # Fetch related contents
+        contents = course.contents.all()
+
+        # Fetch content records for this course and user
+        content_records = ContentRecord.objects.filter(
+            course_record__course=course,
+            course_record__user=self.request.user
+        )
+        context['contents'] = contents
+        context['content_records'] = content_records
+        return context
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
