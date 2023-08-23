@@ -6,7 +6,6 @@ from .models import CourseEmail, GroupEmail
 @admin.register(CourseEmail)
 class CourseEmailAdmin(admin.ModelAdmin):
     list_display = ('subject','course',)
-    list_filter = ('course',)
     
 @admin.register(GroupEmail)
 class GroupEmailAdmin(admin.ModelAdmin):
