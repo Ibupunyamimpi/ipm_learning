@@ -62,28 +62,24 @@ class ContentAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
   fields = ('course', 'title', 'description', 'slug', 'order', 'duration', 'forum_url', 'video_youtube_id')
   list_display = ('title', 'order', 'course')
-  list_filter = ('course',)
   prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
   fields = ('course', 'title', 'description', 'slug', 'order', 'duration', 'forum_url', 'event_image', 'event_url', 'event_datetime')
   list_display = ('title', 'order', 'course')
-  list_filter = ('course',)
   prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
   fields = ('course', 'title', 'description', 'slug', 'order', 'duration', 'forum_url', 'text_content')
   list_display = ('title', 'order', 'course')
-  list_filter = ('course',)
   prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
   fields = ('course', 'title', 'description', 'slug', 'order', 'duration', 'forum_url')
   list_display = ('title', 'order', 'course')
-  list_filter = ('course',)
   prepopulated_fields = {
     'slug': ('title','course'), 
     }
