@@ -37,7 +37,7 @@ class CourseRecordResource(resources.ModelResource):
 @admin.register(CourseRecord)
 class CourseRecordAdmin(ExportMixin, admin.ModelAdmin):
   def get_queryset(self, request):
-        return super().get_queryset(request).select_related('user')
+        return super().get_queryset(request).select_related('user', 'course')
   def phone_number(self, obj):
         return obj.user.phone_number
       
