@@ -29,9 +29,9 @@ admin.site.register(Category)
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("name", "course_type", "category", "price", "discount_pct", "get_discount_price", "multi_ticket", "active")
+    list_display = ("name", "course_type", "category", "price", "discount_pct", "get_discount_price", "multi_ticket", "active","is_comebackjourney")
     actions = [activate_course, deactivate_course ]
-    list_filter = ('course_type', 'category', 'active')
+    list_filter = ('course_type', 'category', 'active', 'is_comebackjourney')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
     

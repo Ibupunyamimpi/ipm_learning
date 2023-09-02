@@ -32,6 +32,7 @@ class Course(models.Model):
     price = models.PositiveIntegerField(default=0)
     discount_pct = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
+    is_comebackjourney = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
