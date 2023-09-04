@@ -26,6 +26,7 @@ urlpatterns = [
     # Content
     path("learn/", include("ipm_learning.content.urls", namespace="content")),
     path("order/", include("ipm_learning.order.urls", namespace="order")),
+    path("comeback/", include("ipm_learning.comeback.urls", namespace="comeback")),
 
     # User management
     path("users/", include("ipm_learning.users.urls", namespace="users")),
