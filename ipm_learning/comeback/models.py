@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.contrib import admin
 
 class ComebackJourney(models.Model):
     title = models.CharField(max_length=200)
@@ -38,3 +40,35 @@ class ComebackJourney(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+    
+class ComebackRecord(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE, related_name='comeback_records')
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_on = models.DateTimeField(auto_now=True)
+    comeback = models.ForeignKey('ComebackJourney', on_delete=models.CASCADE, related_name='comeback_records')
+    is_monthly_pmt = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    one_time_price = models.PositiveBigIntegerField()
+    monthly_price = models.PositiveBigIntegerField()
+    num_monthly_pmts = models.PositiveIntegerField(default=0)
+    pmts_completed = models.PositiveIntegerField(default=0)
+    internal_notes = models.TextField(blank=True)
+    
+    
+    def __str__(self):
+        return f"COMEBACK-RECORD-{self.pk}-{self.comeback}-{self.user.email}"
+
+    def reference_number(self):
+        return f"COMEBACK-RECORD-{self.comeback}-{self.user}"
+
+
+    @property
+    @admin.display()
+    def user_email(self):
+        return self.user.email
+    
+    class Meta:
+        unique_together = ('user', 'comeback',)

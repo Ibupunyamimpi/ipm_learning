@@ -4,39 +4,79 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 from django.contrib import admin
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import datetime
 
+from ipm_learning.comeback.models import ComebackRecord
 
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
         "Order", on_delete=models.CASCADE, related_name='order_items')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='order_items')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='order_items', null=True, blank=True)
+    comeback_record = models.ForeignKey(ComebackRecord, on_delete=models.CASCADE, related_name='order_items_comeback', null=True, blank=True)
     tickets = models.IntegerField(default=1)
     
     def __str__(self):
         return self.reference_number
+    
+    def clean(self):
+        if self.course and self.comeback_record:
+            raise ValidationError("OrderItem cannot be linked to both a Course and a ComebackJourney.")
+        if not self.course and not self.comeback_record:
+            raise ValidationError("OrderItem must be linked to either a Course or a ComebackJourney.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     @property
     def reference_number(self):
-        return f"ORDER-ITEM-{self.pk}-{self.order}-{self.course}-TICKETS:{self.tickets}"
+        associated_item = self.course or self.comeback_record
+        return f"ORDER-ITEM-{self.pk}-{self.order}-{associated_item}-TICKETS:{self.tickets}"
 
     def get_item_price(self):
-        return self.course.price
-
+        if self.course:
+            return self.course.price
+        elif self.comeback_record:
+            if self.comeback_record.is_monthly_pmt:
+                return self.comeback_record.monthly_price
+            else:
+                return self.comeback_record.one_time_price
+        else:
+            return 0
+    
     def get_discount_price(self):
-        return self.get_item_price() * (1 - (self.course.discount_pct)/100)
+        if self.course:
+            return self.get_item_price() * (1 - (self.course.discount_pct)/100)
+        elif self.comeback_record:
+            return self.get_item_price()
+        else:
+            return 0
+        
+    # @property
+    # def reference_number(self):
+    #     return f"ORDER-ITEM-{self.pk}-{self.order}-{self.course}-TICKETS:{self.tickets}"
+
+    # def get_item_price(self):
+    #     return self.course.price
+
+    # def get_discount_price(self):
+    #     return self.get_item_price() * (1 - (self.course.discount_pct)/100)
 
     def get_amount_saved(self):
         return self.get_item_price() - self.get_discount_price()
 
     def get_raw_final_price(self):
-        if self.course.discount_pct > 0:
+        if self.course and self.course.discount_pct > 0:
             return self.tickets * self.get_discount_price()
-        return self.tickets * self.get_item_price()
+        elif self.comeback_record:
+            return self.tickets * self.get_item_price()
+        else:
+            return self.tickets * self.get_item_price()
 
     def get_order_item_total(self):
         total = self.get_raw_final_price()

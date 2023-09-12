@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ComebackJourney
+from .models import ComebackJourney, ComebackRecord
 from ipm_learning.content.models import Course
 
 class ComebackJourneyAdmin(admin.ModelAdmin):
@@ -15,3 +15,4 @@ class ComebackJourneyAdmin(admin.ModelAdmin):
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 admin.site.register(ComebackJourney, ComebackJourneyAdmin)
+admin.site.register(ComebackRecord)
