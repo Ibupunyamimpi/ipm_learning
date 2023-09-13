@@ -5260,6 +5260,21 @@
           "widget": null
         },
         {
+          "field": "comeback_record",
+          "type": "Number",
+          "is_filterable": true,
+          "is_sortable": true,
+          "is_read_only": false,
+          "is_required": false,
+          "is_virtual": false,
+          "default_value": null,
+          "integration": null,
+          "reference": "comeback_comebackrecord.id",
+          "inverse_of": "course_records",
+          "relationship": "BelongsTo",
+          "widget": null
+        },
+        {
           "field": "module_count",
           "type": "Number",
           "is_filterable": true,
@@ -6120,6 +6135,23 @@
           "default_value": null,
           "integration": null,
           "reference": "order_orderitem.id",
+          "inverse_of": "comeback_record",
+          "relationship": "HasMany",
+          "widget": null
+        },
+        {
+          "field": "course_records",
+          "type": [
+            "Number"
+          ],
+          "is_filterable": false,
+          "is_sortable": true,
+          "is_read_only": false,
+          "is_required": false,
+          "is_virtual": false,
+          "default_value": null,
+          "integration": null,
+          "reference": "order_courserecord.id",
           "inverse_of": "comeback_record",
           "relationship": "HasMany",
           "widget": null

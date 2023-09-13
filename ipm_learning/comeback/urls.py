@@ -1,8 +1,9 @@
 from django.urls import path
-from . import views
+from .views import comeback_main, ComebackDetail
 
 app_name = "comeback"
 
 urlpatterns = [
-    path('', views.comeback_main, name='comeback_main')
+    path('', comeback_main, name='comeback_main'),
+    path('<int:pk>/', ComebackDetail.as_view(), name='comeback_detail'),
 ]

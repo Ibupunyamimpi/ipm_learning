@@ -3,9 +3,12 @@ from datetime import date
 from django.conf import settings
 from django.contrib import messages
 from .models import ComebackJourney, ComebackRecord
-from ipm_learning.order.models import OrderItem
+from ipm_learning.order.models import OrderItem, CourseRecord
 from ipm_learning.order.utils import get_or_set_order_session
 from django.shortcuts import get_object_or_404, redirect, reverse
+from django.views import generic
+from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def comeback_main(request):
     journey = ComebackJourney.objects.filter(is_active=True).first()
@@ -62,3 +65,28 @@ def comeback_main(request):
                 return redirect("order:summary") 
     
     return render(request, 'comeback/comeback_main.html', context)
+
+
+
+class ComebackDetail(LoginRequiredMixin, generic.DetailView):
+    model = ComebackRecord
+    template_name = "comeback/comeback_detail.html"  # Update with your actual template path
+    context_object_name = "comeback_record"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Getting the related CourseRecords
+        user = self.request.user
+        comeback_record = self.get_object()
+        
+        # Check if the record is live
+        comeback_record.is_live = comeback_record.comeback.course_start_date <= date.today()
+        
+        # Retrieve CourseRecords only if the record is live
+        if comeback_record.is_live:
+            context['course_records'] = CourseRecord.objects.filter(user=user, comeback_record=comeback_record)
+        else:
+            context['course_records'] = []
+
+        return context

@@ -190,6 +190,7 @@ class CourseRecord(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_on = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_records')
+    comeback_record = models.ForeignKey(ComebackRecord, on_delete=models.SET_NULL, null=True, blank=True, related_name='course_records')
     module_count = models.IntegerField(default=0)
     modules_complete = models.IntegerField(default=0)
     tickets = models.IntegerField(default=1)
@@ -272,21 +273,44 @@ def update_order_status(sender, instance, created, **kwargs):
         send_mail(subject, plain_message, from_email, [to], html_message=html_message)
         
 
+# @receiver(post_save, sender=Order)
+# def create_course_record(sender, instance, created, **kwargs):
+#     order = instance
+#     if order.paid:
+#         for order_item in order.order_items.all():
+#             if order_item.course.multi_ticket and CourseRecord.objects.filter(course=order_item.course,user=order.user).exists():
+#                 course_record = CourseRecord.objects.get(course=order_item.course,user=order.user)
+#                 course_record.tickets += order_item.tickets
+#                 course_record.save()
+#             else:
+#                 course_record = CourseRecord(
+#                     course=order_item.course, 
+#                     user=order.user,
+#                     tickets=order_item.tickets)
+#                 course_record.save()
+
 @receiver(post_save, sender=Order)
 def create_course_record(sender, instance, created, **kwargs):
     order = instance
     if order.paid:
         for order_item in order.order_items.all():
-            if order_item.course.multi_ticket and CourseRecord.objects.filter(course=order_item.course,user=order.user).exists():
-                course_record = CourseRecord.objects.get(course=order_item.course,user=order.user)
-                course_record.tickets += order_item.tickets
-                course_record.save()
+            if order_item.comeback_record:
+                comeback_record = order_item.comeback_record
+                comeback_record.is_active = True
+                comeback_record.save()
+                for course in comeback_record.comeback.courses.all():
+                    create_or_update_course_record(course, order.user, order_item.tickets, comeback_record)
             else:
-                course_record = CourseRecord(
-                    course=order_item.course, 
-                    user=order.user,
-                    tickets=order_item.tickets)
-                course_record.save()
+                create_or_update_course_record(order_item.course, order.user, order_item.tickets, None)
+
+def create_or_update_course_record(course, user, tickets, comeback_record):
+    if CourseRecord.objects.filter(course=course, user=user).exists():
+        course_record = CourseRecord.objects.get(course=course, user=user)
+        course_record.tickets += tickets
+    else:
+        course_record = CourseRecord(course=course, user=user, tickets=tickets, comeback_record=comeback_record)
+    course_record.save()
+
 
 @receiver(post_save, sender=CourseRecord)
 def create_content_record(sender, instance, created, **kwargs):
