@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib import admin
+from django.utils.text import slugify
+
 
 class ComebackJourney(models.Model):
     title = models.CharField(max_length=200)
@@ -18,11 +20,18 @@ class ComebackJourney(models.Model):
     internal_notes = models.TextField(blank=True)
     is_active = models.BooleanField(default=False)
     courses = models.ManyToManyField('content.Course', related_name='comeback_journeys')
+    slug = models.SlugField(max_length=200, unique=True, blank=True, editable=False)
+    
+   
     
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        
         if self.is_active:
             # Set all other instances to inactive
             ComebackJourney.objects.filter(is_active=True).update(is_active=False)
+
         super(ComebackJourney, self).save(*args, **kwargs)
         
     def get_one_time_price(self):

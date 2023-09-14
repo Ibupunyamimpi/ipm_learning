@@ -8,15 +8,17 @@
 
 
     <div class="container px-5 py-16 mx-auto">
-      {% if not comeback_record.is_live %}
+      {% if not course_records %}
       <div class="flex flex-col">
 
         <div class="h-1 bg-gray-200 rounded overflow-hidden">
           <div class="w-24 h-full bg-red-500"></div>
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">This Comeback Journey is not yet Live!</h1>
+          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">This Comeback Journey has not started, or you have not joined!</h1>
+          
         </div>
+        
       </div>
       {% else %}
 
@@ -26,7 +28,7 @@
           <div class="w-24 h-full bg-red-500"></div>
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">Aktivitasku</h1>
+          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">{{ comeback_record.comeback.title }}</h1>
         </div>
       </div>
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">

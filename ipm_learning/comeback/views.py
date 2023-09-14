@@ -2,6 +2,7 @@ from django.shortcuts import render
 from datetime import date
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from .models import ComebackJourney, ComebackRecord
 from ipm_learning.order.models import OrderItem, CourseRecord
 from ipm_learning.order.utils import get_or_set_order_session
@@ -68,25 +69,35 @@ def comeback_main(request):
 
 
 
-class ComebackDetail(LoginRequiredMixin, generic.DetailView):
-    model = ComebackRecord
-    template_name = "comeback/comeback_detail.html"  # Update with your actual template path
-    context_object_name = "comeback_record"
+class ComebackJourneyDetail(LoginRequiredMixin, generic.DetailView):
+    model = ComebackJourney
+    template_name = "comeback/comeback_detail.html"
+    context_object_name = "comeback_journey"
+    slug_url_kwarg = 'slug'
+    slug_field = 'slug'  # Adjust the slug field accordingly
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Getting the related CourseRecords
         user = self.request.user
-        comeback_record = self.get_object()
-        
-        # Check if the record is live
-        comeback_record.is_live = comeback_record.comeback.course_start_date <= date.today()
-        
-        # Retrieve CourseRecords only if the record is live
-        if comeback_record.is_live:
-            context['course_records'] = CourseRecord.objects.filter(user=user, comeback_record=comeback_record)
-        else:
+        comeback_journey = self.get_object()
+
+        try:
+            # Check if user has an associated ComebackRecord
+            comeback_record = ComebackRecord.objects.get(user=user, comeback=comeback_journey)
+
+            # Check if the record is live
+            comeback_record.is_live = comeback_record.comeback.course_start_date <= date.today()
+
+            # Retrieve CourseRecords only if the record is live
+            if comeback_record.is_live:
+                context['course_records'] = CourseRecord.objects.filter(user=user, comeback_record=comeback_record)
+            else:
+                context['course_records'] = []
+
+            context['comeback_record'] = comeback_record
+        except ComebackRecord.DoesNotExist:
+            # If no associated ComebackRecord is found, set course_records to an empty list
             context['course_records'] = []
 
         return context
