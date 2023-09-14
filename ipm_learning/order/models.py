@@ -297,6 +297,9 @@ def create_course_record(sender, instance, created, **kwargs):
             if order_item.comeback_record:
                 comeback_record = order_item.comeback_record
                 comeback_record.is_active = True
+                comeback_record.pmts_completed = 1
+                comeback_record.comeback.remaining_spots -= 1
+                comeback_record.comeback.save()
                 comeback_record.save()
                 for course in comeback_record.comeback.courses.all():
                     create_or_update_course_record(course, order.user, order_item.tickets, comeback_record)
@@ -310,6 +313,7 @@ def create_or_update_course_record(course, user, tickets, comeback_record):
     else:
         course_record = CourseRecord(course=course, user=user, tickets=tickets, comeback_record=comeback_record)
     course_record.save()
+
 
 
 @receiver(post_save, sender=CourseRecord)

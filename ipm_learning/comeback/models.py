@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.contrib import admin
 from django.utils.text import slugify
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 
 
 class ComebackJourney(models.Model):
@@ -10,7 +13,7 @@ class ComebackJourney(models.Model):
     thumbnail = models.ImageField(upload_to="thumbnails/")
     weeks = models.PositiveIntegerField()
     cohort_size = models.PositiveIntegerField()
-    remaining_spots = models.PositiveIntegerField()
+    remaining_spots = models.PositiveIntegerField(default=0)
     signup_start_date = models.DateField()
     signup_end_date = models.DateField()
     course_start_date = models.DateField()
@@ -81,3 +84,39 @@ class ComebackRecord(models.Model):
     
     class Meta:
         unique_together = ('user', 'comeback',)
+
+
+class ComebackWaitlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"COMEBACK-WAITLIST-{self.pk}-{self.user.email}"
+    
+@receiver(post_save, sender=ComebackRecord)
+def update_waitlist(sender, instance, **kwargs):
+    if instance.is_active:
+        ComebackWaitlist.objects.filter(user=instance.user).delete()
+        
+        
+@receiver(post_save, sender=ComebackJourney)
+def create_course_records(sender, instance, **kwargs):
+    from ipm_learning.order.models import CourseRecord
+    # Get all courses associated with this comeback journey
+    courses = instance.courses.all()  # Adjust to your field name holding the courses related to a ComebackJourney
+
+    # Get all associated comeback_records
+    comeback_records = ComebackRecord.objects.filter(comeback=instance)
+
+    for comeback_record in comeback_records:
+        for course in courses:
+            # Check if a course record exists for the current comeback record and course
+            course_record, created = CourseRecord.objects.get_or_create(
+                course=course, 
+                comeback_record=comeback_record,
+                user=comeback_record.user
+            )
+
+            # If a new course record was created, you might want to set additional attributes here before saving it
+            if created:
+                course_record.save()

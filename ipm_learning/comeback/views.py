@@ -6,22 +6,34 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import ComebackJourney, ComebackRecord
 from ipm_learning.order.models import OrderItem, CourseRecord
 from ipm_learning.order.utils import get_or_set_order_session
-from django.shortcuts import get_object_or_404, redirect, reverse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from .models import ComebackWaitlist
+from django.contrib.auth.decorators import login_required
+
 
 def comeback_main(request):
     journey = ComebackJourney.objects.filter(is_active=True).first()
     registration = False
     current_date = date.today()
     
-    if journey and journey.signup_start_date <= current_date <= journey.signup_end_date:
+    if journey and journey.signup_start_date <= current_date <= journey.signup_end_date and journey.remaining_spots > 0:
         registration = True
+
     
+    # Check if the user is authenticated and if they are on the waitlist
+    on_waitlist = False
+    if request.user.is_authenticated:
+        on_waitlist = ComebackWaitlist.objects.filter(user=request.user).exists()
+
     context = {
         'journey': journey,
-        'registration': registration
+        'registration': registration,
+        'on_waitlist': on_waitlist,
     }
     
     if request.method == 'POST':
@@ -101,3 +113,19 @@ class ComebackJourneyDetail(LoginRequiredMixin, generic.DetailView):
             context['course_records'] = []
 
         return context
+    
+    
+class AddToWaitlistView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+            # Create a new waitlist entry for the current user
+            ComebackWaitlist.objects.create(user=request.user)
+            # Redirect the user to a thank you page or back to the main page
+            return redirect(reverse('comeback:comeback_main') + '#journeySection')
+        
+@login_required
+def add_to_waitlist_view(request):
+    if request.method == 'POST':
+        # Create a new waitlist entry for the current user
+        ComebackWaitlist.objects.create(user=request.user)
+        # Redirect the user to a thank you page or back to the main page
+        return redirect(reverse('comeback:comeback_main') + '#waitlist')
