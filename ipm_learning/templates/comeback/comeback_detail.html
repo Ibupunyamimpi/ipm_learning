@@ -6,64 +6,29 @@
 
   <section class="text-gray-600 body-font">
 
-    {% if comeback_records %}
+
     <div class="container px-5 py-16 mx-auto">
+      {% if not course_records %}
       <div class="flex flex-col">
 
         <div class="h-1 bg-gray-200 rounded overflow-hidden">
           <div class="w-24 h-full bg-red-500"></div>
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">Comeback Journey</h1>
+          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">This Comeback Journey has not started, or you have not joined!</h1>
+          
         </div>
-      </div>
-      <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-          {% for comeback_record in comeback_records %}
-            <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
-              <div class="rounded-lg h-64 overflow-hidden">
-                {% if comeback_record.is_live %}
-                  <a href="{% url 'comeback:comeback_detail' slug=comeback_record.comeback.slug %}">
-                    <img alt="content" class="object-cover object-center h-full w-full" src="{{ comeback_record.comeback.thumbnail.url }}">
-                </a>
-                {% else %}
-                  <a href="#">
-                    <img alt="content" class="object-cover object-center h-full w-full" src="{{ comeback_record.comeback.thumbnail.url }}">
-                  </a>
-                {% endif %}
-              </div>
-              <h2 class="text-xl font-medium title-font text-gray-900 mt-5">{{ comeback_record.comeback.title }}</h2>
-              
-              <!-- <p class="text-base leading-relaxed mt-2">Start Date: {{ course_record.created_at }}</p> -->
-              {% if comeback_record.is_live %}
-                <span class="inline-block py-1 px-2 rounded bg-red-500 text-white text-xs font-medium tracking-widest">Live!</span>
-              {% else %}
-                <span class="inline-block py-1 px-2 rounded bg-gray-500 text-white text-xs font-medium tracking-widest">Starting Soon</span>
-              {% endif %}
-              
-              <p class="text-base leading-relaxed mt-2">Yang Ibu Dapatkan: {{ comeback_record.comeback.course_start_date }}</p>
-              
-              {% if comeback_record.is_live %}
-              <a href="{% url 'comeback:comeback_detail' slug=comeback_record.comeback.slug %}" class="text-red-500 inline-flex items-center mt-3">Kembali ke Kursus Online
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewbox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
-              {% endif %}
-            </div>
-          {% endfor %}
         
       </div>
-    </div>
-    {% endif %}
+      {% else %}
 
-    <div class="container px-5 py-16 mx-auto">
       <div class="flex flex-col">
 
         <div class="h-1 bg-gray-200 rounded overflow-hidden">
           <div class="w-24 h-full bg-red-500"></div>
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">Aktivitasku</h1>
+          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">{{ comeback_record.comeback.title }}</h1>
         </div>
       </div>
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
@@ -110,7 +75,7 @@
         {% endif %}
       </div>
     </div>
-
+    {% endif %}
   </section>
 
 {% endblock content %}

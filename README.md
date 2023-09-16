@@ -1,4 +1,5 @@
 # IPM Learning Platform
+Sept 16 update
 
 LINK TO GUIDE -> https://gist.github.com/mswaringen/cdc1bc46e25863fd14314a1a858e33a6
 
