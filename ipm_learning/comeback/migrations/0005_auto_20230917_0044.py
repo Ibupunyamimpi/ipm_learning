@@ -10,10 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterUniqueTogether(
-            name='comebackrecord',
-            unique_together=set(),
-        ),
+        # migrations.AlterUniqueTogether(
+        #     name='comebackrecord',
+        #     unique_together=set(),
+        # ),
         migrations.RemoveField(
             model_name='comebackrecord',
             name='comeback',
