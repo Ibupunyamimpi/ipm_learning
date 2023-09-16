@@ -17,14 +17,14 @@ class ComebackJourneyAdmin(admin.ModelAdmin):
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 
-class ComebackRecordAdmin(admin.ModelAdmin):
-    list_display = ('user', 'comeback', 'is_active', 'is_monthly_pmt', 'pmts_completed', 'created_at')
-    fieldsets = (
-        (None, {'fields': ('user', 'comeback', 'is_active')}),
-        ('Payment Info', {'fields': ('one_time_price', 'monthly_price', 'is_monthly_pmt', 'pmts_completed', 'created_at')}),
-        ('Internal Notes', {'fields': ('internal_notes',)}),
-    )
-    readonly_fields = ('created_at',)
+# class ComebackRecordAdmin(admin.ModelAdmin):
+    # list_display = ('user', 'comeback', 'is_active', 'is_monthly_pmt', 'pmts_completed', 'created_at')
+    # fieldsets = (
+    #     (None, {'fields': ('user', 'comeback', 'is_active')}),
+    #     ('Payment Info', {'fields': ('one_time_price', 'monthly_price', 'is_monthly_pmt', 'pmts_completed', 'created_at')}),
+    #     ('Internal Notes', {'fields': ('internal_notes',)}),
+    # )
+    # readonly_fields = ('created_at',)
 
 
 
@@ -49,5 +49,5 @@ class ComebackWaitlistAdmin(ExportMixin, admin.ModelAdmin):
 
 
 admin.site.register(ComebackJourney, ComebackJourneyAdmin)
-admin.site.register(ComebackRecord, ComebackRecordAdmin)
+# admin.site.register(ComebackRecord, ComebackRecordAdmin)
 admin.site.register(ComebackWaitlist, ComebackWaitlistAdmin)
