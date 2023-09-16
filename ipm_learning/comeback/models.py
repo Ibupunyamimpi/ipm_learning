@@ -82,8 +82,8 @@ class ComebackRecord(models.Model):
     def user_email(self):
         return self.user.email
     
-    # class Meta:
-    #     unique_together = ('user', 'comeback',)
+    class Meta:
+        unique_together = ('user', 'comeback',)
 
 
 class ComebackWaitlist(models.Model):
