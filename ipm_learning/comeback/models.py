@@ -113,9 +113,13 @@ def create_course_records(sender, instance, **kwargs):
             # Check if a course record exists for the current comeback record and course
             course_record, created = CourseRecord.objects.get_or_create(
                 course=course, 
-                comeback_record=comeback_record,
-                user=comeback_record.user
+                user=comeback_record.user,
+                defaults={'comeback_record': comeback_record}
             )
+
+            if not created and course_record.comeback_record != comeback_record:
+                course_record.comeback_record = comeback_record
+                course_record.save()
 
             # If a new course record was created, you might want to set additional attributes here before saving it
             if created:
