@@ -257,7 +257,6 @@ class CourseLibraryView(LoginRequiredMixin, generic.ListView):
             # and where course.is_comebackjourney is False
             queryset = CourseRecord.objects.filter(
                 user=user,
-                course__is_comebackjourney=False
             )
             
             return queryset
