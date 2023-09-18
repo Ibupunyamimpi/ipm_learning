@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CourseEmail, GroupEmail
+from .models import CourseEmail, GroupEmail, ComebackJourneyEmail, ComebackWaitlistEmail
 
 
 
@@ -11,5 +11,13 @@ class CourseEmailAdmin(admin.ModelAdmin):
 class GroupEmailAdmin(admin.ModelAdmin):
     list_display = ('subject','group',)
     list_filter = ('group',)
+
+@admin.register(ComebackJourneyEmail)
+class ComebackJourneyEmailAdmin(admin.ModelAdmin):
+    list_display = ('subject','comeback',)
+
+@admin.register(ComebackWaitlistEmail)
+class ComebackWaitlistEmailAdmin(admin.ModelAdmin):
+    list_display = ('subject',)
 
 # admin.site.register(GroupEmail)

@@ -1,6 +1,7 @@
 from django.db import models
 from tinymce.models import HTMLField
 from ipm_learning.content.models import Course
+from ipm_learning.comeback.models import ComebackJourney, ComebackWaitlist
 from django.contrib.auth.models import Group
 
 
@@ -24,3 +25,21 @@ class GroupEmail(models.Model):
     
     def __str__(self):
         return f"GROUP-EMAIL-{self.pk}-{self.group.name}"
+    
+class ComebackJourneyEmail(models.Model):
+    comeback = models.ForeignKey(ComebackJourney, on_delete=models.CASCADE, related_name='emails')
+    subject = models.CharField(max_length=100)
+    text_content = HTMLField()
+    send_now = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"COMEBACK-JOURNEY-EMAIL-{self.pk}-{self.comeback.title}"
+
+class ComebackWaitlistEmail(models.Model):
+    subject = models.CharField(max_length=100)
+    text_content = HTMLField()
+    send_now = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"COMEBACK-WAITLIST-EMAIL-{self.pk}"
+
