@@ -4,12 +4,13 @@ from django.contrib import admin
 from django.utils.text import slugify
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from tinymce.models import HTMLField
 
 
 
 class ComebackJourney(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = HTMLField()
     thumbnail = models.ImageField(upload_to="thumbnails/")
     weeks = models.PositiveIntegerField()
     cohort_size = models.PositiveIntegerField()

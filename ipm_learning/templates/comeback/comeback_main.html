@@ -137,8 +137,8 @@
             <div class="relative w-full md:w-1/2 px-6 pb-4 lg:pb-0">
                 <div class="lg:ml-auto max-w-md">
                     <h2 class="mb-6 lg:mb-10 text-4xl font-semibold font-heading">{{ journey.title }}</h2>
-                    <p class="mb-6 lg:mb-10 text-xl text-gray-500">{{ journey.description }}</p>
-                    <div class="mb-10 border rounded-lg">
+                    <p class="mb-6 lg:mb-10 text-xl text-gray-500">{{ journey.description|safe }}</p>
+                    <div class="my-10 border rounded-lg">
                         <div class="flex p-4 border-b">
                             <h3 class="font-semibold font-heading">Weeks: {{ journey.weeks }}</h3>
                         </div>
