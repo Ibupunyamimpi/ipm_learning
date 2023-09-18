@@ -11,7 +11,8 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from ipm_learning.order.models import CourseRecord
-from .models import CourseEmail, GroupEmail
+from ipm_learning.comeback.models import ComebackRecord, ComebackWaitlist
+from .models import CourseEmail, GroupEmail, ComebackJourneyEmail, ComebackWaitlistEmail
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -145,6 +146,63 @@ def send_course_email(sender, instance, created, **kwargs):
             email_sender(email, user)
 
 
+"""
+
+ComebackEmail
+
+"""
+
+# Send ComebackEmail immediately
+@receiver(post_save, sender=ComebackJourneyEmail)
+def send_comeback_email_now(sender, instance, created, **kwargs):
+    email = instance
+    if email.send_now:
+        # Fetch all users associated with the comeback journey
+        # Adjust the query as necessary to get the list of email addresses
+        email_addresses = list(ComebackRecord.objects.filter(comeback=email.comeback)
+                               .values_list('user__email', flat=True))
+        send_mass_html_mail(email, email_addresses)
+        email.send_now = False
+        email.save()
+
+ 
+ 
+# Triggers Comeback Emails on ComebackRecord create
+@receiver(post_save, sender=ComebackRecord)
+def send_comeback_email(sender, instance, created, **kwargs):    
+    if created:
+        comeback_record = instance
+        user = comeback_record.user
+        emails = ComebackJourneyEmail.objects.filter(comeback=comeback_record.comeback)
+        for email in emails:
+            email_sender(email, user)
+
+
+"""
+
+WaitlistEmail
+
+"""
+
+# Send WaitlistEmail immediately
+@receiver(post_save, sender=ComebackWaitlistEmail)
+def send_waitlist_email_now(sender, instance, created, **kwargs):
+    email = instance
+    if email.send_now:
+        # Get email addresses of all users in the ComebackWaitlist
+        email_addresses = list(ComebackWaitlist.objects.all().values_list('user__email', flat=True))
+        send_mass_html_mail(email, email_addresses)
+        email.send_now = False
+        email.save()
+        
+# Triggers Waitlist Emails on ComebackWaitlist create
+@receiver(post_save, sender=ComebackWaitlist)
+def send_comeback_waitlist_email(sender, instance, created, **kwargs):    
+    if created:
+        user = instance.user
+        emails = ComebackWaitlistEmail.objects.all()
+        for email in emails:
+            email_sender(email, user)        
 
 """
 
