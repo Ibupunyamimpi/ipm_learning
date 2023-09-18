@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, reverse
 from django.views import generic
 from django.conf import settings
+from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -8,6 +9,7 @@ from .models import Course, Content, Category
 from ipm_learning.order.models import Order, CourseRecord, ContentRecord, QuizRecord, OrderItem
 from ipm_learning.order.utils import get_or_set_order_session
 from ipm_learning.order.forms import AddToCartForm
+from ipm_learning.comeback.models import ComebackRecord
 from django.contrib import messages
 from django.db.models import Prefetch, F
 
@@ -233,18 +235,54 @@ class ContentDetailView(LoginRequiredMixin, generic.DetailView):
     #     })
     #     return context
 
-class CourseLibraryView(LoginRequiredMixin, generic.ListView):
-    template_name = "content/course_library.html"
-    context_object_name = "course_records"
+# class CourseLibraryView(LoginRequiredMixin, generic.ListView):
+#     template_name = "content/course_library.html"
+#     context_object_name = "course_records"
 
-    def get_queryset(self):
-        user = self.request.user
-        queryset = CourseRecord.objects.filter(
-            user=user
-        )
-        return queryset
+#     def get_queryset(self):
+#         user = self.request.user
+#         queryset = CourseRecord.objects.filter(
+#             user=user
+#         )
+#         return queryset
     
-    
+class CourseLibraryView(LoginRequiredMixin, generic.ListView):
+        template_name = "content/course_library.html"
+        context_object_name = "course_records"
+
+        def get_queryset(self):
+            user = self.request.user
+            
+            # Query for CourseRecords associated with the user 
+            # and where course.is_comebackjourney is False
+            queryset = CourseRecord.objects.filter(
+                user=user,
+            )
+            
+            return queryset
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            
+            user = self.request.user
+            
+            # Get today's date
+            today = timezone.now().date()
+            
+            # Query for ComebackRecords where is_active is True
+            comeback_records = ComebackRecord.objects.filter(
+                user=user,
+                is_active=True
+            )
+            
+            # Determine if the Comeback Journey is live
+            for record in comeback_records:
+                record.is_live = record.comeback.course_start_date <= today
+            
+            # Add the comeback_records queryset to the context with the is_live attribute
+            context['comeback_records'] = comeback_records
+
+            return context
         
         
         

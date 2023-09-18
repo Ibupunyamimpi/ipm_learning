@@ -8,14 +8,14 @@
 
     <div class="relative container px-4 mx-auto">
         <div class="flex flex-wrap items-center -mx-4">
-            <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
+            <div class="w-full lg:w-1/2 px-6 mb-12 lg:mb-0">
                 <div class="max-w-lg">
                     <h2 class="mt-8 mb-6 lg:mb-10 lg:pr-8 text-4xl font-semibold">Comeback Journey</h2>
                     <p class="mb-6 lg:mb-12 text-xl text-gray-500">Comeback Journey Ibu merupakan program belajar berkelanjutan yang disusun untuk mengarahkan dan mempersiapkan ibu untuk memiliki sumber <b>finansial mandiri dari mimpinya.</b></p>
                     <button onclick="scrollToSection('journeySection')" class="inline-block py-4 px-8 text-sm text-white font-medium leading-normal bg-red-400 hover:bg-red-300 transition duration-200 rounded">Mulai Perjalanan Comeback Ibu</button>
                 </div>
             </div>
-            <div class="relative w-full lg:w-1/2 px-4">
+            <div class="relative w-full lg:w-1/2 px-6">
                 <img class="rounded-xl object-cover lg:h-128" src="https://images.unsplash.com/photo-1524508762098-fd966ffb6ef9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt="">
             </div>
         </div>
@@ -131,20 +131,23 @@
   <section class="relative py-20 bg-red-50">
     <div class="container px-4 mx-auto">
         <div class="flex flex-wrap items-start -mx-4">
-            <div class="relative w-full md:w-1/2 px-4 mb-12 md:mb-0">
+            <div class="relative w-full md:w-1/2 px-6 mb-12 md:mb-0">
                 <img class="h-96 lg:h-128 w-full rounded-xl object-cover" src="{{ journey.thumbnail.url}}" alt="">
             </div>
-            <div class="relative w-full md:w-1/2 px-4 pb-4 lg:pb-0">
+            <div class="relative w-full md:w-1/2 px-6 pb-4 lg:pb-0">
                 <div class="lg:ml-auto max-w-md">
                     <h2 class="mb-6 lg:mb-10 text-4xl font-semibold font-heading">{{ journey.title }}</h2>
-                    <p class="mb-6 lg:mb-10 text-xl text-gray-500">{{ journey.description }}</p>
-                    <div class="mb-10 border rounded-lg">
+                    <p class="mb-6 lg:mb-10 text-xl text-gray-500">{{ journey.description|safe }}</p>
+                    <div class="my-10 border rounded-lg">
                         <div class="flex p-4 border-b">
                             <h3 class="font-semibold font-heading">Minggu: {{ journey.weeks }}</h3>
                         </div>
                         <div class="flex p-4 border-b">
                             <h3 class="font-semibold font-heading">Jumlah Ibu: {{ journey.cohort_size }} students</h3>
                         </div>
+                        <div class="flex p-4 border-b">
+                          <h3 class="font-semibold font-heading">Remaining Spots: {{ journey.remaining_spots }} students</h3>
+                      </div>
                        
 
                     </div>
@@ -234,7 +237,7 @@
 
   {% if registration %}
 <section class="pb-20 pt-10 bg-red-50">
-  <div class="container px-4 mx-auto">
+  <div class="container px-6 mx-auto">
     <div class="max-w-3xl mx-auto mb-12 lg:mb-12 text-center">
       <h2 class="mt-8 mb-8 text-4xl font-semibold font-heading">Pendaftaran dibuka</h2>
     </div>
@@ -262,7 +265,12 @@
           <p class="text-center lg:text-right text-sm text-gray-500">Bayar per bulan</p>
         </div>
         <div class="w-full lg:w-1/5 px-4 text-center lg:text-right">
-          <button class="block lg:inline-block w-full py-4 lg:px-12 text-sm text-center font-semibold text-white rounded bg-red-400 hover:bg-red-300 transition duration-200">Gabung Sekarang</button>
+
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pmt_type" value="monthly">
+          <button class="block lg:inline-block w-full py-4 lg:px-12 text-sm text-center font-semibold text-white rounded bg-red-400 hover:bg-red-300 transition duration-200">Join Now</button>
+            </form>
         </div>
       </div>
     </div>
@@ -295,7 +303,13 @@
         
         </div>
         <div class="w-full lg:w-1/5 px-4 text-center lg:text-right">
-          <button class="block lg:inline-block w-full py-4 lg:px-12 text-sm text-center font-semibold text-red-400 rounded bg-white hover:bg-red-100 transition duration-200">Gabung sekarang</button>
+
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pmt_type" value="one-time">
+          <button class="block lg:inline-block w-full py-4 lg:px-12 text-sm text-center font-semibold text-red-400 rounded bg-white hover:bg-red-100 transition duration-200">Join Now</button>
+          </form>
+
         </div>
       </div>
     </div>

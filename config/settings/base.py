@@ -86,9 +86,9 @@ LOCAL_APPS = [
     "ipm_learning.users",
     "ipm_learning.content.apps.ContentConfig",
     "ipm_learning.order.apps.OrderConfig",
+    "ipm_learning.comeback.apps.ComebackConfig",
     "ipm_learning.pages.apps.PagesConfig",
     "ipm_learning.emails.apps.EmailsConfig",
-    "ipm_learning.comeback.apps.ComebackConfig",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
