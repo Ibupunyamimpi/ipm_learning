@@ -1,97 +1,168 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
-<section class="text-gray-600 body-font">
+<section class="text-gray-600 body-font" x-data="courseSearch()">
 
-  <div id="events" class="flex flex-col text-start w-full mt-7 -mb-10 px-5">
-    <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Kegiatan Bulan Ini</h1>
-    <p class="leading-relaxed text-base hover:underline"><a href="#courses">Cek Kursus Online</a></p>
-  </div>
-
-  <div class="container px-5 py-24 mx-auto">
-    <div class="flex flex-col">
-      
-        <div class="h-1 bg-gray-200 rounded overflow-hidden">
-          <div class="w-24 h-full bg-red-500"></div>
-        </div>
-        <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-          <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">Bekal Mimpi Ibu</h1>
-        </div>
-      </div>
-      <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-      {% for course in events %}
-          <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
-            <div class="rounded-lg h-64 overflow-hidden">
-              <a href="{% url 'content:course-detail' course.slug %}">
-                <img alt="content" class="object-cover object-center h-full w-full" src="{{ course.thumbnail.url }}">
-              </a>
-            </div>
-            <h2 class="text-xl font-medium title-font text-gray-900 mt-5">{{ course.name }}</h2>
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.course_type }}</h2>
-            <p class="text-base leading-relaxed mt-2">{{ course.event_datetime|date }} at {{ course.event_datetime|time }}</p>
-            <p class="text-base leading-relaxed mt-2">{{ course.description }}</p>
-            <a href="{% url 'content:course-detail' course.slug %}" class="text-red-500 inline-flex items-center mt-3">Info Lebih Lanjut
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
-        {% endfor %}
-        
-      </div>
+  <div class="px-4">
+    <div class="flex flex-col text-start w-full mt-7 mb-5">
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Acara dan Kursus</h1>
     </div>
-
-
-
-
-  <div class="flex flex-col text-start w-full mt-10 -mb-10 px-5">
-    <h1 id="courses" class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Kursus Online</h1>
-    <p class="leading-relaxed text-base hover:underline"><a href="#events">Cek Bekal Mimpi Ibu</a></p>
-  </div>
-  
-  {% for category in courses %}
-  <div id="{{ category.name }}" class="container px-5 py-24 mx-auto">
-  <div class="flex flex-col">
-    
-      <div class="h-1 bg-gray-200 rounded overflow-hidden">
+    <div class="h-1 bg-gray-200 rounded mb-7 mx-auto">
         <div class="w-24 h-full bg-red-500"></div>
-      </div>
-      <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-        <h1 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">{{ category.name }}</h1>
-      </div>
-    </div>
-    <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-    {% for course in category.courses.all %}
-      {% if course.active and course.course_type == 'Course'%}
-        <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
-          <div class="rounded-lg h-64 overflow-hidden">
-            <a href="{% url 'content:course-detail' course.slug %}">
-              <img alt="content" class="object-cover object-center h-full w-full" src="{{ course.thumbnail.url }}">
-            </a>
-          </div>
-          <h2 class="text-xl font-medium title-font text-gray-900 mt-5">{{ course.name }}</h2>
-          <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.course_type }}</h2>
-          <p class="text-base leading-relaxed mt-2">{{ course.description }}</p>
-          <a href="{% url 'content:course-detail' course.slug %}" class="text-red-500 inline-flex items-center mt-3">Learn More
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
-        {% endif %}
-      {% endfor %}
-      
     </div>
   </div>
-  {% endfor %}
-</section> 
+
+  <!-- Collapsible Filter Menu for Mobile -->
+  <div class="lg:hidden px-4 py-4">
+    <button @click="showFilters = !showFilters" class="w-full text-left bg-gray-200 p-2 rounded">Search & Filter</button>
+    <div x-show="showFilters" class="mt-4">
+        <!-- Your filter form for mobile goes here -->
+        <form hx-get="{% url 'content:course-list' %}" hx-target="#course-list" hx-swap="innerHTML" id="course-search-form">
+          <!-- Search input -->
+          <div class="mb-4">
+            <!-- {% if search_query %} -->
+            <!-- <p class="mb-2 text-gray-700">"{{ search_query }}"</p> -->
+            <!-- {% endif %} -->
+            <input type="text" name="search" placeholder="Mencari" x-model="searchQuery" @input="debounce(submitForm, 300)" class="w-full px-4 py-2 border rounded">
+          </div>
+          
+          <!-- Course Type Filter -->
+          <div class="mb-4">
+            <h4 class="mb-2 font-medium">Jenis Kursus:</h4>
+            {% for type, display_name in type_choices %}
+            <label>
+                <input type="checkbox" name="course_type" value="{{ type }}" checked class="mr-2"> {{ display_name }}
+            </label><br>
+            {% endfor %}
+          </div>
+
+          <!-- Category Filter -->
+          <div class="mb-4">
+              <h4 class="mb-2 font-medium">Kategori:</h4>
+              {% for category in categories %}
+                  <label><input type="checkbox" name="category" value="{{ category.id }}" checked class="mr-2"> {{ category.name }}</label><br>
+              {% endfor %}
+          </div>
+
+          <!-- Price Filter -->
+          <div class="mb-4">
+              <h4 class="mb-2 font-medium">Harga:</h4>
+              <label><input type="checkbox" name="price" value="free" checked class="mr-2"> Gratis</label><br>
+              <label><input type="checkbox" name="price" value="paid" checked class="mr-2"> Berbayar</label>
+          </div>
+
+          <!-- Search and Clear buttons -->
+          <div class="mt-6">
+              <button type="submit" class="mr-2 py-2 px-4 text-white bg-red-400 rounded hover:bg-red-300">Mencari</button>
+              <button type="button" @click="clearSearchAndRefresh()" class="py-2 px-4 bg-gray-200 rounded hover:bg-gray-300">Jernih</button>
+          </div>
+      </form>
+    </div>
+</div>
+
+  <!-- Flex layout for sidebar and main content -->
+  <div class="flex">
 
     
 
-  
+    <!-- Filter Form for Desktop -->
+    <section class="hidden lg:block relative py-4">
+        <div class="container px-4 mx-auto">
+            <div class="max-w-md mx-auto py-6 lg:py-12 px-4 lg:px-8 bg-white border rounded-xl">
+                <form hx-get="{% url 'content:course-list' %}" hx-target="#course-list" hx-swap="innerHTML" id="course-search-form">
+                    <!-- Search input -->
+                    <div class="mb-4">
+                      <!-- {% if search_query %} -->
+                      <!-- <p class="mb-2 text-gray-700">"{{ search_query }}"</p> -->
+                      <!-- {% endif %} -->
+                      <input type="text" name="search" placeholder="Mencari" x-model="searchQuery" @input="debounce(submitForm, 300)" class="w-full px-4 py-2 border rounded">
+                    </div>
+                    
+                    <!-- Course Type Filter -->
+                    <div class="mb-4">
+                      <h4 class="mb-2 font-medium">Jenis Kursus:</h4>
+                      {% for type, display_name in type_choices %}
+                      <label>
+                          <input type="checkbox" name="course_type" value="{{ type }}" checked class="mr-2"> {{ display_name }}
+                      </label><br>
+                      {% endfor %}
+                    </div>
 
+                    <!-- Category Filter -->
+                    <div class="mb-4">
+                        <h4 class="mb-2 font-medium">Kategori:</h4>
+                        {% for category in categories %}
+                            <label><input type="checkbox" name="category" value="{{ category.id }}" checked class="mr-2"> {{ category.name }}</label><br>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div class="mb-4">
+                        <h4 class="mb-2 font-medium">Harga:</h4>
+                        <label><input type="checkbox" name="price" value="free" checked class="mr-2"> Gratis</label><br>
+                        <label><input type="checkbox" name="price" value="paid" checked class="mr-2"> Berbayar</label>
+                    </div>
+
+                    <!-- Search and Clear buttons -->
+                    <div class="mt-6 flex space-x-2">
+                      <button type="submit" class="flex-1 mr-2 py-2 px-4 text-white bg-red-400 rounded hover:bg-red-300">Mencari</button>
+                      <button type="button" @click="clearSearchAndRefresh()" class="flex-1 py-2 px-4 bg-gray-200 rounded hover:bg-gray-300">Jernih</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content for displaying courses -->
+    <div class="w-full lg:w-3/4 p-4" id="course-list">
+        {% include "content/course_list_partial.html" %}
+        
+      <!-- Pagination -->
+      <div class="mt-4">
+        {% if course_list.has_previous %}
+            <a href="?page={{ course_list.previous_page_number }}" hx-get="{% url 'content:course-list' %}" hx-target="#course-list" hx-swap="innerHTML" class="px-3 py-2 border rounded-l bg-gray-200">Previous</a>
+        {% else %}
+            <span class="px-3 py-2 border rounded-l bg-gray-300">Previous</span>
+        {% endif %}
+
+        <span class="px-3 py-2 border bg-gray-200">{{ course_list.number }} / {{ course_list.paginator.num_pages }}</span>
+
+        {% if course_list.has_next %}
+            <a href="?page={{ course_list.next_page_number }}" hx-get="{% url 'content:course-list' %}" hx-target="#course-list" hx-swap="innerHTML" class="px-3 py-2 border rounded-r bg-gray-200">Next</a>
+        {% else %}
+            <span class="px-3 py-2 border rounded-r bg-gray-300">Next</span>
+        {% endif %}
+      </div>
+
+  </div>
+
+</section>
+
+<script src="https://unpkg.com/htmx.org@1.6.1"></script>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+<script>
+  function debounce(callback, wait) {
+    let timeoutId = null;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback.apply(null, args);
+        }, wait);
+    };
+  }
+
+  function courseSearch() {
+      return {
+          searchQuery: '',
+          showFilters: false,  // For the mobile filter menu visibility
+          submitForm() {
+              document.getElementById('course-search-form').submit();
+          },
+          clearSearchAndRefresh() {
+              window.location.href = "{% url 'content:course-list' %}";
+          }
+      };
+  }
+</script>
 {% endblock content %}
-
-
-

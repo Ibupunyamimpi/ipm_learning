@@ -12,6 +12,7 @@ from ipm_learning.order.forms import AddToCartForm
 from ipm_learning.comeback.models import ComebackRecord
 from django.contrib import messages
 from django.db.models import Prefetch, F
+from django.shortcuts import render
 
 
 
@@ -29,17 +30,61 @@ class EventListView(generic.ListView):
     ).order_by('event_datetime')
     context_object_name = "events"  
 
+
 class CourseListView(generic.ListView):
     template_name = "content/course_list.html"
-    queryset = Category.objects.all()
-    context_object_name = "courses"
+    context_object_name = "course_list"
+    paginate_by = 10
 
+    def get_queryset(self):
+        self.search_query = self.request.GET.get('search', '')
+        course_types = self.request.GET.getlist('course_type', [])
+        category_ids = self.request.GET.getlist('category', [])
+        price_filters = self.request.GET.getlist('price', [])
+
+        # Base queryset with search filter
+        queryset = Course.objects.filter(
+            Q(name__icontains=self.search_query) |
+            Q(description__icontains=self.search_query)
+        )
+
+        # Filter by course type
+        if course_types:
+            queryset = queryset.filter(course_type__in=course_types)
+        
+        # Filter by category
+        if category_ids:
+            total_categories = Category.objects.count()
+            if len(category_ids) != total_categories:
+                queryset = queryset.filter(category_id__in=category_ids)
+
+        # Filter by price
+        if price_filters:
+            if 'free' in price_filters and 'paid' not in price_filters:
+                queryset = queryset.filter(price=0)
+            elif 'paid' in price_filters and 'free' not in price_filters:
+                queryset = queryset.exclude(price=0)
+
+        return queryset.order_by('-event_datetime')
+    
     def get_context_data(self, **kwargs):
         context = super(CourseListView, self).get_context_data(**kwargs)
-        context['events'] = Course.objects.filter(
-            (Q(course_type="Event") | Q(course_type="Bootcamp")) & Q(active=True)
-        ).order_by('event_datetime')
+        context['categories'] = Category.objects.all()
+        context['type_choices'] = Course.TYPE_CHOICES
+        context['search_query'] = self.search_query
         return context
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+
+        # Check if the request has an "hx-request" header (indicative of an HTMX request)
+        if request.headers.get("HX-Request"):
+            return render(request, "content/course_list_partial.html", context)
+
+        return render(request, self.template_name, context)
+
+
 
 class CourseDetailView(generic.FormView):
     template_name = "content/course_detail.html"
