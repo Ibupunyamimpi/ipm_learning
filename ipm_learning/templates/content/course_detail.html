@@ -76,31 +76,62 @@
 
       </div>
     </div>
-    
-    <div class="h-1 bg-gray-200 rounded overflow-hidden mt-24">
-      <!-- <div class="w-24 h-full bg-red-500"></div> -->
+
+    <!-- YouTube Video Section -->
+    {% if course.preview_youtube_id %}
+    <div class="lg:w-4/5 mx-auto sm:mb-2 -mx-2 mt-10" style="overflow: hidden;">
+      <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Course Preview</h1>
+      <div class="bg-gray-50 rounded mx-auto" style="width: 90%;">
+        <iframe width="100%" height="300" src="https://www.youtube.com/embed/{{ course.preview_youtube_id }}" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
-    <div class="text-center mb-12 mt-14">
-      <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Yang akan Ibu Dapatkan</h1>
-      <!-- <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">Modules: 12</p> -->
-    </div>
-    <div class="flex flex-wrap lg:w-4/5 mx-auto sm:mb-2 -mx-2">
-      {% for content in course.contents.all %}
-      <div class="p-2 lg:w-1/2 w-full">
-        <div class="bg-gray-50 rounded flex p-4 h-full items-center">
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-red-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-            <path d="M22 4L12 14.01l-3-3"></path>
-          </svg>
-          <span class="title-font font-medium">{{ content.title }}</span>
+    {% endif %}
+    <!-- End YouTube Video Section -->
+
+    <!-- Testimonials Section -->
+    {% if course.testimonials %}
+      <div class="lg:w-4/5 mx-auto sm:mb-2 -mx-2 mt-10" style="overflow: hidden;">
+        <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Testimonials</h1>
+        <div class="bg-gray-50 rounded p-4">
+          <div class="mb-4">
+            <p class="leading-relaxed">{{ course.testimonials|safe }}</p>
+          </div>
         </div>
       </div>
-      {% endfor %}
-      
-      
-      
-    </div>
+    {% endif %}
+    <!-- End Testimonials Section -->
 
+    <!-- Detailed Description Section -->
+    {% if course.detailed_desc %}
+      <div class="lg:w-4/5 mx-auto sm:mb-2 -mx-2 mt-10" style="overflow: hidden;">
+        <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Detailed Description</h1>
+        <div class="bg-gray-50 rounded p-4">
+          <p class="leading-relaxed">{{ course.detailed_desc|safe }}</p>
+        </div>
+      </div>
+    {% endif %}
+    <!-- End Detailed Description Section -->
+    
+
+    
+
+  </div>
+  <div class="text-center mb-12 mt-14">
+    <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4 mx-auto">Yang akan Ibu Dapatkan</h1>
+    <!-- <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">Modules: 12</p> -->
+  </div>
+  <div class="flex flex-wrap lg:w-4/5 mx-auto sm:mb-2 -mx-2">
+    {% for content in course.contents.all %}
+    <div class="p-2 lg:w-1/2 w-full">
+      <div class="bg-gray-50 rounded flex p-4 h-full items-center">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-red-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+          <path d="M22 4L12 14.01l-3-3"></path>
+        </svg>
+        <span class="title-font font-medium">{{ content.title }}</span>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </section>
 
@@ -123,40 +154,3 @@
 {% endblock content %}
 
 
-<!-- <section class="text-gray-600 body-font overflow-hidden">
-  <div class="container px-5 py-24 mx-auto">
-    <div class="lg:w-4/5 mx-auto flex flex-wrap">
-      <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ course.thumbnail.url }}">
-      <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-        <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ course.category }} | {{ course.course_type }}</h2>
-        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ course.name }}</h1>
-        <div class="flex mt-8">
-        <p class="leading-relaxed">{{ course.description }}</p>
-        </div>
-        <div class="flex mt-8">
-        {% if course.price == 0 %}
-          <span class="title-font font-medium text-2xl text-gray-900">FREE</span>
-        {% else %}
-          <p>Original Price: {{ course.get_price }}</p>
-          <p>Discount: {{ course.get_discount_pct }}</p>
-          <p>Discount Price: {{ course.get_discount_price }}</p>
-          
-        {% endif %}
-        
-          
-          {% if request.user.is_authenticated and request.user|check_course_course_record:course %}
-            <a href="{{ course.contents.first.get_absolute_url }}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Go to Course</a>
-          {% else %}
-            <form method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type='submit' class=" text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Add to cart</button>
-                </form>
-          {% endif %}
-           
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
