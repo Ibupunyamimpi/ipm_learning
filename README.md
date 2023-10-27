@@ -5,7 +5,7 @@ LINK TO GUIDE -> https://gist.github.com/mswaringen/cdc1bc46e25863fd14314a1a858e
 
 ### Dev commands
 
-NEWWWW
+NEWWWWw
 
 running:
 - python 3.9.9
