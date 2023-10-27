@@ -109,6 +109,9 @@
                       <button type="button" @click="clearSearchAndRefresh()" class="flex-1 py-2 px-4 bg-gray-200 rounded hover:bg-gray-300">Jernih</button>
                     </div>
                 </form>
+                <div class="mt-4">
+                  <p>Results: {{ course_list.count }}</p>
+                </div>
             </div>
         </div>
     </section>
@@ -116,24 +119,6 @@
     <!-- Main content for displaying courses -->
     <div class="w-full lg:w-3/4 p-4" id="course-list">
         {% include "content/course_list_partial.html" %}
-        
-      <!-- Pagination -->
-      <div class="mt-4">
-        {% if course_list.has_previous %}
-            <a href="?page={{ course_list.previous_page_number }}" hx-get="{% url 'content:course-list' %}" hx-target="#course-list" hx-swap="innerHTML" class="px-3 py-2 border rounded-l bg-gray-200">Previous</a>
-        {% else %}
-            <span class="px-3 py-2 border rounded-l bg-gray-300">Previous</span>
-        {% endif %}
-
-        <span class="px-3 py-2 border bg-gray-200">{{ course_list.number }} / {{ course_list.paginator.num_pages }}</span>
-
-        {% if course_list.has_next %}
-            <a href="?page={{ course_list.next_page_number }}" hx-get="{% url 'content:course-list' %}" hx-target="#course-list" hx-swap="innerHTML" class="px-3 py-2 border rounded-r bg-gray-200">Next</a>
-        {% else %}
-            <span class="px-3 py-2 border rounded-r bg-gray-300">Next</span>
-        {% endif %}
-      </div>
-
   </div>
 
 </section>

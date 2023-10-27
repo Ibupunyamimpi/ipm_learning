@@ -34,7 +34,6 @@ class EventListView(generic.ListView):
 class CourseListView(generic.ListView):
     template_name = "content/course_list.html"
     context_object_name = "course_list"
-    paginate_by = 10
 
     def get_queryset(self):
         self.search_query = self.request.GET.get('search', '')
