@@ -1,8 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
-
-
+from tinymce.models import HTMLField
 
 
 class Category(models.Model):
@@ -25,6 +24,9 @@ class Course(models.Model):
     course_type = models.CharField(max_length=25, choices=TYPE_CHOICES, default='Course')
     thumbnail = models.ImageField(upload_to="thumbnails/")
     description = models.TextField()
+    detailed_desc = HTMLField("Detailed Description")
+    testimonials = HTMLField("Testimonials") 
+    preview_youtube_id = models.CharField("YouTube Preview ID", max_length=100, blank=True, null=True)
     event_datetime = models.DateTimeField(blank=True, null=True)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL, related_name='courses')
     active = models.BooleanField(default=False)
@@ -33,6 +35,7 @@ class Course(models.Model):
     discount_pct = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     is_comebackjourney = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.name
