@@ -63,6 +63,9 @@ class CourseListView(generic.ListView):
                 queryset = queryset.filter(price=0)
             elif 'paid' in price_filters and 'free' not in price_filters:
                 queryset = queryset.exclude(price=0)
+                
+        # Filter by active courses
+        queryset = queryset.filter(active=True)
 
         return queryset.order_by('-event_datetime')
     
