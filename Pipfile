@@ -71,4 +71,4 @@ Werkzeug = "==2.0.2"
 Sphinx = "==4.3.1"
 
 [requires]
-python_version = "3.11.6"
+python_version = "3.11.3"
