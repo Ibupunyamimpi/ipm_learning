@@ -35,7 +35,7 @@
 
       <ul class="hidden lg:flex lg:ml-auto lg:items-center lg:w-auto lg:space-x-12">
         <li><a class="text-sm font-medium hover:underline" href="{% url 'content:course-list' %}">Cek Aktivitas</a></li>
-        <li><a class="text-sm font-medium hover:underline" href="{% url 'about' %}">Cerita Kita</a></li>
+        <li><a class="text-sm font-medium hover:underline" href="{% url 'agency' %}">Agency</a></li>
         {% if request.user.is_authenticated %}
         <li><a class="text-sm font-medium hover:underline" href="{% url 'content:course-library' %}">Aktivitasku</a></li>
         <li><a class="text-sm font-medium hover:underline" href="{% url 'users:detail' request.user.username %}">Profile</a></li>
@@ -73,7 +73,7 @@
       <div>
         <ul>
           <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'content:course-list' %}">Cek Aktivitas</a></a></li>
-          <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'about' %}">About</a></li>
+          <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'agency' %}">Agency</a></li>
           {% if request.user.is_authenticated %}
           <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'content:course-library' %}">Aktivitas Ibu</a></li>
           <li class="mb-1"><a class="block p-4 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded" href="{% url 'users:detail' request.user.username %}">Profile</a></li>
