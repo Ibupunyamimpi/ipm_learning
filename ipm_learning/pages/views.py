@@ -18,6 +18,14 @@ class AboutPageView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_content'] = PageContent.objects.get(page_title='About')
         return context
+    
+class AgencyPageView(generic.TemplateView):
+    template_name = 'pages/agency.html'
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['page_content'] = PageContent.objects.get(page_title='About')
+    #     return context
 
 
 class HomePageView(generic.TemplateView):

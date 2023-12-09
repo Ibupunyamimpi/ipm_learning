@@ -6,7 +6,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
-from ipm_learning.pages.views import AboutPageView, HomePageView, subscription
+from ipm_learning.pages.views import AboutPageView, HomePageView, AgencyPageView, subscription
 from ipm_learning.content.models import Course
 
 info_dict = {
@@ -16,6 +16,7 @@ info_dict = {
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("about/", AboutPageView.as_view(), name="about"),
+    path("agency/", AgencyPageView.as_view(), name="agency"),
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     # path(
     #     "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
