@@ -9,6 +9,15 @@ from django.contrib.sitemaps.views import sitemap
 from ipm_learning.pages.views import AboutPageView, HomePageView, AgencyPageView, subscription
 from ipm_learning.content.models import Course
 
+import requests
+from django.http import HttpResponse
+
+def serve_ads_txt(request):
+    with open('ipm_learning/static/ads.txt', 'r') as file:
+        data = file.read()
+    return HttpResponse(data, content_type="text/plain")
+
+
 info_dict = {
     'queryset': Course.objects.all(),
 }
@@ -39,6 +48,7 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('forest', include('django_forest.urls')),
     path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('ads.txt', serve_ads_txt, name='ads_txt'),
     path('sitemap.xml', sitemap,
         {'sitemaps': {'course': GenericSitemap(info_dict, priority=0.6)}},
         name='django.contrib.sitemaps.views.sitemap'),
