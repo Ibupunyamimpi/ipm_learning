@@ -25,7 +25,7 @@ info_dict = {
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("about/", AboutPageView.as_view(), name="about"),
-    path("agency/", AgencyPageView.as_view(), name="agency"),
+    path("bahasa-ibu/", AgencyPageView.as_view(), name="bahasa_ibu"),
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     # path(
     #     "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
