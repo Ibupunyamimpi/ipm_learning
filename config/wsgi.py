@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 from django.core.wsgi import get_wsgi_application
-from django_forest import init_forest
+# from django_forest import init_forest
 
 # This allows easy placement of apps within the interior
 # ipm_learning directory.
@@ -35,7 +35,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 # setting points here.
 
 application = get_wsgi_application()
-init_forest()
+# init_forest()
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)

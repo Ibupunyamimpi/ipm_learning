@@ -79,7 +79,7 @@ THIRD_PARTY_APPS = [
     'import_export',
     'tinymce',
     'corsheaders',
-    "django_forest",
+    # "django_forest",
 ]
 
 LOCAL_APPS = [

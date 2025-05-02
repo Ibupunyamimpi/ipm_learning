@@ -13,7 +13,7 @@ xendit-python==0.1.1
 mailchimp-marketing==3.0.74
 django-import-export==3.2.0
 django-tinymce==3.5.0
-django-forestadmin==1.6.8
+# django-forestadmin==1.6.8
 django-cors-headers==4.2.0
 
 

@@ -46,7 +46,7 @@ urlpatterns = [
     path('subscribe/', subscription, name="subscription"),
     # path("email-test/",TemplateView.as_view(template_name="account/email/payment_success.html")),
     path('tinymce/', include('tinymce.urls')),
-    path('forest', include('django_forest.urls')),
+    # path('forest', include('django_forest.urls')),
     path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('ads.txt', serve_ads_txt, name='ads_txt'),
     path('sitemap.xml', sitemap,
